@@ -26,6 +26,14 @@ export const sections: Section[] = [
     status: "active",
     folder: "design-system",
   },
+  {
+    id: "product-rabbit",
+    title: "Lucky Charm Rabbit",
+    description: "The Lucky Charm brand product page — meet Lucky the bunny.",
+    href: "/product/rabbit",
+    status: "active",
+    folder: "product/rabbit",
+  },
   // Future sections — uncomment and add matching folder + route when ready:
   // {
   //   id: "portfolio",

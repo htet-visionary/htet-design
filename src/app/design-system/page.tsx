@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { CSSProperties } from "react";
 import {
   Button,
@@ -89,17 +88,6 @@ export default function DesignSystemPage() {
             title="Colors"
             description="Five core swatches from the Lucky Charm brand — each colour carries a feeling, from morning meadow calm to quiet iridescent magic."
           >
-            <div className="mb-6 overflow-hidden rounded-[var(--ds-radius-card-lg)] border border-[var(--ds-border-default)]">
-              <div className="relative aspect-[16/9] min-h-[200px] md:min-h-[260px]">
-                <Image
-                  src="/design-system/moodboard.png"
-                  alt="Lucky Charm mood board"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </div>
             <div className="ds-swatch-grid">
               {moodBoardSwatches.map((swatch) => (
                 <div key={swatch.name} className="ds-swatch-card">

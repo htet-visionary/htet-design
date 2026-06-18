@@ -29,7 +29,7 @@ export default function DesignSystemLayout({
 }) {
   return (
     <div
-      className={`${display.variable} ${serif.variable} ${sans.variable} min-h-dvh`}
+      className={`${display.variable} ${serif.variable} ${sans.variable} min-h-dvh overflow-x-clip`}
       style={{
         backgroundColor: "var(--ds-bg-primary)",
         color: "var(--ds-text-primary)",
