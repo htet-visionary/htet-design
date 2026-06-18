@@ -27,6 +27,14 @@ export const sections: Section[] = [
     folder: "design-system",
   },
   {
+    id: "design-system-v0",
+    title: "Design System v0",
+    description: "Color foundations — Apple-inspired token architecture.",
+    href: "/design-system/v0",
+    status: "active",
+    folder: "design-system/v0",
+  },
+  {
     id: "product-rabbit",
     title: "Lucky Charm Rabbit",
     description: "The Lucky Charm brand product page — meet Lucky the bunny.",
