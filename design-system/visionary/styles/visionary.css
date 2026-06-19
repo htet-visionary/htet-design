@@ -1,6 +1,6 @@
 /**
  * Visionary Design System CSS custom properties.
- * Generated from docs/design.md (beta). Import in Visionary app surfaces.
+ * Source of truth: design-system/docs/design.md (beta)
  */
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
 
@@ -29,6 +29,13 @@
   --v-lavender-800: #4c3960;
   --v-lavender-900: #32253f;
 
+  /* ── Primitive: Iridescence ── */
+  --v-iridescence-50: #fdfcfb;
+  --v-iridescence-100: #f7f4fa;
+  --v-iridescence-200: #f0ebf7;
+  --v-iridescence-300: #e5ddf2;
+  --v-iridescence-400: #d8cdea;
+
   /* ── Primitive: Neutral ── */
   --v-neutral-0: #ffffff;
   --v-neutral-50: #fcfbf8;
@@ -42,71 +49,131 @@
   --v-neutral-800: #3d3530;
   --v-neutral-900: #241f1b;
 
-  /* ── Semantic: Background & Surface ── */
+  /* ── Functional: Success ── */
+  --v-success-50: #f6f8f5;
+  --v-success-600: #58774f;
+  --v-success-800: #334b30;
+
+  /* ── Functional: Warning ── */
+  --v-warning-50: #fcf8ef;
+  --v-warning-500: #c0a136;
+  --v-warning-600: #a88729;
+  --v-warning-800: #624714;
+
+  /* ── Functional: Error ── */
+  --v-error-50: #fcf5f6;
+  --v-error-200: #e7c8ca;
+  --v-error-600: #a9494d;
+  --v-error-700: #853639;
+  --v-error-800: #642426;
+
+  /* ── Functional: Info ── */
+  --v-info-50: #f5f7f9;
+  --v-info-600: #5e7f9d;
+  --v-info-800: #344d67;
+
+  /* ── Semantic ── */
   --v-bg-default: var(--v-neutral-50);
   --v-bg-subtle: var(--v-neutral-100);
   --v-surface-primary: var(--v-neutral-0);
   --v-surface-secondary: var(--v-neutral-50);
-
-  /* ── Semantic: Text ── */
   --v-text-primary: var(--v-neutral-800);
   --v-text-secondary: var(--v-neutral-600);
   --v-text-muted: var(--v-neutral-500);
   --v-text-inverse: var(--v-neutral-0);
   --v-text-on-solid: var(--v-neutral-0);
-
-  /* ── Semantic: Action ── */
   --v-action-primary: var(--v-green-500);
   --v-action-primary-hover: var(--v-green-600);
   --v-action-primary-active: var(--v-green-700);
   --v-action-accent: var(--v-lavender-500);
   --v-action-accent-hover: var(--v-lavender-600);
-  --v-action-destructive: #a9494d;
-
-  /* ── Semantic: Border & Focus ── */
+  --v-action-destructive: var(--v-error-600);
+  --v-action-destructive-hover: var(--v-error-700);
   --v-border-subtle: var(--v-neutral-200);
   --v-border-strong: var(--v-neutral-300);
+  --v-border-brand: var(--v-green-200);
+  --v-border-accent: var(--v-lavender-200);
+  --v-link-default: var(--v-green-600);
+  --v-link-hover: var(--v-green-700);
   --v-focus-ring: var(--v-green-500);
   --v-focus-ring-offset: var(--v-neutral-0);
-
-  /* ── Semantic: Overlay ── */
+  --v-disabled-bg: var(--v-neutral-100);
+  --v-disabled-text: var(--v-neutral-400);
   --v-overlay-scrim: rgba(36, 31, 27, 0.48);
+  --v-overlay-scrim-light: rgba(36, 31, 27, 0.24);
 
   /* ── Typography ── */
   --v-font-display: "Playfair Display", Georgia, serif;
   --v-font-reading: "Lora", Georgia, serif;
   --v-font-interface: "DM Sans", system-ui, sans-serif;
+  --v-type-hero: 72px;
+  --v-type-heading-xl: 56px;
+  --v-type-heading-lg: 40px;
+  --v-type-heading-md: 32px;
+  --v-type-heading-sm: 24px;
+  --v-type-body-lg: 18px;
+  --v-type-body: 16px;
+  --v-type-label: 14px;
+  --v-type-caption: 12px;
+  --v-reading-max: 65ch;
 
   /* ── Spacing ── */
   --v-space-1: 4px;
   --v-space-2: 8px;
   --v-space-3: 12px;
   --v-space-4: 16px;
+  --v-space-5: 20px;
   --v-space-6: 24px;
   --v-space-8: 32px;
+  --v-space-10: 40px;
   --v-space-12: 48px;
+  --v-space-16: 64px;
+  --v-space-24: 96px;
 
   /* ── Radius ── */
   --v-radius-sm: 8px;
   --v-radius-md: 12px;
   --v-radius-lg: 16px;
+  --v-radius-xl: 24px;
+  --v-radius-pill: 999px;
 
   /* ── Elevation ── */
   --v-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.04);
+  --v-shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --v-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --v-z-card: 1;
   --v-z-dropdown: 100;
   --v-z-overlay: 150;
   --v-z-modal: 200;
 
   /* ── Motion ── */
+  --v-motion-instant: 0ms;
   --v-motion-fast: 150ms;
   --v-motion-normal: 250ms;
-  --v-motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --v-motion-slow: 400ms;
+  --v-motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --v-motion-easing-enter: cubic-bezier(0, 0, 0.2, 1);
+  --v-motion-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ── Layout ── */
+  --v-touch-min: 44px;
+  --v-touch-recommended: 48px;
+  --v-bp-sm: 640px;
+  --v-bp-md: 768px;
+  --v-bp-lg: 1024px;
+  --v-bp-xl: 1280px;
+  --v-bp-2xl: 1536px;
+  --v-container-xl: 1120px;
+  --v-content-narrow: 560px;
+  --v-content-reading: 680px;
+  --v-content-wide: 960px;
+  --v-shell-sidebar: 260px;
 }
 
 .visionary-root {
   background-color: var(--v-bg-default);
   color: var(--v-text-primary);
   font-family: var(--v-font-reading);
-  font-size: 16px;
+  font-size: var(--v-type-body);
   line-height: 1.6;
 }

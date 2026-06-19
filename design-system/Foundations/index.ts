@@ -1,5 +1,0 @@
-export * from "./Colors";
-export * from "./Typography";
-export * from "./Spacing";
-export * from "./Radius";
-export * from "./Elevation";

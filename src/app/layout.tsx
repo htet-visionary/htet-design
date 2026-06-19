@@ -1,34 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { ReactNode } from "react";
+import { VisionaryShell } from "@/components/visionary/VisionaryShell";
+import { visionaryMeta } from "@design-system/visionary";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import "./shell.css";
 
 export const metadata: Metadata = {
-  title: "Visionary Design System",
-  description:
-    "Unified design language for Lucky Charm, Dream Fund, and future Visionary products.",
+  title: {
+    default: visionaryMeta.name,
+    template: `%s · ${visionaryMeta.name}`,
+  },
+  description: visionaryMeta.description,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-zinc-50 font-sans text-zinc-900 antialiased`}
-      >
-        {children}
+      <body className="visionary-root antialiased">
+        <VisionaryShell>{children}</VisionaryShell>
       </body>
     </html>
   );
