@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { visionaryMeta } from "@design-system/visionary";
-import { visionaryNavigation, type NavItem } from "@/lib/navigation";
+import { visionaryNavigation, designSystemBase, type NavItem } from "@/lib/navigation";
 
 function NavLink({ item, nested }: { item: NavItem; nested?: boolean }) {
   const pathname = usePathname();
@@ -54,7 +54,7 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
     <div className="v-shell visionary-root">
       <aside className="v-shell__sidebar" aria-label="Documentation navigation">
         <div className="v-shell__brand">
-          <Link href="/" className="v-shell__brand-link">
+          <Link href={designSystemBase} className="v-shell__brand-link">
             {visionaryMeta.name}
           </Link>
           <span className="v-shell__version">

@@ -1,4 +1,5 @@
 import { DocPage, LinkGrid, SectionBlock } from "@/components/visionary/DocParts";
+import { designSystemBase } from "@/lib/navigation";
 
 export default function FoundationsPage() {
   return (
@@ -12,7 +13,7 @@ export default function FoundationsPage() {
           links={[
             {
               title: "Colors",
-              href: "/foundations/colors",
+              href: `${designSystemBase}/foundations/colors`,
               description: "Primitive, semantic, and functional palettes.",
             },
           ]}
@@ -24,32 +25,32 @@ export default function FoundationsPage() {
           links={[
             {
               title: "Typography",
-              href: "/foundations/typography",
+              href: `${designSystemBase}/foundations/typography`,
               description: "Display, reading, and interface type scales.",
             },
             {
               title: "Spacing",
-              href: "/foundations/spacing",
+              href: `${designSystemBase}/foundations/spacing`,
               description: "4px-based spacing scale and usage guidance.",
             },
             {
               title: "Radius",
-              href: "/foundations/radius",
+              href: `${designSystemBase}/foundations/radius`,
               description: "Corner radius tokens from sm to pill.",
             },
             {
               title: "Elevation",
-              href: "/foundations/elevation",
+              href: `${designSystemBase}/foundations/elevation`,
               description: "Shadows and z-index layering.",
             },
             {
               title: "Motion",
-              href: "/foundations/motion",
+              href: `${designSystemBase}/foundations/motion`,
               description: "Durations, easing, enter/exit, reduced motion.",
             },
             {
               title: "Layout",
-              href: "/foundations/layout",
+              href: `${designSystemBase}/foundations/layout`,
               description: "Breakpoints, containers, grid.",
             },
           ]}

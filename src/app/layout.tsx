@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { DM_Sans, Lora, Playfair_Display } from "next/font/google";
-import { VisionaryShell } from "@/components/visionary/VisionaryShell";
-import { visionaryMeta } from "@design-system/visionary";
 import "./globals.css";
 import "./shell.css";
+import "./hub.css";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -31,11 +30,8 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: visionaryMeta.name,
-    template: `%s · ${visionaryMeta.name}`,
-  },
-  description: visionaryMeta.description,
+  title: "Visionary",
+  description: "Visionary portfolio, products, and design system.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -44,9 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       lang="en"
       className={`${playfairDisplay.variable} ${lora.variable} ${dmSans.variable}`}
     >
-      <body className="visionary-root antialiased">
-        <VisionaryShell>{children}</VisionaryShell>
-      </body>
+      <body className="visionary-root antialiased">{children}</body>
     </html>
   );
 }
