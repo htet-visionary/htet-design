@@ -61,24 +61,31 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
         </div>
 
         <nav className="v-shell__nav">
-          {visionaryNavigation.map((group) => (
-            <div key={group.title} className="v-shell__group">
-              <p className="v-shell__group-title">{group.title}</p>
-
-              {group.subgroups?.map((subgroup) => (
-                <div key={subgroup.title} className="v-shell__subgroup">
-                  <p className="v-shell__subgroup-title">{subgroup.title}</p>
+          {visionaryNavigation.map((group) => {
+            const subgroupBlock =
+              group.subgroups?.map((subgroup, index) => (
+                <div
+                  key={subgroup.title ?? subgroup.items[0]?.href ?? index}
+                  className="v-shell__subgroup"
+                >
+                  {subgroup.title && (
+                    <p className="v-shell__subgroup-title">{subgroup.title}</p>
+                  )}
                   <ul className="v-shell__list">
-                    {subgroup.items.map((item) => (
+                    {subgroup.items.map((item, itemIndex) => (
                       <li key={item.href}>
-                        <NavLink item={item} nested />
+                        <NavLink
+                          item={item}
+                          nested={subgroup.title ? true : itemIndex > 0}
+                        />
                       </li>
                     ))}
                   </ul>
                 </div>
-              ))}
+              )) ?? null;
 
-              {group.items && group.items.length > 0 && (
+            const itemsBlock =
+              group.items && group.items.length > 0 ? (
                 <ul className="v-shell__list">
                   {group.items.map((item) => (
                     <li key={item.href}>
@@ -86,9 +93,25 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
                     </li>
                   ))}
                 </ul>
-              )}
-            </div>
-          ))}
+              ) : null;
+
+            return (
+              <div key={group.title} className="v-shell__group">
+                <p className="v-shell__group-title">{group.title}</p>
+                {group.subgroupsAfterItems ? (
+                  <>
+                    {itemsBlock}
+                    {subgroupBlock}
+                  </>
+                ) : (
+                  <>
+                    {subgroupBlock}
+                    {itemsBlock}
+                  </>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </aside>
 

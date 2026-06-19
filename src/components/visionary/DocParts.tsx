@@ -44,7 +44,6 @@ export function TokenTable({ rows, caption }: TokenTableProps) {
 }
 
 type SwatchProps = {
-  name: string;
   cssVar?: string;
   hex?: string;
   token: string;
@@ -62,7 +61,6 @@ export function SwatchGrid({ swatches }: { swatches: SwatchProps[] }) {
             }}
             aria-hidden
           />
-          <span className="v-swatch__name">{swatch.name}</span>
           <code className="v-code v-code--sm">{swatch.token}</code>
         </li>
       ))}

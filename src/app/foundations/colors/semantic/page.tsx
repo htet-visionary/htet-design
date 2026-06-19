@@ -1,14 +1,5 @@
-import { DocPage } from "@/components/visionary/DocParts";
-import { SemanticSection } from "@/lib/color-sections";
+import { redirect } from "next/navigation";
 
-export default function SemanticColorsPage() {
-  return (
-    <DocPage
-      eyebrow="Foundations · Colors"
-      title="Semantic"
-      description="Purpose-driven UI roles shared across all Visionary products."
-    >
-      <SemanticSection />
-    </DocPage>
-  );
+export default function SemanticRedirectPage() {
+  redirect("/foundations/colors#semantic");
 }

@@ -13,27 +13,7 @@ export default function FoundationsPage() {
             {
               title: "Colors",
               href: "/foundations/colors",
-              description: "Overview of primitive, semantic, functional, and theme layers.",
-            },
-            {
-              title: "Primitive",
-              href: "/foundations/colors/primitive",
-              description: "Brand and neutral ramps.",
-            },
-            {
-              title: "Semantic",
-              href: "/foundations/colors/semantic",
-              description: "Purpose-driven UI roles.",
-            },
-            {
-              title: "Functional",
-              href: "/foundations/colors/functional",
-              description: "Status palettes for feedback.",
-            },
-            {
-              title: "Themes",
-              href: "/foundations/colors/themes",
-              description: "Product color personality and overrides.",
+              description: "Primitive, semantic, and functional palettes.",
             },
           ]}
         />

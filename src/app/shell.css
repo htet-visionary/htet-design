@@ -282,13 +282,6 @@
   margin-bottom: var(--v-space-2);
 }
 
-.v-swatch__name {
-  font-family: var(--v-font-interface);
-  font-size: var(--v-type-caption);
-  display: block;
-  margin-bottom: var(--v-space-1);
-}
-
 /* ── Rules & cards ── */
 .v-rules {
   margin: 0;

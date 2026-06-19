@@ -1,11 +1,9 @@
 import { DocPage } from "@/components/visionary/DocParts";
 import {
-  ColorsHubLinks,
   ColorsOverviewSection,
   FunctionalSection,
   PrimitiveSection,
   SemanticSection,
-  ThemesSection,
 } from "@/lib/color-sections";
 
 export default function ColorsPage() {
@@ -13,14 +11,12 @@ export default function ColorsPage() {
     <DocPage
       eyebrow="Foundations"
       title="Colors"
-      description="Brand primitives, semantic roles, functional status palettes, and product themes."
+      description="Brand primitives, semantic roles, and functional status palettes."
     >
       <ColorsOverviewSection />
-      <ColorsHubLinks />
       <PrimitiveSection />
       <SemanticSection />
       <FunctionalSection />
-      <ThemesSection />
     </DocPage>
   );
 }

@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import {
   flattenObject,
-  LinkGrid,
   RuleList,
   SectionBlock,
   SwatchGrid,
@@ -11,9 +10,8 @@ import { primitive, semantic } from "@design-system/visionary";
 
 const functionalPalettes = ["success", "warning", "error", "info"] as const;
 
-function rampToSwatches(name: string, prefix: string, ramp: Record<string | number, string>) {
+function rampToSwatches(prefix: string, ramp: Record<string | number, string>) {
   return Object.entries(ramp).map(([step, hex]) => ({
-    name: `${name} ${step}`,
     cssVar: `--v-${prefix}-${step}`,
     hex,
     token: `${prefix}.${step}`,
@@ -32,43 +30,12 @@ function Subsection({ title, children }: { title: string; children: ReactNode })
 export function ColorsOverviewSection() {
   return (
     <SectionBlock title="Overview">
-      <p className="v-layer-diagram">Primitive → Semantic → Functional → Theme → Product UI</p>
+      <p className="v-layer-diagram">Primitive → Semantic → Functional → Product UI</p>
       <RuleList
         rules={[
           "Product UI consumes semantic and component tokens — not primitives.",
           "Brand colors are not status colors unless mapped through semantic tokens.",
-          "Themes remap color slots on top of primitive, semantic, and functional layers.",
-        ]}
-      />
-    </SectionBlock>
-  );
-}
-
-export function ColorsHubLinks() {
-  return (
-    <SectionBlock title="Sections">
-      <LinkGrid
-        links={[
-          {
-            title: "Primitive",
-            href: "/foundations/colors/primitive",
-            description: "Brand and neutral ramps — raw values.",
-          },
-          {
-            title: "Semantic",
-            href: "/foundations/colors/semantic",
-            description: "Purpose-driven UI roles.",
-          },
-          {
-            title: "Functional",
-            href: "/foundations/colors/functional",
-            description: "Success, warning, error, and info palettes.",
-          },
-          {
-            title: "Themes",
-            href: "/foundations/colors/themes",
-            description: "Product color personality and overrides.",
-          },
+          "Functional palettes are for status feedback only.",
         ]}
       />
     </SectionBlock>
@@ -87,23 +54,23 @@ export function PrimitiveSection() {
   );
 
   return (
-    <SectionBlock title="Primitive">
+    <SectionBlock title="Primitive" id="primitive">
       <p className="v-doc__desc" style={{ marginBottom: 0 }}>
         Brand and neutral ramps. Raw values — not for direct use in product UI.
       </p>
       <Subsection title="Green">
-        <SwatchGrid swatches={rampToSwatches("Green", "green", primitive.green)} />
+        <SwatchGrid swatches={rampToSwatches("green", primitive.green)} />
       </Subsection>
       <Subsection title="Lavender">
-        <SwatchGrid swatches={rampToSwatches("Lavender", "lavender", primitive.lavender)} />
+        <SwatchGrid swatches={rampToSwatches("lavender", primitive.lavender)} />
       </Subsection>
       <Subsection title="Iridescence">
         <SwatchGrid
-          swatches={rampToSwatches("Iridescence", "iridescence", primitive.iridescence)}
+          swatches={rampToSwatches("iridescence", primitive.iridescence)}
         />
       </Subsection>
       <Subsection title="Neutral">
-        <SwatchGrid swatches={rampToSwatches("Neutral", "neutral", primitive.neutral)} />
+        <SwatchGrid swatches={rampToSwatches("neutral", primitive.neutral)} />
       </Subsection>
       <Subsection title="Token table">
         <TokenTable rows={brandRows} />
@@ -116,7 +83,7 @@ export function SemanticSection() {
   const semanticRows = flattenObject(semantic as unknown as Record<string, unknown>);
 
   return (
-    <SectionBlock title="Semantic">
+    <SectionBlock title="Semantic" id="semantic">
       <p className="v-doc__desc" style={{ marginBottom: 0 }}>
         Purpose-driven UI roles shared across all Visionary products.
       </p>
@@ -148,21 +115,21 @@ export function FunctionalSection() {
   );
 
   return (
-    <SectionBlock title="Functional">
+    <SectionBlock title="Functional" id="functional">
       <p className="v-doc__desc" style={{ marginBottom: 0 }}>
         Status palettes for success, warning, error, and info feedback.
       </p>
       <Subsection title="Success">
-        <SwatchGrid swatches={rampToSwatches("Success", "success", primitive.success)} />
+        <SwatchGrid swatches={rampToSwatches("success", primitive.success)} />
       </Subsection>
       <Subsection title="Warning">
-        <SwatchGrid swatches={rampToSwatches("Warning", "warning", primitive.warning)} />
+        <SwatchGrid swatches={rampToSwatches("warning", primitive.warning)} />
       </Subsection>
       <Subsection title="Error">
-        <SwatchGrid swatches={rampToSwatches("Error", "error", primitive.error)} />
+        <SwatchGrid swatches={rampToSwatches("error", primitive.error)} />
       </Subsection>
       <Subsection title="Info">
-        <SwatchGrid swatches={rampToSwatches("Info", "info", primitive.info)} />
+        <SwatchGrid swatches={rampToSwatches("info", primitive.info)} />
       </Subsection>
       <Subsection title="Meaning">
         <RuleList
@@ -177,47 +144,6 @@ export function FunctionalSection() {
       </Subsection>
       <Subsection title="Token table">
         <TokenTable rows={functionalRows} />
-      </Subsection>
-    </SectionBlock>
-  );
-}
-
-export function ThemesSection() {
-  return (
-    <SectionBlock title="Themes">
-      <p className="v-doc__desc" style={{ marginBottom: 0 }}>
-        Product themes are color layers built on primitive, semantic, and functional tokens.
-      </p>
-      <Subsection title="Layer flow">
-        <p className="v-layer-diagram">
-          Primitive → Semantic → Functional → Theme → Product UI
-        </p>
-      </Subsection>
-      <Subsection title="Product themes">
-        <LinkGrid
-          links={[
-            {
-              title: "Lucky Charm",
-              href: "/foundations/colors/themes/lucky-charm",
-              description: "Lavender accent and iridescence highlights.",
-            },
-            {
-              title: "Dream Fund",
-              href: "/foundations/colors/themes/dream-fund",
-              description: "Warning-toned accent with fixed status tokens.",
-            },
-          ]}
-        />
-      </Subsection>
-      <Subsection title="Override scope">
-        <RuleList
-          rules={[
-            "May override: brand.*, action.accent*, action.primary* (caution), decorative highlights.",
-            "Must not override: status.*, disabled.*, focus.*, overlay.*, functional scales.",
-            "Load one theme per product surface.",
-            "Never wire theme accent into alert or validation slots.",
-          ]}
-        />
       </Subsection>
     </SectionBlock>
   );

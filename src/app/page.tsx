@@ -43,12 +43,12 @@ export default function OverviewPage() {
           links={[
             {
               title: themes.luckyCharm.name,
-              href: "/foundations/colors/themes/lucky-charm",
+              href: "/themes/lucky-charm",
               description: "Green primary, lavender accent, iridescence highlights.",
             },
             {
               title: themes.dreamFund.name,
-              href: "/foundations/colors/themes/dream-fund",
+              href: "/themes/dream-fund",
               description: "Green primary with warm warning-toned accent.",
             },
           ]}

@@ -5,7 +5,7 @@ export type NavItem = {
 };
 
 export type NavSubgroup = {
-  title: string;
+  title?: string;
   items: NavItem[];
 };
 
@@ -13,6 +13,7 @@ export type NavGroup = {
   title: string;
   items?: NavItem[];
   subgroups?: NavSubgroup[];
+  subgroupsAfterItems?: boolean;
 };
 
 export const visionaryNavigation: NavGroup[] = [
@@ -22,32 +23,8 @@ export const visionaryNavigation: NavGroup[] = [
   },
   {
     title: "Foundations",
-    subgroups: [
-      {
-        title: "Colors",
-        items: [
-          { title: "Colors", href: "/foundations/colors", exact: true },
-          { title: "Primitive", href: "/foundations/colors/primitive" },
-          { title: "Semantic", href: "/foundations/colors/semantic" },
-          { title: "Functional", href: "/foundations/colors/functional" },
-        ],
-      },
-      {
-        title: "Themes",
-        items: [
-          { title: "Themes", href: "/foundations/colors/themes", exact: true },
-          {
-            title: "Lucky Charm",
-            href: "/foundations/colors/themes/lucky-charm",
-          },
-          {
-            title: "Dream Fund",
-            href: "/foundations/colors/themes/dream-fund",
-          },
-        ],
-      },
-    ],
     items: [
+      { title: "Colors", href: "/foundations/colors" },
       { title: "Typography", href: "/foundations/typography" },
       { title: "Spacing", href: "/foundations/spacing" },
       { title: "Radius", href: "/foundations/radius" },
@@ -59,6 +36,16 @@ export const visionaryNavigation: NavGroup[] = [
   {
     title: "Guidelines",
     items: [{ title: "Accessibility", href: "/accessibility" }],
+    subgroups: [
+      {
+        title: "Themes",
+        items: [
+          { title: "Lucky Charm", href: "/themes/lucky-charm" },
+          { title: "Dream Fund", href: "/themes/dream-fund" },
+        ],
+      },
+    ],
+    subgroupsAfterItems: true,
   },
   {
     title: "Components",
