@@ -91,10 +91,25 @@
   font-size: var(--v-type-label);
   color: var(--v-text-secondary);
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--v-space-2);
   padding: var(--v-space-2) var(--v-space-3);
   border-radius: var(--v-radius-sm);
   transition: background-color var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-shell__link-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--v-text-muted);
+  transition: color var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-shell__link:hover .v-shell__link-icon,
+.v-shell__link--active .v-shell__link-icon {
+  color: currentColor;
 }
 
 .v-shell__link:hover {

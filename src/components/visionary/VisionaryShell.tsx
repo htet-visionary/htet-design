@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { visionaryMeta } from "@design-system/visionary";
 import { visionaryNavigation, designSystemBase, type NavItem } from "@/lib/navigation";
+import { NavIcon, dsNavIcons } from "@/lib/nav-icons";
 
 function NavLink({ item, nested }: { item: NavItem; nested?: boolean }) {
   const pathname = usePathname();
@@ -44,6 +45,7 @@ function NavLink({ item, nested }: { item: NavItem; nested?: boolean }) {
         .join(" ")}
       aria-current={active ? "page" : undefined}
     >
+      <NavIcon href={item.href} map={dsNavIcons} className="v-shell__link-icon" />
       {item.title}
     </Link>
   );

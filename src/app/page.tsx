@@ -1,34 +1,24 @@
 import Link from "next/link";
 import { siteMenuItems } from "@/lib/navigation";
+import { NavIcon, siteMenuIcons } from "@/lib/nav-icons";
+
+const gridItems = [
+  siteMenuItems[0],
+  siteMenuItems[2],
+  siteMenuItems[1],
+  siteMenuItems[3],
+];
 
 export default function HomePage() {
-  const [leftColumn, rightColumn] = [
-    siteMenuItems.slice(0, 2),
-    siteMenuItems.slice(2, 4),
-  ];
-
   return (
     <main className="v-hub">
       <nav className="v-hub__grid" aria-label="Site menu">
-        <ul className="v-hub__column">
-          {leftColumn.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className="v-hub__link">
-                {item.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="v-hub__divider" aria-hidden />
-        <ul className="v-hub__column">
-          {rightColumn.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className="v-hub__link">
-                {item.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {gridItems.map((item) => (
+          <Link key={item.href} href={item.href} className="v-hub__card">
+            <NavIcon href={item.href} map={siteMenuIcons} className="v-hub__icon" />
+            <span className="v-hub__label">{item.title}</span>
+          </Link>
+        ))}
       </nav>
     </main>
   );

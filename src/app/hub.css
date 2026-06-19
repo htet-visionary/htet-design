@@ -1,61 +1,73 @@
 .v-hub {
   min-height: 100dvh;
   display: flex;
-  align-items: stretch;
   background: var(--v-bg-default);
 }
 
 .v-hub__grid {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1px 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   width: 100%;
-}
-
-.v-hub__column {
-  list-style: none;
-  margin: 0;
-  padding: var(--v-space-12) var(--v-space-8);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--v-space-6);
-}
-
-.v-hub__divider {
+  gap: 1px;
   background: var(--v-border-subtle);
 }
 
-.v-hub__link {
+.v-hub__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--v-space-4);
+  padding: var(--v-space-8);
+  background: var(--v-surface-primary);
   font-family: var(--v-font-display);
   font-size: var(--v-type-heading-md);
   line-height: 1.25;
+  text-align: center;
   color: var(--v-text-primary);
   text-decoration: none;
+  transition:
+    color var(--v-motion-fast) var(--v-motion-easing-standard),
+    background-color var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-hub__icon {
+  width: var(--v-space-8);
+  height: var(--v-space-8);
+  color: var(--v-text-secondary);
   transition: color var(--v-motion-fast) var(--v-motion-easing-standard);
 }
 
-.v-hub__link:hover {
+.v-hub__label {
+  max-width: 16ch;
+}
+
+.v-hub__card:hover {
+  color: var(--v-action-primary);
+  background: var(--v-bg-subtle);
+}
+
+.v-hub__card:hover .v-hub__icon {
   color: var(--v-action-primary);
 }
 
-.v-hub__link:focus-visible {
+.v-hub__card:focus-visible {
   outline: 2px solid var(--v-focus-ring);
-  outline-offset: 4px;
+  outline-offset: -2px;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
   .v-hub__grid {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1px 1fr;
+    grid-template-rows: repeat(4, 1fr);
   }
 
-  .v-hub__column {
-    padding: var(--v-space-8) var(--v-space-6);
-  }
-
-  .v-hub__link {
+  .v-hub__card {
     font-size: var(--v-type-heading-sm);
+    padding: var(--v-space-6);
   }
 }
 
