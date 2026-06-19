@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { fonts, typography } from "@design-system/visionary";
+import { typography } from "@design-system/visionary";
 
 type TypographyStyle = (typeof typography)[keyof typeof typography];
 type FontRole = TypographyStyle["font"];
@@ -16,12 +16,9 @@ export function fontRoleCssVar(role: FontRole): string {
   return `--v-font-${role}`;
 }
 
-export function typographyStyle(name: string, style: TypographyStyle): CSSProperties {
-  const family = fonts[style.font].family;
-  const fallback = fonts[style.font].fallback;
-
+export function typographyStyle(_name: string, style: TypographyStyle): CSSProperties {
   return {
-    fontFamily: `"${family}", ${fallback}`,
+    fontFamily: `var(${fontRoleCssVar(style.font)})`,
     fontSize: `${style.size}px`,
     fontWeight: style.weight,
     lineHeight: style.lineHeight,

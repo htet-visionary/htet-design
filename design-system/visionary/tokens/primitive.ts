@@ -30,11 +30,11 @@ export const lavender = {
 } as const;
 
 export const iridescence = {
-  50: "#FDFCFB",
-  100: "#F7F4FA",
-  200: "#F0EBF7",
-  300: "#E5DDF2",
-  400: "#D8CDEA",
+  50: "#FFFBF0",
+  100: "#FFE5B4",
+  200: "#FFB3D9",
+  300: "#C5B4FC",
+  400: "#7DD3FC",
 } as const;
 
 export const neutral = {

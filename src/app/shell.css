@@ -307,6 +307,24 @@
   border: 1px solid var(--v-border-subtle);
 }
 
+.v-swatch-gradient {
+  width: 100%;
+  height: var(--v-space-16);
+  border-radius: var(--v-radius-md);
+  border: 1px solid var(--v-border-subtle);
+}
+
+.v-swatch-gradient--iridescence {
+  background: linear-gradient(
+    135deg,
+    var(--v-iridescence-50) 0%,
+    var(--v-iridescence-100) 22%,
+    var(--v-iridescence-200) 44%,
+    var(--v-iridescence-300) 66%,
+    var(--v-iridescence-400) 100%
+  );
+}
+
 /* ── Rules & cards ── */
 .v-rules {
   margin: 0;

@@ -53,6 +53,10 @@ export function PrimitiveSection() {
         <SwatchGrid swatches={rampToSwatches("lavender", primitive.lavender)} />
       </Subsection>
       <Subsection title="Iridescence">
+        <div
+          className="v-swatch-gradient v-swatch-gradient--iridescence"
+          aria-hidden
+        />
         <SwatchGrid
           swatches={rampToSwatches("iridescence", primitive.iridescence)}
         />

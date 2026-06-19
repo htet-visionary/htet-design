@@ -1,8 +1,8 @@
 /**
  * Visionary Design System CSS custom properties.
  * Source of truth: design-system/docs/design.md (beta)
+ * Fonts load via next/font/google in src/app/layout.tsx (--font-display, --font-reading, --font-interface).
  */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
 
 :root {
   /* ── Primitive: Green ── */
@@ -30,11 +30,11 @@
   --v-lavender-900: #32253f;
 
   /* ── Primitive: Iridescence ── */
-  --v-iridescence-50: #fdfcfb;
-  --v-iridescence-100: #f7f4fa;
-  --v-iridescence-200: #f0ebf7;
-  --v-iridescence-300: #e5ddf2;
-  --v-iridescence-400: #d8cdea;
+  --v-iridescence-50: #fffbf0;
+  --v-iridescence-100: #ffe5b4;
+  --v-iridescence-200: #ffb3d9;
+  --v-iridescence-300: #c5b4fc;
+  --v-iridescence-400: #7dd3fc;
 
   /* ── Primitive: Neutral ── */
   --v-neutral-0: #ffffff;
@@ -103,9 +103,9 @@
   --v-overlay-scrim-light: rgba(36, 31, 27, 0.24);
 
   /* ── Typography ── */
-  --v-font-display: "Playfair Display", Georgia, serif;
-  --v-font-reading: "Lora", Georgia, serif;
-  --v-font-interface: "DM Sans", system-ui, sans-serif;
+  --v-font-display: var(--font-display), Georgia, serif;
+  --v-font-reading: var(--font-reading), Georgia, serif;
+  --v-font-interface: var(--font-interface), system-ui, sans-serif;
   --v-type-hero: 72px;
   --v-type-heading-xl: 56px;
   --v-type-heading-lg: 40px;
