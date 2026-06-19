@@ -38,16 +38,16 @@
 
   /* ── Primitive: Neutral ── */
   --v-neutral-0: #ffffff;
-  --v-neutral-50: #fcfbf8;
-  --v-neutral-100: #f7f5f2;
-  --v-neutral-200: #eceae8;
-  --v-neutral-300: #ddd8d4;
-  --v-neutral-400: #b9b3ae;
-  --v-neutral-500: #8a837c;
-  --v-neutral-600: #7a7068;
-  --v-neutral-700: #5b534d;
-  --v-neutral-800: #3d3530;
-  --v-neutral-900: #241f1b;
+  --v-neutral-50: #fafafa;
+  --v-neutral-100: #f5f5f5;
+  --v-neutral-200: #e5e5e5;
+  --v-neutral-300: #d4d4d4;
+  --v-neutral-400: #a3a3a3;
+  --v-neutral-500: #737373;
+  --v-neutral-600: #525252;
+  --v-neutral-700: #404040;
+  --v-neutral-800: #262626;
+  --v-neutral-900: #171717;
 
   /* ── Functional: Success ── */
   --v-success-50: #f6f8f5;
