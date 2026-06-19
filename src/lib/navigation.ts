@@ -1,4 +1,4 @@
-export const designSystemBase = "/design-system";
+export const designSystemBase = "/visionary-design-system";
 
 export type NavItem = {
   title: string;

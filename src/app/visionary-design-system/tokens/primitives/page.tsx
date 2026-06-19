@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function PrimitivesRedirectPage() {
-  redirect("/design-system/foundations/colors#primitive");
+  redirect("/visionary-design-system/foundations/colors#primitive");
 }
