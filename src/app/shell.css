@@ -47,6 +47,27 @@
   margin-bottom: var(--v-space-6);
 }
 
+.v-shell__subgroup {
+  margin-top: var(--v-space-2);
+}
+
+.v-shell__subgroup-title {
+  font-family: var(--v-font-interface);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--v-text-muted);
+  margin: var(--v-space-3) 0 var(--v-space-2);
+  padding-left: var(--v-space-3);
+}
+
+.v-shell__list--nested .v-shell__link,
+.v-shell__link--nested {
+  padding-left: var(--v-space-6);
+  font-size: 13px;
+}
+
 .v-shell__group-title {
   font-family: var(--v-font-interface);
   font-size: var(--v-type-caption);
@@ -148,11 +169,31 @@
   gap: var(--v-space-8);
 }
 
+.v-section--anchor {
+  scroll-margin-top: var(--v-space-6);
+}
+
 .v-section__title {
   font-family: var(--v-font-display);
   font-size: var(--v-type-heading-sm);
   font-weight: 400;
   margin: 0 0 var(--v-space-4);
+}
+
+.v-subsection {
+  display: grid;
+  gap: var(--v-space-4);
+}
+
+.v-subsection + .v-subsection {
+  margin-top: var(--v-space-6);
+}
+
+.v-subsection__title {
+  font-family: var(--v-font-display);
+  font-size: var(--v-type-body-lg);
+  font-weight: 400;
+  margin: 0;
 }
 
 /* ── Tables ── */

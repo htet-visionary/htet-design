@@ -11,7 +11,7 @@ export default function ButtonPage() {
 
   return (
     <DocPage
-      eyebrow="Components"
+      eyebrow="Guidelines · Components"
       title="Button"
       description="Primary, secondary, and destructive action patterns."
     >

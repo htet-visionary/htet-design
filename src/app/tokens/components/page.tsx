@@ -12,7 +12,7 @@ export default function ComponentTokensPage() {
 
   return (
     <DocPage
-      eyebrow="Tokens"
+      eyebrow="Guidelines · Components"
       title="Component tokens"
       description="Maps semantic roles to Button, Input, Card, Alert, and Modal parts."
     >
@@ -25,7 +25,7 @@ export default function ComponentTokensPage() {
           rules={[
             "Component tokens reference semantic tokens only — never primitives.",
             "If a property has no slot, propose a spec change before inventing a value.",
-            "See /components for usage rules per component.",
+            "See individual component pages for usage rules.",
           ]}
         />
       </SectionBlock>

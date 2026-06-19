@@ -11,7 +11,7 @@ export default function InputPage() {
 
   return (
     <DocPage
-      eyebrow="Components"
+      eyebrow="Guidelines · Components"
       title="Input"
       description="Form fields with label, helper, error, and focus states."
     >

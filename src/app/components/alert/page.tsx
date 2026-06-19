@@ -11,7 +11,7 @@ export default function AlertPage() {
 
   return (
     <DocPage
-      eyebrow="Components"
+      eyebrow="Guidelines · Components"
       title="Alert"
       description="Status communication — not calls to action."
     >

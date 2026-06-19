@@ -1,11 +1,18 @@
 export type NavItem = {
   title: string;
   href: string;
+  exact?: boolean;
+};
+
+export type NavSubgroup = {
+  title: string;
+  items: NavItem[];
 };
 
 export type NavGroup = {
   title: string;
-  items: NavItem[];
+  items?: NavItem[];
+  subgroups?: NavSubgroup[];
 };
 
 export const visionaryNavigation: NavGroup[] = [
@@ -14,18 +21,33 @@ export const visionaryNavigation: NavGroup[] = [
     items: [{ title: "Introduction", href: "/" }],
   },
   {
-    title: "Tokens",
-    items: [
-      { title: "Architecture", href: "/tokens" },
-      { title: "Primitives", href: "/tokens/primitives" },
-      { title: "Semantic", href: "/tokens/semantic" },
-      { title: "Component", href: "/tokens/components" },
-    ],
-  },
-  {
     title: "Foundations",
+    subgroups: [
+      {
+        title: "Colors",
+        items: [
+          { title: "Colors", href: "/foundations/colors", exact: true },
+          { title: "Primitive", href: "/foundations/colors/primitive" },
+          { title: "Semantic", href: "/foundations/colors/semantic" },
+          { title: "Functional", href: "/foundations/colors/functional" },
+        ],
+      },
+      {
+        title: "Themes",
+        items: [
+          { title: "Themes", href: "/foundations/colors/themes", exact: true },
+          {
+            title: "Lucky Charm",
+            href: "/foundations/colors/themes/lucky-charm",
+          },
+          {
+            title: "Dream Fund",
+            href: "/foundations/colors/themes/dream-fund",
+          },
+        ],
+      },
+    ],
     items: [
-      { title: "Overview", href: "/foundations" },
       { title: "Typography", href: "/foundations/typography" },
       { title: "Spacing", href: "/foundations/spacing" },
       { title: "Radius", href: "/foundations/radius" },
@@ -35,12 +57,8 @@ export const visionaryNavigation: NavGroup[] = [
     ],
   },
   {
-    title: "System",
-    items: [
-      { title: "Accessibility", href: "/accessibility" },
-      { title: "Components", href: "/components" },
-      { title: "Themes", href: "/themes" },
-    ],
+    title: "Guidelines",
+    items: [{ title: "Accessibility", href: "/accessibility" }],
   },
   {
     title: "Components",
@@ -52,15 +70,11 @@ export const visionaryNavigation: NavGroup[] = [
       { title: "Modal", href: "/components/modal" },
     ],
   },
-  {
-    title: "Themes",
-    items: [
-      { title: "Lucky Charm", href: "/themes/lucky-charm" },
-      { title: "Dream Fund", href: "/themes/dream-fund" },
-    ],
-  },
 ];
 
 export function flattenNavItems(): NavItem[] {
-  return visionaryNavigation.flatMap((group) => group.items);
+  return visionaryNavigation.flatMap((group) => [
+    ...(group.items ?? []),
+    ...(group.subgroups?.flatMap((sub) => sub.items) ?? []),
+  ]);
 }

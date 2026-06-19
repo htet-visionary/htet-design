@@ -21,19 +21,19 @@ export default function OverviewPage() {
         </ul>
       </SectionBlock>
 
-      <SectionBlock title="Token architecture">
+      <SectionBlock title="How it works">
         <p className="v-doc__desc" style={{ marginBottom: 0 }}>
-          Tokens flow downward only. Product UI consumes semantic and component
-          tokens. Themes remap allowed slots.
+          Foundations define the visual language. Components apply those
+          foundations through token slots. Themes adapt personality per product.
         </p>
         <p className="v-layer-diagram">
-          Primitive → Semantic → Component → Theme → Product UI
+          Foundations → Semantic tokens → Components → Themes → Product UI
         </p>
         <RuleList
           rules={[
-            "Do not use primitive tokens directly in product UI.",
-            "Component tokens reference semantic tokens only.",
-            "Themes must not override status, focus, disabled, or overlay tokens.",
+            "Use semantic and component tokens in product UI — not raw primitives.",
+            "Themes remap allowed slots without forking foundations.",
+            "Accessibility requirements apply to every surface.",
           ]}
         />
       </SectionBlock>
@@ -43,12 +43,12 @@ export default function OverviewPage() {
           links={[
             {
               title: themes.luckyCharm.name,
-              href: "/themes/lucky-charm",
+              href: "/foundations/colors/themes/lucky-charm",
               description: "Green primary, lavender accent, iridescence highlights.",
             },
             {
               title: themes.dreamFund.name,
-              href: "/themes/dream-fund",
+              href: "/foundations/colors/themes/dream-fund",
               description: "Green primary with warm warning-toned accent.",
             },
           ]}
@@ -59,14 +59,9 @@ export default function OverviewPage() {
         <LinkGrid
           links={[
             {
-              title: "Tokens",
-              href: "/tokens",
-              description: "Architecture, primitives, semantic, and component layers.",
-            },
-            {
               title: "Foundations",
               href: "/foundations",
-              description: "Typography, spacing, radius, elevation, motion, layout.",
+              description: "Colors, typography, spacing, radius, elevation, motion, layout.",
             },
             {
               title: "Accessibility",
@@ -75,7 +70,7 @@ export default function OverviewPage() {
             },
             {
               title: "Components",
-              href: "/components",
+              href: "/components/button",
               description: "Button, Input, Card, Alert, Modal foundations.",
             },
           ]}

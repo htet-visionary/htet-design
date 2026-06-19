@@ -45,7 +45,8 @@ export function TokenTable({ rows, caption }: TokenTableProps) {
 
 type SwatchProps = {
   name: string;
-  cssVar: string;
+  cssVar?: string;
+  hex?: string;
   token: string;
 };
 
@@ -56,7 +57,9 @@ export function SwatchGrid({ swatches }: { swatches: SwatchProps[] }) {
         <li key={swatch.token} className="v-swatch">
           <span
             className="v-swatch__chip"
-            style={{ backgroundColor: `var(${swatch.cssVar})` }}
+            style={{
+              backgroundColor: swatch.hex ?? `var(${swatch.cssVar})`,
+            }}
             aria-hidden
           />
           <span className="v-swatch__name">{swatch.name}</span>
@@ -87,13 +90,15 @@ export function DocPage({ title, description, eyebrow, children }: DocPageProps)
 
 export function SectionBlock({
   title,
+  id,
   children,
 }: {
   title: string;
+  id?: string;
   children: ReactNode;
 }) {
   return (
-    <section className="v-section">
+    <section id={id} className="v-section v-section--anchor">
       <h2 className="v-section__title">{title}</h2>
       {children}
     </section>

@@ -11,7 +11,7 @@ export default function CardPage() {
 
   return (
     <DocPage
-      eyebrow="Components"
+      eyebrow="Guidelines · Components"
       title="Card"
       description="Groups related content with optional subtle variant."
     >

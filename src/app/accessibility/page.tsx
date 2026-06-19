@@ -9,7 +9,7 @@ import { focusRing, touchTarget } from "@design-system/visionary";
 export default function AccessibilityPage() {
   return (
     <DocPage
-      eyebrow="System"
+      eyebrow="Guidelines"
       title="Accessibility"
       description="WCAG 2.1 Level AA minimum for all Visionary products."
     >

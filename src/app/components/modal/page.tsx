@@ -11,7 +11,7 @@ export default function ModalPage() {
 
   return (
     <DocPage
-      eyebrow="Components"
+      eyebrow="Guidelines · Components"
       title="Modal"
       description="Dialog with scrim, focus trap, and destructive confirmation flows."
     >
