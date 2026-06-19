@@ -53,7 +53,7 @@
 
 .v-shell__subgroup-title {
   font-family: var(--v-font-interface);
-  font-size: 11px;
+  font-size: var(--v-type-caption);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -65,7 +65,7 @@
 .v-shell__list--nested .v-shell__link,
 .v-shell__link--nested {
   padding-left: var(--v-space-6);
-  font-size: 13px;
+  font-size: var(--v-type-caption);
 }
 
 .v-shell__group-title {
@@ -253,7 +253,31 @@
 }
 
 .v-code--sm {
-  font-size: 10px;
+  font-size: var(--v-type-caption);
+}
+
+/* ── Type specimens ── */
+.v-type-specimen-grid {
+  list-style: none;
+  margin: 0 0 var(--v-space-6);
+  padding: 0;
+  display: grid;
+  gap: var(--v-space-4);
+}
+
+.v-type-specimen {
+  padding: var(--v-space-4);
+  background: var(--v-surface-primary);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-md);
+  display: grid;
+  gap: var(--v-space-2);
+}
+
+.v-type-specimen__sample {
+  margin: 0;
+  color: var(--v-text-primary);
+  overflow-wrap: anywhere;
 }
 
 /* ── Swatches ── */
@@ -271,6 +295,8 @@
   background: var(--v-surface-primary);
   border: 1px solid var(--v-border-subtle);
   border-radius: var(--v-radius-md);
+  display: grid;
+  gap: var(--v-space-1);
 }
 
 .v-swatch__chip {
@@ -279,7 +305,6 @@
   height: var(--v-space-8);
   border-radius: var(--v-radius-sm);
   border: 1px solid var(--v-border-subtle);
-  margin-bottom: var(--v-space-2);
 }
 
 /* ── Rules & cards ── */

@@ -62,6 +62,9 @@ export function SwatchGrid({ swatches }: { swatches: SwatchProps[] }) {
             aria-hidden
           />
           <code className="v-code v-code--sm">{swatch.token}</code>
+          {swatch.hex && (
+            <code className="v-code v-code--sm v-code--muted">{swatch.hex}</code>
+          )}
         </li>
       ))}
     </ul>

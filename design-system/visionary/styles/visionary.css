@@ -116,6 +116,7 @@
   --v-type-label: 14px;
   --v-type-caption: 12px;
   --v-reading-max: 65ch;
+  --v-reading-optimal: 60ch;
 
   /* ── Spacing ── */
   --v-space-1: 4px;

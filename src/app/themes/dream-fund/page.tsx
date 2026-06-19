@@ -9,7 +9,7 @@ import { dreamFundTheme } from "@design-system/visionary";
 export default function DreamFundThemePage() {
   return (
     <DocPage
-      eyebrow="Guidelines · Themes"
+      eyebrow="Themes"
       title="Dream Fund"
       description="Warm warning-toned accent for brand personality. Status tokens stay fixed."
     >

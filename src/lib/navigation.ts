@@ -36,16 +36,13 @@ export const visionaryNavigation: NavGroup[] = [
   {
     title: "Guidelines",
     items: [{ title: "Accessibility", href: "/accessibility" }],
-    subgroups: [
-      {
-        title: "Themes",
-        items: [
-          { title: "Lucky Charm", href: "/themes/lucky-charm" },
-          { title: "Dream Fund", href: "/themes/dream-fund" },
-        ],
-      },
+  },
+  {
+    title: "Themes",
+    items: [
+      { title: "Lucky Charm", href: "/themes/lucky-charm" },
+      { title: "Dream Fund", href: "/themes/dream-fund" },
     ],
-    subgroupsAfterItems: true,
   },
   {
     title: "Components",

@@ -8,8 +8,6 @@ import {
 } from "@/components/visionary/DocParts";
 import { primitive, semantic } from "@design-system/visionary";
 
-const functionalPalettes = ["success", "warning", "error", "info"] as const;
-
 function rampToSwatches(prefix: string, ramp: Record<string | number, string>) {
   return Object.entries(ramp).map(([step, hex]) => ({
     cssVar: `--v-${prefix}-${step}`,
@@ -43,16 +41,6 @@ export function ColorsOverviewSection() {
 }
 
 export function PrimitiveSection() {
-  const brandRows = ["green", "lavender", "iridescence", "neutral"].flatMap(
-    (palette) =>
-      Object.entries(primitive[palette as keyof typeof primitive] as Record<string, string>).map(
-        ([step, hex]) => ({
-          token: `${palette}.${step}`,
-          value: hex,
-        }),
-      ),
-  );
-
   return (
     <SectionBlock title="Primitive" id="primitive">
       <p className="v-doc__desc" style={{ marginBottom: 0 }}>
@@ -71,9 +59,6 @@ export function PrimitiveSection() {
       </Subsection>
       <Subsection title="Neutral">
         <SwatchGrid swatches={rampToSwatches("neutral", primitive.neutral)} />
-      </Subsection>
-      <Subsection title="Token table">
-        <TokenTable rows={brandRows} />
       </Subsection>
     </SectionBlock>
   );
@@ -107,13 +92,6 @@ export function SemanticSection() {
 }
 
 export function FunctionalSection() {
-  const functionalRows = functionalPalettes.flatMap((palette) =>
-    Object.entries(primitive[palette]).map(([step, hex]) => ({
-      token: `${palette}.${step}`,
-      value: hex,
-    })),
-  );
-
   return (
     <SectionBlock title="Functional" id="functional">
       <p className="v-doc__desc" style={{ marginBottom: 0 }}>
@@ -141,9 +119,6 @@ export function FunctionalSection() {
             "Do not use brand colors as status colors.",
           ]}
         />
-      </Subsection>
-      <Subsection title="Token table">
-        <TokenTable rows={functionalRows} />
       </Subsection>
     </SectionBlock>
   );

@@ -57,7 +57,9 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
           <Link href="/" className="v-shell__brand-link">
             {visionaryMeta.name}
           </Link>
-          <span className="v-shell__version">v{visionaryMeta.version}</span>
+          <span className="v-shell__version">
+            V-{visionaryMeta.version.toUpperCase()}
+          </span>
         </div>
 
         <nav className="v-shell__nav">

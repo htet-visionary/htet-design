@@ -9,7 +9,7 @@ import { luckyCharmTheme } from "@design-system/visionary";
 export default function LuckyCharmThemePage() {
   return (
     <DocPage
-      eyebrow="Guidelines · Themes"
+      eyebrow="Themes"
       title="Lucky Charm"
       description="Green primary with lavender accent and iridescence for decorative moments."
     >
