@@ -1,0 +1,52 @@
+---
+description: Visionary Design System token architecture and foundation rules
+alwaysApply: true
+---
+
+# Visionary Design System
+
+Source of truth: `docs/design.md` (frozen). Do not modify the spec unless explicitly requested.
+
+## Token Layers
+
+Follow **Primitive → Semantic → Component → Theme** only. Tokens flow downward.
+
+| Layer | Use in product UI |
+| --- | --- |
+| Semantic / Component | Yes — default for all UI |
+| Theme overrides | Yes — one theme per product surface |
+| Primitive | No — definitions and token files only |
+
+**Required chain:** Product UI → Theme (if active) → Component token → Semantic token → Primitive.
+
+## Forbidden in Product UI
+
+Never hardcode or invent values outside the spec:
+
+- Hex/rgb/hsl colors (including `#`, `rgba(`)
+- Spacing (e.g. `13px`, `margin: 20px` unless mapped to `spacing.*`)
+- Radius (use `radius.sm|md|lg|xl|pill` only)
+- Shadows (use `elevation.card|dropdown|modal` only)
+- Typography (use `typography.*` scale — no raw `font-size`, `line-height`, `letter-spacing`, or font-family)
+- Z-index (use `elevation.*.z-index` or `elevation.overlay` only)
+- Motion durations/easing (use `motion.duration.*` and `motion.easing.*`)
+
+## Semantic Tokens (required roles)
+
+Use named tokens from `docs/design.md`, not palette steps:
+
+- Surfaces: `background.*`, `surface.*`
+- Text: `text.primary|secondary|muted|inverse|on-solid`
+- Actions: `action.primary*|accent*|destructive*`
+- Status: `status.{success|warning|error|info}.*`
+- Interaction: `focus.*`, `disabled.*`, `link.*`, `overlay.scrim*`
+
+## Component Tokens
+
+Button, Input, Card, Alert, and Modal must consume **component token slots** defined in `docs/design.md`. Component tokens reference semantic tokens only — never primitives.
+
+## Foundations
+
+- New shadows, breakpoints, spacing steps, or radius values require spec approval first.
+- No product-specific names in primitive or semantic token keys.
+- Do not use opacity hacks instead of `disabled.*` tokens.

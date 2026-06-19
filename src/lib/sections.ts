@@ -6,51 +6,67 @@ export type Section = {
   description: string;
   href: string;
   status: SectionStatus;
-  /** Root-level folder name under /top (e.g. design-system, portfolio) */
+  /** Root-level folder name under /top */
   folder: string;
+  /** Archive sections show an Archive badge in navigation */
+  archive?: boolean;
+};
+
+export type ArchiveSubpage = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  /** Parent section id for grouping on /menu */
+  parentId: string;
 };
 
 /**
- * Central registry for top-level sections.
- * To add a new section (e.g. portfolio):
- * 1. Create a folder at the repo root: /portfolio
- * 2. Add an entry here
- * 3. Create a route at src/app/<id>/page.tsx
+ * Top-level sections. Order defines global nav and /menu card order.
  */
 export const sections: Section[] = [
   {
-    id: "design-system",
-    title: "Design System",
-    description: "Tokens, components, and UI patterns for this project.",
-    href: "/design-system",
+    id: "visionary",
+    title: "Visionary Design System",
+    description:
+      "Unified design language for Lucky Charm, Dream Fund, and future Visionary products.",
+    href: "/",
     status: "active",
-    folder: "design-system",
+    folder: "design-system/visionary",
   },
   {
     id: "design-system-v0",
     title: "Design System v0",
-    description: "Color foundations — Apple-inspired token architecture.",
-    href: "/design-system/v0",
+    description:
+      "Archive — Lucky Charm tokens, components, and UI patterns.",
+    href: "/design-system",
     status: "active",
-    folder: "design-system/v0",
+    folder: "design-system",
+    archive: true,
   },
   {
-    id: "product-rabbit",
-    title: "Lucky Charm Rabbit",
-    description: "The Lucky Charm brand product page — meet Lucky the bunny.",
+    id: "lucky-charm-v0",
+    title: "Lucky Charm v0",
+    description: "Archive — Lucky Charm brand product page.",
     href: "/product/rabbit",
     status: "active",
     folder: "product/rabbit",
+    archive: true,
   },
-  // Future sections — uncomment and add matching folder + route when ready:
-  // {
-  //   id: "portfolio",
-  //   title: "Portfolio",
-  //   description: "Projects, case studies, and work samples.",
-  //   href: "/portfolio",
-  //   status: "coming-soon",
-  //   folder: "portfolio",
-  // },
+];
+
+/**
+ * Nested archive pages — not shown in top-level global nav.
+ */
+export const archiveSubpages: ArchiveSubpage[] = [
+  {
+    id: "color-foundations-v0",
+    title: "Color Foundations (v0)",
+    description:
+      "Archive — foundational color architecture and semantic mappings.",
+    href: "/design-system/v0",
+    parentId: "design-system-v0",
+  },
 ];
 
 export function getSectionById(id: string): Section | undefined {
@@ -59,4 +75,14 @@ export function getSectionById(id: string): Section | undefined {
 
 export function getActiveSections(): Section[] {
   return sections.filter((section) => section.status === "active");
+}
+
+export function getArchiveSubpagesForSection(
+  parentId: string,
+): ArchiveSubpage[] {
+  return archiveSubpages.filter((page) => page.parentId === parentId);
+}
+
+export function getGlobalNavSections(): Section[] {
+  return sections;
 }

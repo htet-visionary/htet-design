@@ -1,6 +1,7 @@
 import "../../../design-system/tokens.css";
 import { DM_Sans, Lora, Playfair_Display } from "next/font/google";
 import type { ReactNode } from "react";
+import { GlobalNav } from "@/components/GlobalNav";
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function DesignSystemLayout({
         fontFamily: "var(--ds-font-serif)",
       }}
     >
+      <GlobalNav />
       {children}
     </div>
   );

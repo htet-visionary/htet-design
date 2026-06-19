@@ -157,18 +157,32 @@ export const functionalColors = Object.values(functionalRamps).map((ramp) => ({
   usage: ramp.usage,
 }));
 
+const cream = primitiveRamps.cream.steps;
+const green = primitiveRamps.green.steps;
+const lavender = primitiveRamps.lavender.steps;
+const neutral = primitiveRamps.neutral.steps;
+const warning = functionalRamps.warning.steps;
+const error = functionalRamps.error.steps;
+const info = functionalRamps.info.steps;
+
 export const semanticColors = [
   {
     token: "background.primary",
-    value: "#FDFCFB",
+    value: cream[50],
     primitive: "cream.50",
     usage: "Default page background",
   },
   {
     token: "background.secondary",
-    value: "#FAFAFA",
-    primitive: "neutral.50",
+    value: cream[100],
+    primitive: "cream.100",
     usage: "Alternate sections and inset areas",
+  },
+  {
+    token: "background.tertiary",
+    value: green[50],
+    primitive: "green.50",
+    usage: "Soft tinted backgrounds and highlights",
   },
   {
     token: "surface.default",
@@ -178,25 +192,31 @@ export const semanticColors = [
   },
   {
     token: "surface.subtle",
-    value: "#F9F7F4",
+    value: cream[100],
     primitive: "cream.100",
     usage: "Muted containers and grouped content",
   },
   {
+    token: "surface.accent",
+    value: lavender[50],
+    primitive: "lavender.50",
+    usage: "Accent-tinted surfaces and hover states",
+  },
+  {
     token: "text.primary",
-    value: "#171717",
+    value: neutral[900],
     primitive: "neutral.900",
     usage: "Headlines and primary body copy",
   },
   {
     token: "text.secondary",
-    value: "#525252",
+    value: neutral[600],
     primitive: "neutral.600",
     usage: "Supporting text and descriptions",
   },
   {
     token: "text.tertiary",
-    value: "#737373",
+    value: neutral[500],
     primitive: "neutral.500",
     usage: "Captions, placeholders, and metadata",
   },
@@ -207,34 +227,125 @@ export const semanticColors = [
     usage: "Text on dark or saturated backgrounds",
   },
   {
+    token: "text.accent",
+    value: lavender[500],
+    primitive: "lavender.500",
+    usage: "Accent labels, links, and emphasis",
+  },
+  {
     token: "border.default",
-    value: "#E5E5E5",
+    value: neutral[200],
     primitive: "neutral.200",
     usage: "Standard dividers and outlines",
   },
   {
     token: "border.subtle",
-    value: "#F3F0EB",
+    value: cream[200],
     primitive: "cream.200",
     usage: "Low-contrast separation",
   },
   {
+    token: "border.accent",
+    value: "rgba(142, 111, 173, 0.28)",
+    primitive: "lavender.500",
+    usage: "Interactive hover outlines and focus rings",
+  },
+  {
     token: "action.primary",
-    value: "#5C7B56",
+    value: green[500],
     primitive: "green.500",
     usage: "Primary buttons and links",
   },
   {
     token: "action.primary.hover",
-    value: "#4A6345",
-    primitive: "green.600",
+    value: lavender[500],
+    primitive: "lavender.500",
     usage: "Primary interactive hover state",
   },
   {
+    token: "action.primary.active",
+    value: lavender[600],
+    primitive: "lavender.600",
+    usage: "Primary pressed and active state",
+  },
+  {
     token: "action.accent",
-    value: "#8E6FAD",
+    value: lavender[500],
     primitive: "lavender.500",
     usage: "Secondary actions and accent CTAs",
+  },
+  {
+    token: "action.accent.hover",
+    value: lavender[600],
+    primitive: "lavender.600",
+    usage: "Accent interactive hover state",
+  },
+  {
+    token: "brand.green",
+    value: green[500],
+    primitive: "green.500",
+    usage: "Core brand identity and primary emphasis",
+  },
+  {
+    token: "brand.lavender",
+    value: lavender[500],
+    primitive: "lavender.500",
+    usage: "Brand accent and emotional warmth",
+  },
+  {
+    token: "accent.iridescent",
+    value: brandIridescence,
+    primitive: "brand gradient",
+    usage: "Hero accents, dividers, and special highlights",
+    gradient: true,
+  },
+  {
+    token: "feedback.success",
+    value: green[500],
+    primitive: "success.500",
+    usage: "Success messages and positive states",
+  },
+  {
+    token: "feedback.success.subtle",
+    value: green[50],
+    primitive: "success.50",
+    usage: "Success backgrounds and badges",
+  },
+  {
+    token: "feedback.warning",
+    value: warning[500],
+    primitive: "warning.500",
+    usage: "Warning messages and caution states",
+  },
+  {
+    token: "feedback.warning.subtle",
+    value: warning[50],
+    primitive: "warning.50",
+    usage: "Warning backgrounds and badges",
+  },
+  {
+    token: "feedback.error",
+    value: error[500],
+    primitive: "error.500",
+    usage: "Errors, destructive actions, and alerts",
+  },
+  {
+    token: "feedback.error.subtle",
+    value: error[50],
+    primitive: "error.50",
+    usage: "Error backgrounds and validation highlights",
+  },
+  {
+    token: "feedback.info",
+    value: info[500],
+    primitive: "info.500",
+    usage: "Informational messages and guidance",
+  },
+  {
+    token: "feedback.info.subtle",
+    value: info[50],
+    primitive: "info.50",
+    usage: "Info backgrounds and neutral callouts",
   },
 ] as const;
 

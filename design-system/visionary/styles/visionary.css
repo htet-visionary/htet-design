@@ -1,0 +1,112 @@
+/**
+ * Visionary Design System CSS custom properties.
+ * Generated from docs/design.md (beta). Import in Visionary app surfaces.
+ */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
+
+:root {
+  /* ── Primitive: Green ── */
+  --v-green-50: #f6f8f5;
+  --v-green-100: #eaf0e7;
+  --v-green-200: #d9e3d4;
+  --v-green-300: #c3d2bc;
+  --v-green-400: #92aa89;
+  --v-green-500: #5c7b56;
+  --v-green-600: #4a6345;
+  --v-green-700: #3c5138;
+  --v-green-800: #2e3f2b;
+  --v-green-900: #1e2b1c;
+
+  /* ── Primitive: Lavender ── */
+  --v-lavender-50: #f8f4fc;
+  --v-lavender-100: #f0e9f8;
+  --v-lavender-200: #e1d3f1;
+  --v-lavender-300: #ccb6e5;
+  --v-lavender-400: #af8fd4;
+  --v-lavender-500: #8e6fad;
+  --v-lavender-600: #775a97;
+  --v-lavender-700: #61497c;
+  --v-lavender-800: #4c3960;
+  --v-lavender-900: #32253f;
+
+  /* ── Primitive: Neutral ── */
+  --v-neutral-0: #ffffff;
+  --v-neutral-50: #fcfbf8;
+  --v-neutral-100: #f7f5f2;
+  --v-neutral-200: #eceae8;
+  --v-neutral-300: #ddd8d4;
+  --v-neutral-400: #b9b3ae;
+  --v-neutral-500: #8a837c;
+  --v-neutral-600: #7a7068;
+  --v-neutral-700: #5b534d;
+  --v-neutral-800: #3d3530;
+  --v-neutral-900: #241f1b;
+
+  /* ── Semantic: Background & Surface ── */
+  --v-bg-default: var(--v-neutral-50);
+  --v-bg-subtle: var(--v-neutral-100);
+  --v-surface-primary: var(--v-neutral-0);
+  --v-surface-secondary: var(--v-neutral-50);
+
+  /* ── Semantic: Text ── */
+  --v-text-primary: var(--v-neutral-800);
+  --v-text-secondary: var(--v-neutral-600);
+  --v-text-muted: var(--v-neutral-500);
+  --v-text-inverse: var(--v-neutral-0);
+  --v-text-on-solid: var(--v-neutral-0);
+
+  /* ── Semantic: Action ── */
+  --v-action-primary: var(--v-green-500);
+  --v-action-primary-hover: var(--v-green-600);
+  --v-action-primary-active: var(--v-green-700);
+  --v-action-accent: var(--v-lavender-500);
+  --v-action-accent-hover: var(--v-lavender-600);
+  --v-action-destructive: #a9494d;
+
+  /* ── Semantic: Border & Focus ── */
+  --v-border-subtle: var(--v-neutral-200);
+  --v-border-strong: var(--v-neutral-300);
+  --v-focus-ring: var(--v-green-500);
+  --v-focus-ring-offset: var(--v-neutral-0);
+
+  /* ── Semantic: Overlay ── */
+  --v-overlay-scrim: rgba(36, 31, 27, 0.48);
+
+  /* ── Typography ── */
+  --v-font-display: "Playfair Display", Georgia, serif;
+  --v-font-reading: "Lora", Georgia, serif;
+  --v-font-interface: "DM Sans", system-ui, sans-serif;
+
+  /* ── Spacing ── */
+  --v-space-1: 4px;
+  --v-space-2: 8px;
+  --v-space-3: 12px;
+  --v-space-4: 16px;
+  --v-space-6: 24px;
+  --v-space-8: 32px;
+  --v-space-12: 48px;
+
+  /* ── Radius ── */
+  --v-radius-sm: 8px;
+  --v-radius-md: 12px;
+  --v-radius-lg: 16px;
+
+  /* ── Elevation ── */
+  --v-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.04);
+  --v-z-dropdown: 100;
+  --v-z-overlay: 150;
+  --v-z-modal: 200;
+
+  /* ── Motion ── */
+  --v-motion-fast: 150ms;
+  --v-motion-normal: 250ms;
+  --v-motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.visionary-root {
+  background-color: var(--v-bg-default);
+  color: var(--v-text-primary);
+  font-family: var(--v-font-reading);
+  font-size: 16px;
+  line-height: 1.6;
+}

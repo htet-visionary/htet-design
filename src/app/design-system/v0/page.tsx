@@ -210,9 +210,17 @@ export default function DesignSystemV0Page() {
                         <span className="ds-v0__table-swatch">
                           <span
                             className="ds-v0__table-dot"
-                            style={{ backgroundColor: row.value }}
+                            style={
+                              "gradient" in row && row.gradient
+                                ? { background: row.value }
+                                : { backgroundColor: row.value }
+                            }
                           />
-                          <code className="ds-v0__mono">{row.value}</code>
+                          <code className="ds-v0__mono">
+                            {"gradient" in row && row.gradient
+                              ? "Custom gradient"
+                              : row.value}
+                          </code>
                         </span>
                       </td>
                       <td className="ds-v0__caption">{row.primitive}</td>

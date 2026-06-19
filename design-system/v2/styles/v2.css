@@ -1,0 +1,229 @@
+/* Lucky Charm World Design System v2 */
+
+:root {
+  --lc-cream: #fdfcfb;
+  --lc-white-rabbit: #f7f7f7;
+  --lc-soft-green: #b7cdb1;
+  --lc-deep-green: #5b7a55;
+  --lc-misty-grey: #bdbdbd;
+  --lc-lavender: #d4c5e2;
+  --lc-statice: #8e6fae;
+  --lc-text: #3d3530;
+  --lc-text-muted: #7a7068;
+  --lc-golden: #d4a853;
+  --lc-iridescent: linear-gradient(
+    135deg,
+    #ffd700 0%,
+    #ff9999 35%,
+    #99ddff 70%,
+    #aaffaa 100%
+  );
+  --lc-font-story: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --lc-font-notes: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --lc-font-voice: var(--font-inter), "Inter", system-ui, sans-serif;
+  --lc-shadow-cloud: 0 2px 24px rgba(183, 205, 177, 0.08);
+  --lc-shadow-pillow: 0 8px 40px rgba(91, 122, 85, 0.1),
+    0 2px 8px rgba(183, 205, 177, 0.06);
+  --lc-shadow-dream: 0 20px 60px rgba(142, 111, 174, 0.12),
+    0 8px 24px rgba(255, 153, 153, 0.08);
+  --lc-radius-soft: 1.5rem;
+  --lc-radius-pill: 9999px;
+}
+
+.lc-v2 {
+  font-family: var(--lc-font-voice);
+  color: var(--lc-text);
+  background: var(--lc-cream);
+  overflow-x: clip;
+}
+
+.lc-v2 * {
+  box-sizing: border-box;
+}
+
+.lc-section {
+  position: relative;
+  padding: clamp(4rem, 10vw, 8rem) clamp(1.25rem, 5vw, 3rem);
+}
+
+.lc-section__label {
+  font-family: var(--lc-font-voice);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--lc-soft-green);
+  margin-bottom: 1rem;
+}
+
+.lc-section__title {
+  font-family: var(--lc-font-story);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--lc-deep-green);
+}
+
+.lc-section__title em {
+  font-style: italic;
+  color: var(--lc-statice);
+}
+
+.lc-section__desc {
+  margin-top: 1.25rem;
+  max-width: 42ch;
+  font-family: var(--lc-font-notes);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.85;
+  color: var(--lc-text-muted);
+}
+
+.lc-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.35;
+}
+
+.lc-btn-lucky {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 2.25rem;
+  border: none;
+  border-radius: var(--lc-radius-pill);
+  background: var(--lc-deep-green);
+  color: var(--lc-cream);
+  font-family: var(--lc-font-voice);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: var(--lc-shadow-pillow);
+}
+
+.lc-btn-lucky:hover {
+  background: var(--lc-statice);
+  transform: translateY(-2px);
+  box-shadow: var(--lc-shadow-dream);
+}
+
+.lc-btn-whisper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 0;
+  border: none;
+  border-bottom: 1.5px solid var(--lc-soft-green);
+  background: transparent;
+  color: var(--lc-deep-green);
+  font-family: var(--lc-font-notes);
+  font-size: 1rem;
+  font-style: italic;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lc-btn-whisper:hover {
+  color: var(--lc-statice);
+  border-color: var(--lc-lavender);
+}
+
+.lc-card-wish {
+  border-radius: var(--lc-radius-soft);
+  border: 1px solid rgba(183, 205, 177, 0.35);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--lc-shadow-cloud);
+  transition: all 0.4s ease;
+}
+
+.lc-card-wish:hover {
+  box-shadow: var(--lc-shadow-pillow);
+  transform: translateY(-4px);
+}
+
+.lc-card-memory {
+  border-radius: var(--lc-radius-soft);
+  background: var(--lc-white-rabbit);
+  padding: clamp(1.5rem, 4vw, 2rem);
+  border: 1px dashed rgba(183, 205, 177, 0.5);
+}
+
+.lc-card-cozy {
+  border-radius: var(--lc-radius-soft);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(212, 197, 226, 0.15) 100%
+  );
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--lc-shadow-pillow);
+  position: relative;
+  overflow: hidden;
+}
+
+.lc-card-cozy::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--lc-iridescent);
+}
+
+.lc-input-lucky {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(183, 205, 177, 0.45);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  font-family: var(--lc-font-notes);
+  font-size: 1rem;
+  color: var(--lc-text);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lc-input-lucky::placeholder {
+  color: var(--lc-text-muted);
+  font-style: italic;
+}
+
+.lc-input-lucky:focus {
+  outline: none;
+  border-color: var(--lc-soft-green);
+  box-shadow: 0 0 0 3px rgba(183, 205, 177, 0.2);
+}
+
+.lc-chip-clover {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  border-radius: var(--lc-radius-pill);
+  font-family: var(--lc-font-voice);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(183, 205, 177, 0.5);
+  background: rgba(183, 205, 177, 0.15);
+  color: var(--lc-deep-green);
+}
+
+.lc-chip-clover--lavender {
+  border-color: rgba(142, 111, 174, 0.3);
+  background: rgba(212, 197, 226, 0.2);
+  color: var(--lc-statice);
+}
+
+.lc-chip-clover--golden {
+  border-color: rgba(212, 168, 83, 0.3);
+  background: rgba(212, 168, 83, 0.12);
+  color: #9b7230;
+}

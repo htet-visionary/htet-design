@@ -1,5 +1,6 @@
 import { DM_Sans, Lora, Playfair_Display } from "next/font/google";
 import type { ReactNode } from "react";
+import { GlobalNav } from "@/components/GlobalNav";
 import "./rabbit.css";
 
 const playfair = Playfair_Display({
@@ -37,6 +38,7 @@ export default function RabbitProductLayout({
     <div
       className={`${playfair.variable} ${lora.variable} ${dmSans.variable} rabbit-page`}
     >
+      <GlobalNav />
       {children}
     </div>
   );

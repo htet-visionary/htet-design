@@ -1,0 +1,54 @@
+---
+description: WCAG AA, focus, touch targets, and reduced-motion requirements
+globs: "**/*.{tsx,ts,jsx,js,css,html,vue,svelte}"
+alwaysApply: false
+---
+
+# Accessibility (Visionary)
+
+Source of truth: `docs/design.md` — Accessibility Standards and Motion (Reduced Motion).
+
+Target: **WCAG 2.1 Level AA** minimum for all Visionary products.
+
+## Contrast
+
+Before shipping new token pairings, verify ratios from the spec:
+
+- Body text on background: **4.5:1**
+- Large text (18px+ regular, 14px+ bold): **3:1**
+- UI components / graphical objects: **3:1**
+- Focus indicator vs adjacent colors: **3:1**
+- Text on solid action or status fills: **4.5:1** (use `text.on-solid` or `status.*.on-solid`)
+
+## Focus
+
+Every interactive element needs a visible keyboard focus state:
+
+- Use `:focus-visible`, not `:focus` alone
+- Ring: **2px solid** `focus.ring`, **2px offset**, offset color `focus.ring-offset`, radius inherits
+- Do not remove outlines without this compliant replacement
+- Do not invent per-component focus colors
+- Nested interactives each get their own focus ring
+
+## Touch Targets
+
+- Minimum hit area: **44px** (`touch-target.minimum`)
+- Prefer **48px** on mobile where space allows
+- Gap between targets: `spacing.2`
+- Icon-only controls: expand hit area to 44px minimum
+
+## Screen Readers & Keyboard
+
+- All components: keyboard navigable, labeled, correct roles/ARIA
+- Inputs: visible label required; placeholder is not a label
+- Modals: focus trap, return focus on close, one modal at a time
+- Alerts: dismissible alerts need accessible close control
+
+## Reduced Motion
+
+Respect `prefers-reduced-motion: reduce`:
+
+- Non-essential animation → `motion.duration.instant`
+- Opacity fade only, max **100ms** for modal/alert enter
+- No parallax, scale, or slide transforms
+- No autoplay decorative motion; spinners may rotate but must not pulse or bounce

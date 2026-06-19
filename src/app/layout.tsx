@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Top",
-  description: "Menu hub for design system and future sections.",
+  title: "Visionary Design System",
+  description:
+    "Unified design language for Lucky Charm, Dream Fund, and future Visionary products.",
 };
 
 export default function RootLayout({

@@ -1,0 +1,60 @@
+---
+description: Brand colors, iridescence, themes, and accent vs status separation
+globs: "**/*.{tsx,ts,jsx,js,css,vue,svelte,mdx}"
+alwaysApply: false
+---
+
+# Brand & Themes (Visionary)
+
+Source of truth: `docs/design.md` — Functional Color Rules, Iridescence Rules, Theme Architecture, Product Themes.
+
+## Color Purpose
+
+Every color must communicate meaning. No decorative-only color in product UI.
+
+- **Green** — luck, nature, growth (`brand.default`, `action.primary*`)
+- **Lavender** — magic, emotion, imagination (default accent)
+- **Status palettes** — success, warning, error, info for feedback only
+
+Brand colors are not status colors. Status colors are not brand accents.
+
+## Iridescence
+
+Iridescence is **decorative only**. Allowed: hero, celebrations, premium highlights, marketing surfaces, storytelling, decorative dividers.
+
+**Never** use iridescence for: status states, body text, core actions, errors, warnings.
+
+Hero CTA gradients/iridescent treatments are **marketing exceptions** — do not promote to semantic tokens.
+
+## Theme Architecture
+
+```
+Foundation → Semantic → Component → Theme → Product UI
+```
+
+- Load **one theme** per product surface (Lucky Charm, Dream Fund, etc.)
+- Themes **remap existing slots** only — no new primitive scales or component keys
+- Theme overrides resolve before render; document every override in the theme definition
+
+### Themes may override
+
+`brand.*`, `action.accent*`, `action.primary*` (with caution), decorative highlight refs
+
+### Themes must NOT override
+
+`status.*`, `disabled.*`, `focus.*`, `overlay.*`, functional color scales
+
+## Accent vs Status (Dream Fund)
+
+When accent maps to warning palette (Dream Fund):
+
+- Accent → secondary buttons, branding, highlights
+- Alerts/validation → always `status.warning.*` / `status.error.*`
+- **Never** wire theme accent into alert or input error slots
+
+## Do Not
+
+- Hardcode brand hex values in product UI
+- Create product-specific tokens in foundations
+- Use theme accent colors on status surfaces
+- Fork `docs/design.md` for new products — add a theme file instead

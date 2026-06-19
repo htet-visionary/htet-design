@@ -1,0 +1,52 @@
+---
+description: Frontend layout, components, motion, and responsive rules
+globs: "**/*.{tsx,ts,jsx,js,css,vue,svelte}"
+alwaysApply: false
+---
+
+# Frontend (Visionary)
+
+Source of truth: `docs/design.md` — Layout, Typography, Motion, Component Foundations, Elevation.
+
+## Responsive Layout
+
+- **Mobile-first.** Add complexity at `md` (768px) and above.
+- Breakpoints only: `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536 — no custom breakpoints without approval.
+- Page shells: `container.*`. Forms/articles: `content.*` (narrow 560, reading 680, wide 960).
+- Grid: **12 columns**; single column below `md`; max **2 nested grid levels**.
+- Gutters/margins: `spacing.4` / `spacing.6` / `spacing.8` per spec.
+
+## Typography
+
+- **Display** (Playfair): headings and hero only
+- **Reading** (Lora): body copy — max **65ch**, optimal **60ch** for long text
+- **Interface** (DM Sans): labels, buttons, inputs, metadata
+- Use named steps: `hero`, `heading-xl|lg|md|sm`, `body-lg`, `body`, `label`, `caption`
+- Max **three type levels** per screen; prefer weight over size for sub-hierarchy
+
+## Spacing & Radius
+
+Use `spacing.1–24` scale only. Recommended: inline 1–2, component padding 3–4, sections 8–12.
+
+Radius: `sm` inputs, `md` buttons/alerts, `lg` cards/modals, `pill` for pills only.
+
+## Elevation & Layering
+
+- `elevation.card` (z-index 1), `elevation.dropdown` (100), `elevation.overlay` (150), `elevation.modal` (200)
+- One modal level max; no nested elevated cards
+
+## Motion
+
+- Durations: `instant|fast|normal|slow` from spec
+- Easing: `standard` default; `enter` on show, `exit` on hide
+- Animate **opacity and transform** only — not width/height/top unless required
+- Always provide reduced-motion fallback (see `accessibility.mdc`)
+
+## Component Foundations
+
+Implement Button, Input, Card, Alert, Modal using **component token slots** from `docs/design.md`:
+
+- Button: one primary per section; destructive needs confirmation; use `action.destructive*` not `status.error*` for actions
+- Input: errors use `status.error.*`; disabled not focusable
+- Alert: status communication only — not CTAs
+- Modal: scrim `overlay.scrim`, focus trap, explicit cancel/confirm for destructive flows
