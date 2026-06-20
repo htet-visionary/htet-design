@@ -4,6 +4,10 @@ import {
   SectionBlock,
   TokenTable,
 } from "@/components/visionary/DocParts";
+import {
+  SpacingScalePreview,
+  SpacingUsagePreview,
+} from "@/components/visionary/FoundationPreviews";
 import { spacing } from "@design-system/visionary";
 
 export default function SpacingPage() {
@@ -20,10 +24,12 @@ export default function SpacingPage() {
       description="4px base unit. Use spacing tokens only — no one-off values."
     >
       <SectionBlock title="Scale">
+        <SpacingScalePreview />
         <TokenTable rows={rows} />
       </SectionBlock>
 
       <SectionBlock title="Usage">
+        <SpacingUsagePreview />
         <TokenTable
           caption="Recommended contexts"
           rows={[

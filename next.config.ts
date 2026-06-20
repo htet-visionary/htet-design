@@ -7,6 +7,21 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/foundations",
+        destination: `${newBase}/foundations/colors`,
+        permanent: false,
+      },
+      {
+        source: "/design-system/foundations",
+        destination: `${newBase}/foundations/colors`,
+        permanent: false,
+      },
+      {
+        source: `${newBase}/foundations`,
+        destination: `${newBase}/foundations/colors`,
+        permanent: false,
+      },
+      {
         source: "/design-system",
         destination: newBase,
         permanent: false,

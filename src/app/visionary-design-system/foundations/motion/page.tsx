@@ -4,6 +4,7 @@ import {
   SectionBlock,
   TokenTable,
 } from "@/components/visionary/DocParts";
+import { MotionPreview } from "@/components/visionary/FoundationPreviews";
 import { motion } from "@design-system/visionary";
 
 export default function MotionPage() {
@@ -14,6 +15,7 @@ export default function MotionPage() {
       description="Subtle, purposeful, non-decorative animation."
     >
       <SectionBlock title="Durations">
+        <MotionPreview />
         <TokenTable
           rows={Object.entries(motion.duration).map(([name, ms]) => ({
             token: `motion.duration.${name}`,

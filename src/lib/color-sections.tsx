@@ -1,25 +1,26 @@
+import { slugify } from "@/lib/slugify";
 import type { ReactNode } from "react";
 import {
+  ColorRamp,
   flattenObject,
   RuleList,
   SectionBlock,
-  SwatchGrid,
   TokenTable,
 } from "@/components/visionary/DocParts";
 import { primitive, semantic } from "@design-system/visionary";
 
-function rampToSwatches(prefix: string, ramp: Record<string | number, string>) {
-  return Object.entries(ramp).map(([step, hex]) => ({
-    cssVar: `--v-${prefix}-${step}`,
-    hex,
-    token: `${prefix}.${step}`,
-  }));
+function rampToSteps(ramp: Record<string | number, string>) {
+  return Object.entries(ramp).map(([step, hex]) => ({ step, hex }));
 }
 
 function Subsection({ title, children }: { title: string; children: ReactNode }) {
+  const subsectionId = slugify(title);
+
   return (
     <div className="v-subsection">
-      <h3 className="v-subsection__title">{title}</h3>
+      <h3 id={subsectionId} className="v-subsection__title v-subsection--anchor">
+        {title}
+      </h3>
       {children}
     </div>
   );
@@ -47,22 +48,20 @@ export function PrimitiveSection() {
         Brand and neutral ramps. Raw values — not for direct use in product UI.
       </p>
       <Subsection title="Green">
-        <SwatchGrid swatches={rampToSwatches("green", primitive.green)} />
+        <ColorRamp steps={rampToSteps(primitive.green)} />
       </Subsection>
       <Subsection title="Lavender">
-        <SwatchGrid swatches={rampToSwatches("lavender", primitive.lavender)} />
+        <ColorRamp steps={rampToSteps(primitive.lavender)} />
       </Subsection>
       <Subsection title="Iridescence">
         <div
           className="v-swatch-gradient v-swatch-gradient--iridescence"
           aria-hidden
         />
-        <SwatchGrid
-          swatches={rampToSwatches("iridescence", primitive.iridescence)}
-        />
+        <ColorRamp steps={rampToSteps(primitive.iridescence)} />
       </Subsection>
       <Subsection title="Neutral">
-        <SwatchGrid swatches={rampToSwatches("neutral", primitive.neutral)} />
+        <ColorRamp steps={rampToSteps(primitive.neutral)} />
       </Subsection>
     </SectionBlock>
   );
@@ -102,16 +101,16 @@ export function FunctionalSection() {
         Status palettes for success, warning, error, and info feedback.
       </p>
       <Subsection title="Success">
-        <SwatchGrid swatches={rampToSwatches("success", primitive.success)} />
+        <ColorRamp steps={rampToSteps(primitive.success)} />
       </Subsection>
       <Subsection title="Warning">
-        <SwatchGrid swatches={rampToSwatches("warning", primitive.warning)} />
+        <ColorRamp steps={rampToSteps(primitive.warning)} />
       </Subsection>
       <Subsection title="Error">
-        <SwatchGrid swatches={rampToSwatches("error", primitive.error)} />
+        <ColorRamp steps={rampToSteps(primitive.error)} />
       </Subsection>
       <Subsection title="Info">
-        <SwatchGrid swatches={rampToSwatches("info", primitive.info)} />
+        <ColorRamp steps={rampToSteps(primitive.info)} />
       </Subsection>
       <Subsection title="Meaning">
         <RuleList

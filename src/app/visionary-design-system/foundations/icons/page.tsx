@@ -4,6 +4,7 @@ import {
   SectionBlock,
   TokenTable,
 } from "@/components/visionary/DocParts";
+import { IconsUsagePreview } from "@/components/visionary/FoundationPreviews";
 import { icons, touchTarget } from "@design-system/visionary";
 import { Sparkles } from "lucide-react";
 
@@ -109,6 +110,7 @@ export default function IconsPage() {
       </SectionBlock>
 
       <SectionBlock title="Usage">
+        <IconsUsagePreview />
         <TokenTable
           caption="Recommended contexts"
           rows={[

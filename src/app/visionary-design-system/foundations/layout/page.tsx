@@ -5,6 +5,10 @@ import {
   TokenTable,
 } from "@/components/visionary/DocParts";
 import {
+  LayoutGridPreview,
+  LayoutTouchTargetPreview,
+} from "@/components/visionary/FoundationPreviews";
+import {
   breakpoints,
   container,
   content,
@@ -44,6 +48,7 @@ export default function LayoutPage() {
       </SectionBlock>
 
       <SectionBlock title="Grid">
+        <LayoutGridPreview />
         <TokenTable
           rows={[
             { token: "grid.columns", value: String(grid.columns) },
@@ -56,6 +61,7 @@ export default function LayoutPage() {
       </SectionBlock>
 
       <SectionBlock title="Touch targets">
+        <LayoutTouchTargetPreview />
         <TokenTable
           rows={[
             {

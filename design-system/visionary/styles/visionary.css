@@ -185,7 +185,9 @@
   --v-content-narrow: 560px;
   --v-content-reading: 680px;
   --v-content-wide: 960px;
-  --v-shell-sidebar: 260px;
+  --v-shell-sidebar-viewport: 20%;
+  --v-shell-main-viewport: 60%;
+  --v-shell-content-margin-right: 20%;
 }
 
 .visionary-root {

@@ -4,6 +4,10 @@ import {
   SectionBlock,
   TokenTable,
 } from "@/components/visionary/DocParts";
+import {
+  RadiusScalePreview,
+  RadiusUsagePreview,
+} from "@/components/visionary/FoundationPreviews";
 import { radius } from "@design-system/visionary";
 
 export default function RadiusPage() {
@@ -20,10 +24,12 @@ export default function RadiusPage() {
       description="Soft corners from sm to pill. No arbitrary radius values."
     >
       <SectionBlock title="Scale">
+        <RadiusScalePreview />
         <TokenTable rows={rows} />
       </SectionBlock>
 
       <SectionBlock title="Component mapping">
+        <RadiusUsagePreview />
         <TokenTable
           rows={[
             { token: "input", value: "radius.sm", note: "form fields" },

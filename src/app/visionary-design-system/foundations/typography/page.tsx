@@ -4,6 +4,7 @@ import {
   SectionBlock,
   TokenTable,
 } from "@/components/visionary/DocParts";
+import { ReadingWidthPreview } from "@/components/visionary/FoundationPreviews";
 import { fonts, reading } from "@design-system/visionary";
 import {
   fontRoleCssVar,
@@ -65,6 +66,7 @@ export default function TypographyPage() {
       </SectionBlock>
 
       <SectionBlock title="Reading width">
+        <ReadingWidthPreview />
         <TokenTable
           rows={[
             {

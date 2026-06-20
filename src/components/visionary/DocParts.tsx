@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
+import { CopyHexCode } from "@/components/visionary/CopyHexCode";
 import { NavIcon, dsNavIcons } from "@/lib/nav-icons";
+import { slugify } from "@/lib/slugify";
 
 export type TokenRow = {
   token: string;
@@ -44,28 +46,23 @@ export function TokenTable({ rows, caption }: TokenTableProps) {
   );
 }
 
-type SwatchProps = {
-  cssVar?: string;
-  hex?: string;
-  token: string;
+type ColorRampStep = {
+  step: string | number;
+  hex: string;
 };
 
-export function SwatchGrid({ swatches }: { swatches: SwatchProps[] }) {
+export function ColorRamp({ steps }: { steps: ColorRampStep[] }) {
   return (
-    <ul className="v-swatch-grid">
-      {swatches.map((swatch) => (
-        <li key={swatch.token} className="v-swatch">
+    <ul className="v-color-ramp" aria-label="Color scale">
+      {steps.map(({ step, hex }) => (
+        <li key={step} className="v-color-ramp__step">
           <span
-            className="v-swatch__chip"
-            style={{
-              backgroundColor: swatch.hex ?? `var(${swatch.cssVar})`,
-            }}
+            className="v-color-ramp__chip"
+            style={{ backgroundColor: hex }}
             aria-hidden
           />
-          <code className="v-code v-code--sm">{swatch.token}</code>
-          {swatch.hex && (
-            <code className="v-code v-code--sm v-code--muted">{swatch.hex}</code>
-          )}
+          <span className="v-color-ramp__step-label">{step}</span>
+          <CopyHexCode hex={hex} className="v-copy-hex--ramp" />
         </li>
       ))}
     </ul>
@@ -99,8 +96,10 @@ export function SectionBlock({
   id?: string;
   children: ReactNode;
 }) {
+  const sectionId = id ?? slugify(title);
+
   return (
-    <section id={id} className="v-section v-section--anchor">
+    <section id={sectionId} className="v-section v-section--anchor">
       <h2 className="v-section__title">{title}</h2>
       {children}
     </section>

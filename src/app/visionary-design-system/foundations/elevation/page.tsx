@@ -4,6 +4,7 @@ import {
   SectionBlock,
   TokenTable,
 } from "@/components/visionary/DocParts";
+import { ElevationPreview } from "@/components/visionary/FoundationPreviews";
 import { elevation } from "@design-system/visionary";
 
 export default function ElevationPage() {
@@ -14,6 +15,7 @@ export default function ElevationPage() {
       description="Shadows and z-index communicate layering — not importance."
     >
       <SectionBlock title="Levels">
+        <ElevationPreview />
         <TokenTable
           rows={[
             {

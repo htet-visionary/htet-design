@@ -61,7 +61,7 @@ export default function OverviewPage() {
           links={[
             {
               title: "Foundations",
-              href: `${designSystemBase}/foundations`,
+              href: `${designSystemBase}/foundations/colors`,
               description: "Colors, typography, spacing, icons, radius, elevation, motion, layout.",
             },
             {
