@@ -582,7 +582,7 @@
   display: inline-block;
   width: auto;
   padding: 0.125rem var(--v-space-2);
-  font-size: 0.6875rem;
+  font-size: var(--v-type-caption);
   color: var(--v-text-secondary);
   background: var(--v-bg-subtle);
   border-radius: var(--v-radius-sm);
@@ -635,7 +635,169 @@
   font-size: var(--v-type-caption);
 }
 
-/* ── Type specimens ── */
+/* ── Typography token board ── */
+.v-type-board {
+  display: grid;
+  gap: var(--v-space-8);
+}
+
+.v-type-section__header {
+  margin-bottom: var(--v-space-3);
+}
+
+.v-type-section__title {
+  margin: 0 0 var(--v-space-1);
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-label);
+  font-weight: 600;
+  color: var(--v-text-primary);
+}
+
+.v-type-section__desc {
+  margin: 0;
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  line-height: 1.45;
+  color: var(--v-text-muted);
+}
+
+.v-type-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--v-space-2);
+}
+
+.v-type-grid--scale {
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
+
+.v-type-scale-groups {
+  display: grid;
+  gap: var(--v-space-5);
+}
+
+.v-type-scale-group__label {
+  margin: 0 0 var(--v-space-1);
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  font-weight: 600;
+  color: var(--v-text-primary);
+}
+
+.v-type-scale-group__desc {
+  margin: 0 0 var(--v-space-2);
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  line-height: 1.4;
+  color: var(--v-text-muted);
+}
+
+.v-type-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--v-space-3);
+  min-width: 0;
+  padding: var(--v-space-3);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-md);
+  background: var(--v-surface-primary);
+}
+
+.v-type-card--scale {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--v-space-2);
+}
+
+.v-type-card__preview {
+  flex-shrink: 0;
+  color: var(--v-text-primary);
+}
+
+.v-type-card__preview--font {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--v-radius-sm);
+  border: 1px solid var(--v-border-subtle);
+  background: var(--v-bg-subtle);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.v-type-card__preview--scale {
+  margin: 0;
+  padding: var(--v-space-2) var(--v-space-3);
+  border-radius: var(--v-radius-sm);
+  background: var(--v-bg-subtle);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.1;
+}
+
+.v-type-card__preview--measure {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: var(--v-space-2);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-sm);
+  background: var(--v-bg-subtle);
+  box-sizing: border-box;
+}
+
+.v-type-card__measure-col {
+  width: calc(var(--v-measure-ratio, 1) * 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1px 0 1px var(--v-space-1);
+  border-left: 2px solid var(--v-text-muted);
+  box-sizing: border-box;
+}
+
+.v-type-card__measure-col span {
+  display: block;
+  height: 2px;
+  background: var(--v-border-strong);
+  border-radius: 1px;
+}
+
+.v-type-card__body {
+  display: grid;
+  gap: 0.125rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.v-type-card__token {
+  font-family: ui-monospace, monospace;
+  font-size: var(--v-type-caption);
+  color: var(--v-text-primary);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.v-type-card__value {
+  margin: 0;
+  font-family: ui-monospace, monospace;
+  font-size: var(--v-type-caption);
+  line-height: 1.4;
+  color: var(--v-text-muted);
+  overflow-wrap: anywhere;
+}
+
+/* ── Type specimens (legacy) ── */
 .v-type-specimen-grid {
   list-style: none;
   margin: 0 0 var(--v-space-6);
@@ -1190,7 +1352,7 @@
   display: block;
   width: 100%;
   padding: var(--v-space-1) 0;
-  font-size: 0.625rem;
+  font-size: var(--v-type-caption);
   letter-spacing: 0.02em;
   background: transparent;
   overflow-wrap: anywhere;

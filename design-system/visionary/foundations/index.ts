@@ -99,7 +99,7 @@ export const typography = {
   },
   caption: {
     font: "interface",
-    size: 12,
+    size: 14,
     weight: 400,
     lineHeight: 1.4,
     letterSpacing: "0.02em",

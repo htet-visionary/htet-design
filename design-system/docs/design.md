@@ -620,7 +620,7 @@ typography:
 
   caption:
     font: interface
-    size: 12px
+    size: 14px
     weight: 400
     line-height: 1.4
     letter-spacing: 0.02em
@@ -649,6 +649,7 @@ Rules:
 * Display font is for headings and hero moments only.
 * Reading font is for paragraphs and long-form content.
 * Interface font is for labels, buttons, inputs, and UI metadata.
+* Minimum text size is 14px — do not set product UI copy below `typography.label` / `typography.caption`.
 * Use weight before size when creating sub-hierarchy within a level.
 * Do not use more than three type levels on a single screen.
 

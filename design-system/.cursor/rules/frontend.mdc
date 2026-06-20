@@ -21,7 +21,7 @@ Source of truth: `docs/design.md` — Layout, Typography, Motion, Component Foun
 - **Display** (Playfair): headings and hero only
 - **Reading** (Lora): body copy — max **65ch**, optimal **60ch** for long text
 - **Interface** (DM Sans): labels, buttons, inputs, metadata
-- Use named steps: `hero`, `heading-xl|lg|md|sm`, `body-lg`, `body`, `label`, `caption`
+- Use named steps: `hero`, `heading-xl|lg|md|sm`, `body-lg`, `body`, `label`, `caption` — **14px minimum** for UI text (`label` and `caption` are both 14px; differentiate with weight).
 - Max **three type levels** per screen; prefer weight over size for sub-hierarchy
 
 ## Spacing & Radius
