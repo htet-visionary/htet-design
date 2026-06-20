@@ -1,11 +1,8 @@
+import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import { ElevationPreview } from "@/components/visionary/FoundationPreviews";
-import { elevation } from "@design-system/visionary";
+  ElevationLevelsPreview,
+  ElevationUsagePreview,
+} from "@/components/visionary/ElevationPreview";
 
 export default function ElevationPage() {
   return (
@@ -15,31 +12,14 @@ export default function ElevationPage() {
       description="Shadows and z-index communicate layering — not importance."
     >
       <SectionBlock title="Levels">
-        <ElevationPreview />
-        <TokenTable
-          rows={[
-            {
-              token: "elevation.card",
-              value: elevation.card.shadow,
-              note: `z-index: ${elevation.card.zIndex}`,
-            },
-            {
-              token: "elevation.dropdown",
-              value: elevation.dropdown.shadow,
-              note: `z-index: ${elevation.dropdown.zIndex}`,
-            },
-            {
-              token: "elevation.overlay",
-              value: "—",
-              note: `z-index: ${elevation.overlay.zIndex}`,
-            },
-            {
-              token: "elevation.modal",
-              value: elevation.modal.shadow,
-              note: `z-index: ${elevation.modal.zIndex}`,
-            },
-          ]}
-        />
+        <ElevationLevelsPreview />
+      </SectionBlock>
+
+      <SectionBlock
+        title="Usage"
+        description="How elevation levels map to common surfaces."
+      >
+        <ElevationUsagePreview />
       </SectionBlock>
 
       <SectionBlock title="Rules">

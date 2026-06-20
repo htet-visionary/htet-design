@@ -1,11 +1,9 @@
+import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import { MotionPreview } from "@/components/visionary/FoundationPreviews";
-import { motion } from "@design-system/visionary";
+  MotionDurationScalePreview,
+  MotionEasingScalePreview,
+  MotionUsagePreview,
+} from "@/components/visionary/MotionPreview";
 
 export default function MotionPage() {
   return (
@@ -14,49 +12,36 @@ export default function MotionPage() {
       title="Motion"
       description="Subtle, purposeful, non-decorative animation."
     >
-      <SectionBlock title="Durations">
-        <MotionPreview />
-        <TokenTable
-          rows={Object.entries(motion.duration).map(([name, ms]) => ({
-            token: `motion.duration.${name}`,
-            value: `${ms}ms`,
-            note: `var(--v-motion-${name === "instant" ? "instant" : name})`,
-          }))}
-        />
+      <SectionBlock
+        title="Durations"
+        description="Hover each track to preview timing."
+      >
+        <MotionDurationScalePreview />
       </SectionBlock>
 
-      <SectionBlock title="Easing">
-        <TokenTable
-          rows={Object.entries(motion.easing).map(([name, curve]) => ({
-            token: `motion.easing.${name}`,
-            value: curve,
-          }))}
-        />
+      <SectionBlock
+        title="Easing"
+        description="Hover each track to preview the curve."
+      >
+        <MotionEasingScalePreview />
       </SectionBlock>
 
-      <SectionBlock title="Enter / exit">
-        <TokenTable
-          rows={[
-            {
-              token: "enter",
-              value: "motion.duration.normal + motion.easing.enter",
-              note: "opacity, transform",
-            },
-            {
-              token: "exit",
-              value: "motion.duration.fast + motion.easing.exit",
-              note: "opacity, transform",
-            },
-          ]}
-        />
+      <SectionBlock
+        title="Usage"
+        description="How duration and easing combine for common transitions."
+      >
+        <MotionUsagePreview />
       </SectionBlock>
 
-      <SectionBlock title="Reduced motion">
+      <SectionBlock title="Rules">
         <RuleList
           rules={[
-            "Set durations to motion.duration.instant.",
-            "Opacity fade only, max 100ms for modal/alert.",
-            "No parallax, scale, or slide transforms.",
+            "Enter is slightly slower than exit.",
+            "Use transform and opacity only for standard UI transitions.",
+            "Do not animate layout properties (width, height, top) unless required.",
+            "Set all durations to instant when prefers-reduced-motion is active.",
+            "Opacity fade only, max 100ms for modal and alert under reduced motion.",
+            "No parallax, scale, or slide transforms under reduced motion.",
           ]}
         />
       </SectionBlock>

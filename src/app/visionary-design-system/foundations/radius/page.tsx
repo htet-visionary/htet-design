@@ -1,22 +1,7 @@
-import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import {
-  RadiusScalePreview,
-  RadiusUsagePreview,
-} from "@/components/visionary/FoundationPreviews";
-import { radius } from "@design-system/visionary";
+import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
+import { RadiusScalePreview, RadiusUsagePreview } from "@/components/visionary/RadiusPreview";
 
 export default function RadiusPage() {
-  const rows = Object.entries(radius).map(([name, px]) => ({
-    token: `radius.${name}`,
-    value: `${px}px`,
-    note: `var(--v-radius-${name})`,
-  }));
-
   return (
     <DocPage
       eyebrow="Foundations"
@@ -25,19 +10,13 @@ export default function RadiusPage() {
     >
       <SectionBlock title="Scale">
         <RadiusScalePreview />
-        <TokenTable rows={rows} />
       </SectionBlock>
 
-      <SectionBlock title="Component mapping">
+      <SectionBlock
+        title="Usage"
+        description="How radius tokens map to common components."
+      >
         <RadiusUsagePreview />
-        <TokenTable
-          rows={[
-            { token: "input", value: "radius.sm", note: "form fields" },
-            { token: "button, alert", value: "radius.md", note: "actions, alerts" },
-            { token: "card, modal", value: "radius.lg", note: "containers" },
-            { token: "pill controls", value: "radius.pill", note: "pills only" },
-          ]}
-        />
       </SectionBlock>
 
       <SectionBlock title="Rules">

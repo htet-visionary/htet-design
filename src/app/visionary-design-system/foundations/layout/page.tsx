@@ -1,20 +1,11 @@
+import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import {
-  LayoutGridPreview,
-  LayoutTouchTargetPreview,
-} from "@/components/visionary/FoundationPreviews";
-import {
-  breakpoints,
-  container,
-  content,
-  grid,
-  touchTarget,
-} from "@design-system/visionary";
+  BreakpointsScalePreview,
+  ContainerScalePreview,
+  GridScalePreview,
+  LayoutUsagePreview,
+  TouchTargetPreview,
+} from "@/components/visionary/LayoutPreview";
 
 export default function LayoutPage() {
   return (
@@ -24,68 +15,36 @@ export default function LayoutPage() {
       description="Mobile-first breakpoints, containers, and 12-column grid."
     >
       <SectionBlock title="Breakpoints">
-        <TokenTable
-          rows={Object.entries(breakpoints).map(([name, px]) => ({
-            token: `breakpoints.${name}`,
-            value: `${px}px`,
-          }))}
-        />
+        <BreakpointsScalePreview />
       </SectionBlock>
 
       <SectionBlock title="Containers">
-        <TokenTable
-          rows={[
-            ...Object.entries(container).map(([name, val]) => ({
-              token: `container.${name}`,
-              value: typeof val === "number" ? `${val}px` : val,
-            })),
-            ...Object.entries(content).map(([name, px]) => ({
-              token: `content.${name}`,
-              value: `${px}px`,
-            })),
-          ]}
-        />
+        <ContainerScalePreview />
       </SectionBlock>
 
       <SectionBlock title="Grid">
-        <LayoutGridPreview />
-        <TokenTable
-          rows={[
-            { token: "grid.columns", value: String(grid.columns) },
-            { token: "grid.gutter", value: `${grid.gutter}px` },
-            { token: "grid.gutterLg", value: `${grid.gutterLg}px` },
-            { token: "grid.margin", value: `${grid.margin}px` },
-            { token: "grid.marginLg", value: `${grid.marginLg}px` },
-          ]}
-        />
+        <GridScalePreview />
+      </SectionBlock>
+
+      <SectionBlock
+        title="Usage"
+        description="How layout tokens map to common page structures."
+      >
+        <LayoutUsagePreview />
       </SectionBlock>
 
       <SectionBlock title="Touch targets">
-        <LayoutTouchTargetPreview />
-        <TokenTable
-          rows={[
-            {
-              token: "touchTarget.minimum",
-              value: `${touchTarget.minimum}px`,
-            },
-            {
-              token: "touchTarget.recommended",
-              value: `${touchTarget.recommended}px`,
-            },
-            {
-              token: "touchTarget.spacingBetween",
-              value: `${touchTarget.spacingBetween}px`,
-            },
-          ]}
-        />
+        <TouchTargetPreview />
       </SectionBlock>
 
       <SectionBlock title="Rules">
         <RuleList
           rules={[
             "Design mobile-first; add complexity at md and above.",
-            "Single column below md.",
+            "Page shells use container.*; articles and forms use content.*.",
+            "Single column below md; span cards in multiples of 3 or 4 on desktop.",
             "Max two nested grid levels.",
+            "Visual size may be smaller only when the hit area meets touchTarget.minimum.",
             "No custom breakpoints without approval.",
           ]}
         />

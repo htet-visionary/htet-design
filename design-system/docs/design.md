@@ -748,6 +748,8 @@ radius:
 
 # Elevation
 
+Elevation communicates layering — not importance.
+
 elevation:
 
   card:
@@ -758,22 +760,34 @@ elevation:
     shadow: 0 8px 24px rgba(0, 0, 0, 0.08)
     z-index: 100
 
+  overlay:
+    z-index: 150
+
   modal:
     shadow: 0 16px 48px rgba(0, 0, 0, 0.12)
     z-index: 200
 
-  overlay:
-    z-index: 150
+## Elevation Usage
 
-Rules:
+| Surface | Token | Shadow | Z-index |
+| --- | --- | --- | --- |
+| Card, panel | card | 0 4px 12px rgba(0, 0, 0, 0.04) | 1 |
+| Dropdown, menu | dropdown | 0 8px 24px rgba(0, 0, 0, 0.08) | 100 |
+| Modal scrim | overlay | — | 150 |
+| Modal dialog | modal | 0 16px 48px rgba(0, 0, 0, 0.12) | 200 |
+
+## Elevation Rules
 
 * Elevation communicates layering, not importance.
 * Do not stack more than one modal level.
 * Dropdowns inside modals inherit modal z-index context.
+* Do not introduce new shadows without approval.
 
 ---
 
 # Layout System
+
+Layout is mobile-first. Breakpoints, containers, and grid tokens define page structure.
 
 ## Breakpoints
 
@@ -784,14 +798,6 @@ breakpoints:
   lg: 1024px
   xl: 1280px
   2xl: 1536px
-
-Rules:
-
-* Design mobile-first.
-* Add layout complexity at `md` and above.
-* Do not create custom breakpoints without approval.
-
----
 
 ## Container Widths
 
@@ -809,14 +815,6 @@ content:
   reading: 680px
   wide: 960px
 
-Rules:
-
-* Page shells use `container.*`.
-* Article and form layouts use `content.*`.
-* Marketing hero sections may use `container.full`.
-
----
-
 ## Grid
 
 grid:
@@ -827,16 +825,43 @@ grid:
   margin: spacing.4
   margin-lg: spacing.8
 
-Rules:
+## Layout Usage
 
+| Structure | Token | Value |
+| --- | --- | --- |
+| Page shell | container.xl | 1120px |
+| Article body | content.reading | 680px |
+| Form column | content.narrow | 560px |
+| Marketing hero | container.full | 100% |
+| Product layout | grid | 12 columns |
+
+## Touch Targets
+
+touch-target:
+
+  minimum: 44px
+  recommended: 48px
+  spacing-between-targets: spacing.2
+
+## Layout Rules
+
+* Design mobile-first.
+* Add layout complexity at `md` and above.
+* Page shells use `container.*`.
+* Article and form layouts use `content.*`.
+* Marketing hero sections may use `container.full`.
 * Use 12 columns for product layouts.
 * Collapse to single column below `md`.
 * Span cards in multiples of 3 or 4 columns on desktop.
 * Do not nest grids more than two levels deep.
+* Visual size may be smaller only when the hit area meets `touchTarget.minimum`.
+* Do not create custom breakpoints without approval.
 
 ---
 
 # Motion
+
+Motion is subtle, purposeful, and non-decorative.
 
 ## Durations
 
@@ -848,8 +873,6 @@ motion:
     normal: 250ms
     slow: 400ms
 
----
-
 ## Easing
 
 motion:
@@ -858,8 +881,6 @@ motion:
     standard: cubic-bezier(0.4, 0, 0.2, 1)
     enter: cubic-bezier(0, 0, 0.2, 1)
     exit: cubic-bezier(0.4, 0, 1, 1)
-
----
 
 ## Enter and Exit
 
@@ -875,13 +896,13 @@ exit:
   easing: motion.easing.exit
   properties: opacity, transform
 
-Rules:
+## Motion Usage
 
-* Enter is slightly slower than exit.
-* Use transform and opacity only for standard UI transitions.
-* Do not animate layout properties (width, height, top) unless required.
-
----
+| Transition | Token | Duration | Easing | Properties |
+| --- | --- | --- | --- | --- |
+| Modal, dropdown open | enter | 250ms | cubic-bezier(0, 0, 0.2, 1) | opacity, transform |
+| Toast dismiss, menu close | exit | 150ms | cubic-bezier(0.4, 0, 1, 1) | opacity, transform |
+| Button, link hover | standard | 150ms | cubic-bezier(0.4, 0, 0.2, 1) | color, background |
 
 ## Reduced Motion
 
@@ -892,13 +913,12 @@ When `prefers-reduced-motion: reduce`:
 * Disable parallax, scale, and slide transforms
 * Loading spinners may rotate but must not pulse or bounce
 
----
+## Motion Rules
 
-## Motion Principles
-
-* Subtle
-* Purposeful
-* Non-decorative
+* Enter is slightly slower than exit.
+* Use transform and opacity only for standard UI transitions.
+* Do not animate layout properties (width, height, top) unless required.
+* Subtle, purposeful, non-decorative.
 
 ---
 
