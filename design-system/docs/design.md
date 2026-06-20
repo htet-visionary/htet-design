@@ -684,6 +684,55 @@ spacing:
 
 ---
 
+# Icons
+
+icons:
+
+  library: Lucide
+  stroke-width: 2
+
+  size:
+    xs: 12px
+    sm: 16px
+    md: 20px
+    lg: 24px
+    xl: 32px
+
+  gap:
+    inline: spacing.2
+
+## Icon Colors
+
+Icons consume semantic color roles — never hard-code hex values.
+
+| Role | Token | Use |
+| --- | --- | --- |
+| default | text.secondary | inline UI, navigation |
+| muted | text.muted | de-emphasized |
+| primary | action.primary | interactive emphasis |
+| on-solid | text.on-solid | icons on filled surfaces |
+| status | status.*.icon | alerts, badges |
+
+## Icon Usage
+
+| Context | Size | Gap |
+| --- | --- | --- |
+| Sidebar nav | sm | spacing.2 |
+| Inline with label | sm–md | spacing.2 |
+| Link cards | lg | — |
+| Hub / marketing tiles | xl | — |
+| Icon-only controls | md minimum visual | hit area touch-target.minimum |
+
+## Icon Rules
+
+* Use Lucide icons only — do not mix icon libraries.
+* Decorative icons must use `aria-hidden`.
+* Icon-only controls require an accessible name (`aria-label`).
+* Icon-only controls must expand their hit area to touch-target.minimum.
+* Match icon color to the semantic token for the context.
+
+---
+
 # Radius
 
 radius:

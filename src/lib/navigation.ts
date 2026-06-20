@@ -29,6 +29,7 @@ export const visionaryNavigation: NavGroup[] = [
       { title: "Colors", href: `${designSystemBase}/foundations/colors` },
       { title: "Typography", href: `${designSystemBase}/foundations/typography` },
       { title: "Spacing", href: `${designSystemBase}/foundations/spacing` },
+      { title: "Icons", href: `${designSystemBase}/foundations/icons` },
       { title: "Radius", href: `${designSystemBase}/foundations/radius` },
       { title: "Elevation", href: `${designSystemBase}/foundations/elevation` },
       { title: "Motion", href: `${designSystemBase}/foundations/motion` },

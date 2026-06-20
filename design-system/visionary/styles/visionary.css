@@ -118,6 +118,23 @@
   --v-reading-max: 65ch;
   --v-reading-optimal: 60ch;
 
+  /* ── Icons ── */
+  --v-icon-xs: 12px;
+  --v-icon-sm: 16px;
+  --v-icon-md: 20px;
+  --v-icon-lg: 24px;
+  --v-icon-xl: 32px;
+  --v-icon-stroke: 2;
+  --v-icon-gap: var(--v-space-2);
+  --v-icon-color-default: var(--v-text-secondary);
+  --v-icon-color-muted: var(--v-text-muted);
+  --v-icon-color-primary: var(--v-action-primary);
+  --v-icon-color-on-solid: var(--v-text-on-solid);
+  --v-status-success-icon: var(--v-success-600);
+  --v-status-warning-icon: var(--v-warning-600);
+  --v-status-error-icon: var(--v-error-600);
+  --v-status-info-icon: var(--v-info-600);
+
   /* ── Spacing ── */
   --v-space-1: 4px;
   --v-space-2: 8px;

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { NavIcon, dsNavIcons } from "@/lib/nav-icons";
 
 export type TokenRow = {
   token: string;
@@ -118,14 +119,19 @@ export function RuleList({ rules }: { rules: string[] }) {
 
 export function LinkGrid({
   links,
+  showIcons = false,
 }: {
   links: { title: string; href: string; description: string }[];
+  showIcons?: boolean;
 }) {
   return (
     <ul className="v-link-grid">
       {links.map((link) => (
         <li key={link.href}>
           <a href={link.href} className="v-link-card">
+            {showIcons && (
+              <NavIcon href={link.href} map={dsNavIcons} className="v-link-card__icon" />
+            )}
             <span className="v-link-card__title">{link.title}</span>
             <span className="v-link-card__desc">{link.description}</span>
           </a>

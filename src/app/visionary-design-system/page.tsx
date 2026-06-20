@@ -62,7 +62,7 @@ export default function OverviewPage() {
             {
               title: "Foundations",
               href: `${designSystemBase}/foundations`,
-              description: "Colors, typography, spacing, radius, elevation, motion, layout.",
+              description: "Colors, typography, spacing, icons, radius, elevation, motion, layout.",
             },
             {
               title: "Accessibility",

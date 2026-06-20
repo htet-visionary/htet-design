@@ -34,8 +34,8 @@
 }
 
 .v-hub__icon {
-  width: var(--v-space-8);
-  height: var(--v-space-8);
+  width: var(--v-icon-xl);
+  height: var(--v-icon-xl);
   color: var(--v-text-secondary);
   transition: color var(--v-motion-fast) var(--v-motion-easing-standard);
 }

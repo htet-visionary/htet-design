@@ -100,8 +100,8 @@
 }
 
 .v-shell__link-icon {
-  width: 16px;
-  height: 16px;
+  width: var(--v-icon-sm);
+  height: var(--v-icon-sm);
   flex-shrink: 0;
   color: var(--v-text-muted);
   transition: color var(--v-motion-fast) var(--v-motion-easing-standard);
@@ -295,6 +295,53 @@
   overflow-wrap: anywhere;
 }
 
+/* ── Icon specimens ── */
+.v-icon-specimen-grid {
+  list-style: none;
+  margin: 0 0 var(--v-space-6);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 7rem), 1fr));
+  gap: var(--v-space-3);
+}
+
+.v-icon-specimen-grid--colors {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .v-icon-specimen-grid--colors {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.v-icon-specimen {
+  min-width: 0;
+  padding: var(--v-space-4);
+  background: var(--v-surface-primary);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-md);
+  display: grid;
+  justify-items: center;
+  gap: var(--v-space-3);
+  text-align: center;
+}
+
+.v-icon-specimen .v-code {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.v-icon-specimen__glyph {
+  color: var(--v-icon-color-default);
+  flex-shrink: 0;
+}
+
 /* ── Swatches ── */
 .v-swatch-grid {
   list-style: none;
@@ -381,6 +428,19 @@
 .v-link-card:focus-visible {
   outline: 2px solid var(--v-focus-ring);
   outline-offset: 2px;
+}
+
+.v-link-card__icon {
+  width: var(--v-icon-lg);
+  height: var(--v-icon-lg);
+  color: var(--v-text-secondary);
+  display: block;
+  margin-bottom: var(--v-space-3);
+  transition: color var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-link-card:hover .v-link-card__icon {
+  color: var(--v-action-primary);
 }
 
 .v-link-card__title {

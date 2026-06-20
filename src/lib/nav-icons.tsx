@@ -15,6 +15,7 @@ import {
   PanelTop,
   PenLine,
   Ruler,
+  Shapes,
   Sparkles,
   SquareStack,
   TextCursorInput,
@@ -33,6 +34,7 @@ export const siteMenuIcons: Record<string, LucideIcon> = {
 export const dsNavIcons: Record<string, LucideIcon> = {
   [designSystemBase]: Home,
   [`${designSystemBase}/foundations/colors`]: Palette,
+  [`${designSystemBase}/foundations/icons`]: Shapes,
   [`${designSystemBase}/foundations/typography`]: Type,
   [`${designSystemBase}/foundations/spacing`]: Ruler,
   [`${designSystemBase}/foundations/radius`]: Circle,

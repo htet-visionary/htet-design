@@ -1,5 +1,5 @@
 /**
- * Foundation scales — spacing, radius, typography, elevation, motion, layout.
+ * Foundation scales — spacing, radius, typography, icons, elevation, motion, layout.
  * Source: docs/design.md
  */
 
@@ -111,6 +111,31 @@ export const reading = {
   optimalWidth: "60ch",
 } as const;
 
+export const icons = {
+  library: "Lucide",
+  strokeWidth: 2,
+  size: {
+    xs: 12,
+    sm: 16,
+    md: 20,
+    lg: 24,
+    xl: 32,
+  },
+  gap: {
+    inline: spacing[2],
+  },
+  color: {
+    default: "text.secondary",
+    muted: "text.muted",
+    primary: "action.primary",
+    onSolid: "text.on-solid",
+    statusSuccess: "status.success.icon",
+    statusWarning: "status.warning.icon",
+    statusError: "status.error.icon",
+    statusInfo: "status.info.icon",
+  },
+} as const;
+
 export const elevation = {
   card: {
     shadow: "0 4px 12px rgba(0, 0, 0, 0.04)",
@@ -191,6 +216,7 @@ export const foundations = {
   fonts,
   typography,
   reading,
+  icons,
   elevation,
   motion,
   touchTarget,

@@ -6,10 +6,11 @@ export default function FoundationsPage() {
     <DocPage
       eyebrow="Foundations"
       title="Foundations"
-      description="Core visual language — color, typography, spacing, and layout scales."
+      description="Core visual language — color, typography, spacing, icons, and layout scales."
     >
       <SectionBlock title="Colors">
         <LinkGrid
+          showIcons
           links={[
             {
               title: "Colors",
@@ -22,6 +23,7 @@ export default function FoundationsPage() {
 
       <SectionBlock title="Visual scales">
         <LinkGrid
+          showIcons
           links={[
             {
               title: "Typography",
@@ -32,6 +34,11 @@ export default function FoundationsPage() {
               title: "Spacing",
               href: `${designSystemBase}/foundations/spacing`,
               description: "4px-based spacing scale and usage guidance.",
+            },
+            {
+              title: "Icons",
+              href: `${designSystemBase}/foundations/icons`,
+              description: "Lucide library, size scale, stroke, and semantic colors.",
             },
             {
               title: "Radius",

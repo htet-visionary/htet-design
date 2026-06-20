@@ -26,6 +26,7 @@ export {
   fonts,
   typography,
   reading,
+  icons,
   elevation,
   motion,
   touchTarget,
