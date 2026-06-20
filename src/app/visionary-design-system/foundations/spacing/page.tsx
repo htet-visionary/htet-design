@@ -1,6 +1,6 @@
 import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import { SpacingScalePreview } from "@/components/visionary/FoundationPreviews";
-import { SpacingUsageBoard } from "@/components/visionary/SpacingUsageBoard";
+import { SpacingUsagePreview } from "@/components/visionary/SpacingUsagePreview";
 
 export default function SpacingPage() {
   return (
@@ -17,7 +17,7 @@ export default function SpacingPage() {
         title="Usage"
         description="How spacing tokens are used across different parts of the interface."
       >
-        <SpacingUsageBoard />
+        <SpacingUsagePreview />
       </SectionBlock>
 
       <SectionBlock title="Rules">

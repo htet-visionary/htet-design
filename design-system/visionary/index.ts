@@ -4,10 +4,10 @@ export type { VisionaryMeta } from "./meta";
 export { primitive } from "./tokens/primitive";
 export type { PrimitiveTokens } from "./tokens/primitive";
 
-export { semantic } from "./tokens/semantic";
+export { semantic, semanticRefs } from "./tokens/semantic";
 export type { SemanticTokens } from "./tokens/semantic";
 
-export { component } from "./tokens/component";
+export { component, componentRefs } from "./tokens/component";
 export type { ComponentTokens } from "./tokens/component";
 
 export {

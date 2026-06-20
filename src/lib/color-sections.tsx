@@ -5,9 +5,8 @@ import {
   RuleList,
   SectionBlock,
 } from "@/components/visionary/DocParts";
-import { ComponentTokenTable } from "@/components/visionary/ComponentTokenTable";
 import { SemanticTokenTable } from "@/components/visionary/SemanticTokenTable";
-import { component, primitive, semantic } from "@design-system/visionary";
+import { primitive, semantic, semanticRefs } from "@design-system/visionary";
 
 function rampToSteps(ramp: Record<string | number, string>) {
   return Object.entries(ramp).map(([step, hex]) => ({ step, hex }));
@@ -140,7 +139,10 @@ export function SemanticSection() {
       description="Purpose-driven UI roles shared across all Visionary products."
     >
       <Subsection title="Roles">
-        <SemanticTokenTable tokens={semantic as unknown as Record<string, unknown>} />
+        <SemanticTokenTable
+          tokens={semantic as unknown as Record<string, unknown>}
+          primitiveRefs={semanticRefs as unknown as Record<string, unknown>}
+        />
       </Subsection>
       <Subsection title="Usage rules">
         <RuleList
@@ -154,18 +156,6 @@ export function SemanticSection() {
           ]}
         />
       </Subsection>
-    </SectionBlock>
-  );
-}
-
-export function ComponentSection() {
-  return (
-    <SectionBlock
-      title="Component"
-      id="component"
-      description="Semantic roles mapped to Button, Input, Card, Alert, and Modal color slots."
-    >
-      <ComponentTokenTable tokens={component as unknown as Record<string, unknown>} />
     </SectionBlock>
   );
 }

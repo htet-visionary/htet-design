@@ -2,11 +2,13 @@ import { CopyHexCode } from "@/components/visionary/CopyHexCode";
 
 type SemanticTokenTableProps = {
   tokens: Record<string, unknown>;
+  primitiveRefs: Record<string, unknown>;
 };
 
 type TokenLeaf = {
   token: string;
   value: string;
+  primitiveRef: string;
 };
 
 const categoryDescriptions: Record<string, string> = {
@@ -27,15 +29,33 @@ function isColorValue(value: string): boolean {
   return /^#|^rgba?\(/i.test(value.trim());
 }
 
-function collectLeaves(obj: Record<string, unknown>, prefix = ""): TokenLeaf[] {
+function collectLeaves(
+  values: Record<string, unknown>,
+  primitiveRefs: Record<string, unknown>,
+  prefix = "",
+): TokenLeaf[] {
   const leaves: TokenLeaf[] = [];
 
-  for (const [key, value] of Object.entries(obj)) {
+  for (const [key, value] of Object.entries(values)) {
     const token = prefix ? `${prefix}.${key}` : key;
+    const refValue = primitiveRefs[key];
+
     if (value !== null && typeof value === "object" && !Array.isArray(value)) {
-      leaves.push(...collectLeaves(value as Record<string, unknown>, token));
+      if (refValue !== null && typeof refValue === "object" && !Array.isArray(refValue)) {
+        leaves.push(
+          ...collectLeaves(
+            value as Record<string, unknown>,
+            refValue as Record<string, unknown>,
+            token,
+          ),
+        );
+      }
     } else {
-      leaves.push({ token, value: String(value) });
+      leaves.push({
+        token,
+        value: String(value),
+        primitiveRef: String(refValue ?? value),
+      });
     }
   }
 
@@ -200,6 +220,7 @@ function TokenMiniPreview({
 function SemanticTokenCard({
   token,
   value,
+  primitiveRef,
   prefix,
 }: TokenLeaf & { prefix: string }) {
   const category = topCategory(token);
@@ -210,15 +231,23 @@ function SemanticTokenCard({
       <TokenMiniPreview category={category} token={token} value={value} />
       <div className="v-semantic-card__body">
         <code className="v-semantic-card__token">{display}</code>
-        <CopyHexCode hex={value} className="v-copy-hex--token" />
+        <CopyHexCode hex={primitiveRef} className="v-copy-hex--token" />
       </div>
     </li>
   );
 }
 
-function StatusGroup({ name, tokens }: { name: string; tokens: Record<string, unknown> }) {
+function StatusGroup({
+  name,
+  tokens,
+  primitiveRefs,
+}: {
+  name: string;
+  tokens: Record<string, unknown>;
+  primitiveRefs: Record<string, unknown>;
+}) {
   const prefix = `status.${name}`;
-  const leaves = collectLeaves(tokens, prefix);
+  const leaves = collectLeaves(tokens, primitiveRefs, prefix);
 
   return (
     <div className={`v-semantic-status v-semantic-status--${name}`}>
@@ -235,15 +264,25 @@ function StatusGroup({ name, tokens }: { name: string; tokens: Record<string, un
 function CategoryBlock({
   category,
   value,
+  primitiveRefs,
 }: {
   category: string;
   value: unknown;
+  primitiveRefs: unknown;
 }) {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+  if (
+    value === null ||
+    typeof value !== "object" ||
+    Array.isArray(value) ||
+    primitiveRefs === null ||
+    typeof primitiveRefs !== "object" ||
+    Array.isArray(primitiveRefs)
+  ) {
     return null;
   }
 
   const record = value as Record<string, unknown>;
+  const refRecord = primitiveRefs as Record<string, unknown>;
 
   if (category === "status") {
     return (
@@ -254,14 +293,19 @@ function CategoryBlock({
         </header>
         <div className="v-semantic-status-list">
           {Object.entries(record).map(([name, tokens]) => (
-            <StatusGroup key={name} name={name} tokens={tokens as Record<string, unknown>} />
+            <StatusGroup
+              key={name}
+              name={name}
+              tokens={tokens as Record<string, unknown>}
+              primitiveRefs={refRecord[name] as Record<string, unknown>}
+            />
           ))}
         </div>
       </section>
     );
   }
 
-  const leaves = collectLeaves(record, category);
+  const leaves = collectLeaves(record, refRecord, category);
 
   return (
     <section className={`v-semantic-section v-semantic-section--${category}`}>
@@ -278,11 +322,16 @@ function CategoryBlock({
   );
 }
 
-export function SemanticTokenTable({ tokens }: SemanticTokenTableProps) {
+export function SemanticTokenTable({ tokens, primitiveRefs }: SemanticTokenTableProps) {
   return (
     <div className="v-semantic-board">
       {Object.entries(tokens).map(([category, value]) => (
-        <CategoryBlock key={category} category={category} value={value} />
+        <CategoryBlock
+          key={category}
+          category={category}
+          value={value}
+          primitiveRefs={primitiveRefs[category]}
+        />
       ))}
     </div>
   );
