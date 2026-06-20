@@ -21,7 +21,7 @@ export function CopyHexCode({ hex, className }: { hex: string; className?: strin
       className={["v-copy-hex", className].filter(Boolean).join(" ")}
       onClick={copyHex}
       aria-label={copied ? `${hex} copied` : `Copy ${hex}`}
-      title={copied ? "Copied!" : "Click to copy hex"}
+      title={copied ? "Copied!" : "Click to copy"}
     >
       <code className="v-code v-code--sm v-code--muted">
         {copied ? "Copied!" : hex}

@@ -2,11 +2,10 @@ import { slugify } from "@/lib/slugify";
 import type { ReactNode } from "react";
 import {
   ColorRamp,
-  flattenObject,
   RuleList,
   SectionBlock,
-  TokenTable,
 } from "@/components/visionary/DocParts";
+import { SemanticTokenTable } from "@/components/visionary/SemanticTokenTable";
 import { primitive, semantic } from "@design-system/visionary";
 
 function rampToSteps(ramp: Record<string | number, string>) {
@@ -68,15 +67,13 @@ export function PrimitiveSection() {
 }
 
 export function SemanticSection() {
-  const semanticRows = flattenObject(semantic as unknown as Record<string, unknown>);
-
   return (
     <SectionBlock title="Semantic" id="semantic">
       <p className="v-doc__desc" style={{ marginBottom: 0 }}>
         Purpose-driven UI roles shared across all Visionary products.
       </p>
       <Subsection title="Roles">
-        <TokenTable rows={semanticRows} />
+        <SemanticTokenTable tokens={semantic as unknown as Record<string, unknown>} />
       </Subsection>
       <Subsection title="Usage rules">
         <RuleList

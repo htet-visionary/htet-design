@@ -406,6 +406,294 @@
   color: var(--v-text-secondary);
 }
 
+/* ── Semantic role board (designer view) ── */
+.v-role-board {
+  display: grid;
+  gap: var(--v-space-8);
+}
+
+.v-role-group__header {
+  margin-bottom: var(--v-space-4);
+}
+
+.v-role-group__title {
+  margin: 0 0 var(--v-space-1);
+  font-family: var(--v-font-display);
+  font-size: var(--v-type-heading-sm);
+  font-weight: 400;
+  color: var(--v-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.v-role-group__desc {
+  margin: 0;
+  max-width: 36rem;
+  font-family: var(--v-font-reading);
+  font-size: var(--v-type-body);
+  line-height: 1.5;
+  color: var(--v-text-secondary);
+}
+
+.v-role-group__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: var(--v-space-4);
+}
+
+.v-role-group__grid--status {
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: var(--v-space-3);
+}
+
+.v-role-group--text .v-role-group__grid,
+.v-role-group--link .v-role-group__grid {
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+}
+
+.v-role-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-lg);
+  background: var(--v-surface-primary);
+  overflow: hidden;
+  box-shadow: var(--v-shadow-card);
+  transition:
+    transform var(--v-motion-fast) var(--v-motion-easing-standard),
+    box-shadow var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(36, 31, 27, 0.08);
+}
+
+.v-role-canvas {
+  position: relative;
+  min-height: 5.5rem;
+  border-bottom: 1px solid var(--v-border-subtle);
+}
+
+.v-role-canvas--fill,
+.v-role-canvas--brand,
+.v-role-canvas--disabled {
+  min-height: 6.5rem;
+}
+
+.v-role-canvas--surface {
+  min-height: 6rem;
+  background: var(--v-bg-subtle);
+}
+
+.v-role-canvas--elevated {
+  box-shadow: inset 0 -1px 0 var(--v-border-subtle);
+}
+
+.v-role-card--surface .v-role-canvas--elevated {
+  box-shadow:
+    inset 0 -1px 0 var(--v-border-subtle),
+    0 10px 24px rgba(36, 31, 27, 0.08);
+}
+
+.v-role-canvas--text,
+.v-role-canvas--link,
+.v-role-canvas--focus,
+.v-role-canvas--value {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--v-space-1);
+  padding: var(--v-space-4);
+  background: var(--v-bg-subtle);
+}
+
+.v-role-canvas--on-solid {
+  background: var(--v-role-on-solid-bg, var(--v-text-primary));
+}
+
+.v-role-canvas__sample {
+  margin: 0;
+  font-family: var(--v-font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.v-role-canvas__line {
+  margin: 0;
+  font-family: var(--v-font-reading);
+  font-size: var(--v-type-body);
+  line-height: 1.2;
+}
+
+.v-role-canvas__link {
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-body-lg);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.v-role-canvas--action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5.5rem;
+}
+
+.v-role-canvas--action span {
+  padding: var(--v-space-2) var(--v-space-4);
+  border-radius: var(--v-radius-full);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.v-role-canvas--border {
+  min-height: 6rem;
+  margin: var(--v-space-4);
+  border: 3px solid;
+  border-radius: var(--v-radius-md);
+  background: var(--v-surface-primary);
+}
+
+.v-role-canvas--focus {
+  align-items: center;
+}
+
+.v-role-canvas__focus-chip {
+  width: 4.5rem;
+  height: 2.75rem;
+  border-radius: var(--v-radius-md);
+  background: var(--v-surface-primary);
+  border: 1px solid var(--v-border-subtle);
+}
+
+.v-role-canvas--overlay {
+  min-height: 6.5rem;
+  overflow: hidden;
+}
+
+.v-role-canvas__overlay-scene {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, var(--v-bg-subtle) 0%, var(--v-surface-primary) 100%);
+}
+
+.v-role-canvas__overlay-fill {
+  position: absolute;
+  inset: 0;
+}
+
+.v-role-canvas--disabled {
+  opacity: 0.8;
+}
+
+.v-role-canvas--value {
+  font-family: ui-monospace, monospace;
+  font-size: var(--v-type-caption);
+  color: var(--v-text-secondary);
+}
+
+.v-role-card__meta {
+  display: grid;
+  gap: var(--v-space-1);
+  padding: var(--v-space-3) var(--v-space-4) var(--v-space-4);
+}
+
+.v-role-card__name {
+  margin: 0;
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-label);
+  font-weight: 600;
+  color: var(--v-text-primary);
+}
+
+.v-role-card__token {
+  margin: 0;
+  font-family: ui-monospace, monospace;
+  font-size: 0.6875rem;
+  color: var(--v-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.v-role-status-list {
+  display: grid;
+  gap: var(--v-space-5);
+}
+
+.v-role-status {
+  padding: var(--v-space-4);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-lg);
+  background: var(--v-surface-primary);
+}
+
+.v-role-status__label {
+  margin: 0 0 var(--v-space-3);
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-label);
+  font-weight: 600;
+  color: var(--v-text-primary);
+}
+
+.v-role-status--success {
+  border-top: 3px solid var(--v-status-success-solid, #16a34a);
+}
+
+.v-role-status--warning {
+  border-top: 3px solid var(--v-status-warning-solid, #d97706);
+}
+
+.v-role-status--error {
+  border-top: 3px solid var(--v-status-error-solid, #dc2626);
+}
+
+.v-role-status--info {
+  border-top: 3px solid var(--v-status-info-solid, #2563eb);
+}
+
+.v-copy-hex--role {
+  margin-top: var(--v-space-1);
+  text-align: left;
+}
+
+.v-copy-hex--role .v-code {
+  display: inline-block;
+  width: auto;
+  padding: var(--v-space-1) var(--v-space-2);
+  font-size: var(--v-type-caption);
+  color: var(--v-text-secondary);
+  background: var(--v-bg-subtle);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.v-copy-hex--semantic {
+  text-align: right;
+}
+
+.v-copy-hex--semantic .v-code {
+  display: inline-block;
+  width: auto;
+  padding: var(--v-space-1) var(--v-space-2);
+  font-size: var(--v-type-caption);
+  color: var(--v-text-secondary);
+  background: var(--v-bg-subtle);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .v-code {
   font-family: ui-monospace, monospace;
   font-size: var(--v-type-caption);
