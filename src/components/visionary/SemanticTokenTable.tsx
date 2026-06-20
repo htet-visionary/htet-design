@@ -10,17 +10,17 @@ type TokenLeaf = {
 };
 
 const categoryDescriptions: Record<string, string> = {
-  background: "Canvas and page fills that sit behind content.",
-  surface: "Cards, panels, and containers that hold UI elements.",
-  text: "Type hierarchy for headings, body, and supporting copy.",
-  brand: "Core brand accents for identity moments.",
-  border: "Dividers and outlines that structure layout.",
-  action: "Interactive fills for buttons and controls.",
-  link: "Inline navigation and text links.",
-  focus: "Keyboard focus rings and offsets.",
-  disabled: "Muted states for inactive controls.",
-  overlay: "Scrim layers for modals and drawers.",
-  status: "Feedback palettes for system messages.",
+  background: "Canvas fills behind content.",
+  surface: "Cards, panels, and containers.",
+  text: "Typography hierarchy.",
+  brand: "Brand identity accents.",
+  border: "Dividers and structural edges.",
+  action: "Button and control fills.",
+  link: "Inline text links.",
+  focus: "Keyboard focus indicators.",
+  disabled: "Inactive control states.",
+  overlay: "Modal and drawer scrims.",
+  status: "System feedback palettes.",
 };
 
 function isColorValue(value: string): boolean {
@@ -58,7 +58,11 @@ function formatDisplayName(label: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function RoleCanvas({
+function borderWeight(label: string): number {
+  return label.includes("strong") ? 2 : 1;
+}
+
+function TokenMiniPreview({
   category,
   token,
   value,
@@ -71,18 +75,18 @@ function RoleCanvas({
   const isElevated = label.includes("elevated");
   const isRing = label === "ring";
   const isOnSolid = label.includes("onSolid");
-  const isSolid = label.includes("solid") && category === "status";
+  const isSolid = label.includes("solid");
   const isBorder = label.includes("border");
   const isTextLike =
     category === "text" ||
     label.includes("text") ||
     label.includes("icon") ||
-    (isOnSolid && category === "status");
+    isOnSolid;
 
   if (!isColorValue(value)) {
     return (
-      <div className="v-role-canvas v-role-canvas--value">
-        <span>{value}</span>
+      <div className="v-semantic-card__preview v-semantic-card__preview--value">
+        <span>{value.slice(0, 8)}</span>
       </div>
     );
   }
@@ -91,29 +95,24 @@ function RoleCanvas({
     return (
       <div
         className={[
-          "v-role-canvas",
-          "v-role-canvas--text",
-          isOnSolid && "v-role-canvas--on-solid",
+          "v-semantic-card__preview",
+          "v-semantic-card__preview--text",
+          isOnSolid && "v-semantic-card__preview--on-solid",
         ]
           .filter(Boolean)
           .join(" ")}
         style={isOnSolid ? { backgroundColor: "var(--v-text-primary)" } : undefined}
       >
-        <p className="v-role-canvas__sample" style={{ color: value }}>
-          Aa
-        </p>
-        <p className="v-role-canvas__line" style={{ color: value }}>
-          Visionary
-        </p>
+        <span style={{ color: value }}>Aa</span>
       </div>
     );
   }
 
   if (category === "link") {
     return (
-      <div className="v-role-canvas v-role-canvas--link">
-        <span className="v-role-canvas__link" style={{ color: value }}>
-          Learn more
+      <div className="v-semantic-card__preview v-semantic-card__preview--text">
+        <span className="v-semantic-card__link" style={{ color: value }}>
+          Link
         </span>
       </div>
     );
@@ -121,12 +120,12 @@ function RoleCanvas({
 
   if (category === "focus") {
     return (
-      <div className="v-role-canvas v-role-canvas--focus">
+      <div className="v-semantic-card__preview v-semantic-card__preview--focus">
         <span
-          className="v-role-canvas__focus-chip"
+          className="v-semantic-card__focus"
           style={
             isRing
-              ? { boxShadow: `0 0 0 3px ${value}` }
+              ? { boxShadow: `0 0 0 2px ${value}` }
               : { backgroundColor: value }
           }
         />
@@ -135,43 +134,29 @@ function RoleCanvas({
   }
 
   if (category === "border" || (category === "status" && isBorder)) {
+    const weight = borderWeight(label);
     return (
       <div
-        className="v-role-canvas v-role-canvas--border"
-        style={{ borderColor: value }}
+        className="v-semantic-card__preview v-semantic-card__preview--border"
+        style={{ borderColor: value, borderWidth: weight }}
       />
     );
   }
 
   if (category === "action" || (category === "status" && isSolid)) {
     return (
-      <div className="v-role-canvas v-role-canvas--action" style={{ backgroundColor: value }}>
-        <span>Action</span>
-      </div>
+      <div
+        className="v-semantic-card__preview v-semantic-card__preview--action"
+        style={{ backgroundColor: value }}
+      />
     );
   }
 
   if (category === "overlay") {
     return (
-      <div className="v-role-canvas v-role-canvas--overlay">
-        <div className="v-role-canvas__overlay-scene" aria-hidden />
-        <div className="v-role-canvas__overlay-fill" style={{ backgroundColor: value }} />
+      <div className="v-semantic-card__preview v-semantic-card__preview--overlay">
+        <span style={{ backgroundColor: value }} />
       </div>
-    );
-  }
-
-  if (category === "brand") {
-    return (
-      <div className="v-role-canvas v-role-canvas--brand" style={{ backgroundColor: value }} />
-    );
-  }
-
-  if (category === "disabled") {
-    return (
-      <div
-        className="v-role-canvas v-role-canvas--disabled"
-        style={{ backgroundColor: value }}
-      />
     );
   }
 
@@ -179,9 +164,9 @@ function RoleCanvas({
     return (
       <div
         className={[
-          "v-role-canvas",
-          "v-role-canvas--surface",
-          isElevated && "v-role-canvas--elevated",
+          "v-semantic-card__preview",
+          "v-semantic-card__preview--surface",
+          isElevated && "v-semantic-card__preview--elevated",
         ]
           .filter(Boolean)
           .join(" ")}
@@ -190,25 +175,32 @@ function RoleCanvas({
     );
   }
 
+  if (category === "disabled") {
+    return (
+      <div
+        className="v-semantic-card__preview v-semantic-card__preview--disabled"
+        style={{ backgroundColor: value }}
+      />
+    );
+  }
+
   return (
     <div
-      className="v-role-canvas v-role-canvas--fill"
+      className="v-semantic-card__preview v-semantic-card__preview--fill"
       style={{ backgroundColor: value }}
     />
   );
 }
 
-function RoleCard({ token, value }: TokenLeaf) {
+function SemanticTokenCard({ token, value }: TokenLeaf) {
   const category = topCategory(token);
-  const label = tokenLabel(token);
 
   return (
-    <li className={`v-role-card v-role-card--${category}`}>
-      <RoleCanvas category={category} token={token} value={value} />
-      <div className="v-role-card__meta">
-        <p className="v-role-card__name">{formatDisplayName(label)}</p>
-        <p className="v-role-card__token">{token}</p>
-        <CopyHexCode hex={value} className="v-copy-hex--role" />
+    <li className={`v-semantic-card v-semantic-card--${category}`}>
+      <TokenMiniPreview category={category} token={token} value={value} />
+      <div className="v-semantic-card__body">
+        <code className="v-semantic-card__token">{token}</code>
+        <CopyHexCode hex={value} className="v-copy-hex--token" />
       </div>
     </li>
   );
@@ -218,11 +210,11 @@ function StatusGroup({ name, tokens }: { name: string; tokens: Record<string, un
   const leaves = collectLeaves(tokens, `status.${name}`);
 
   return (
-    <div className={`v-role-status v-role-status--${name}`}>
-      <p className="v-role-status__label">{formatDisplayName(name)}</p>
-      <ul className="v-role-group__grid v-role-group__grid--status">
+    <div className={`v-semantic-status v-semantic-status--${name}`}>
+      <p className="v-semantic-status__label">{formatDisplayName(name)}</p>
+      <ul className="v-semantic-grid">
         {leaves.map((leaf) => (
-          <RoleCard key={leaf.token} {...leaf} />
+          <SemanticTokenCard key={leaf.token} {...leaf} />
         ))}
       </ul>
     </div>
@@ -244,12 +236,12 @@ function CategoryBlock({
 
   if (category === "status") {
     return (
-      <section className="v-role-group v-role-group--status">
-        <header className="v-role-group__header">
-          <h4 className="v-role-group__title">{formatDisplayName(category)}</h4>
-          <p className="v-role-group__desc">{categoryDescriptions[category]}</p>
+      <section className="v-semantic-section v-semantic-section--status">
+        <header className="v-semantic-section__header">
+          <h4 className="v-semantic-section__title">{formatDisplayName(category)}</h4>
+          <p className="v-semantic-section__desc">{categoryDescriptions[category]}</p>
         </header>
-        <div className="v-role-status-list">
+        <div className="v-semantic-status-list">
           {Object.entries(record).map(([name, tokens]) => (
             <StatusGroup key={name} name={name} tokens={tokens as Record<string, unknown>} />
           ))}
@@ -261,16 +253,14 @@ function CategoryBlock({
   const leaves = collectLeaves(record, category);
 
   return (
-    <section className={`v-role-group v-role-group--${category}`}>
-      <header className="v-role-group__header">
-        <h4 className="v-role-group__title">{formatDisplayName(category)}</h4>
-        {categoryDescriptions[category] && (
-          <p className="v-role-group__desc">{categoryDescriptions[category]}</p>
-        )}
+    <section className={`v-semantic-section v-semantic-section--${category}`}>
+      <header className="v-semantic-section__header">
+        <h4 className="v-semantic-section__title">{formatDisplayName(category)}</h4>
+        <p className="v-semantic-section__desc">{categoryDescriptions[category]}</p>
       </header>
-      <ul className="v-role-group__grid">
+      <ul className="v-semantic-grid">
         {leaves.map((leaf) => (
-          <RoleCard key={leaf.token} {...leaf} />
+          <SemanticTokenCard key={leaf.token} {...leaf} />
         ))}
       </ul>
     </section>
@@ -279,7 +269,7 @@ function CategoryBlock({
 
 export function SemanticTokenTable({ tokens }: SemanticTokenTableProps) {
   return (
-    <div className="v-role-board">
+    <div className="v-semantic-board">
       {Object.entries(tokens).map(([category, value]) => (
         <CategoryBlock key={category} category={category} value={value} />
       ))}
