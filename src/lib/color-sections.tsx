@@ -5,15 +5,35 @@ import {
   RuleList,
   SectionBlock,
 } from "@/components/visionary/DocParts";
+import { ComponentTokenTable } from "@/components/visionary/ComponentTokenTable";
 import { SemanticTokenTable } from "@/components/visionary/SemanticTokenTable";
-import { primitive, semantic } from "@design-system/visionary";
+import { component, primitive, semantic } from "@design-system/visionary";
 
 function rampToSteps(ramp: Record<string | number, string>) {
   return Object.entries(ramp).map(([step, hex]) => ({ step, hex }));
 }
 
-function Subsection({ title, children }: { title: string; children: ReactNode }) {
+function Subsection({
+  title,
+  children,
+  nested,
+}: {
+  title: string;
+  children: ReactNode;
+  nested?: boolean;
+}) {
   const subsectionId = slugify(title);
+
+  if (nested) {
+    return (
+      <div className="v-subsection v-subsection--nested">
+        <h4 id={subsectionId} className="v-semantic-section__title v-subsection--anchor">
+          {title}
+        </h4>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="v-subsection">
@@ -25,53 +45,100 @@ function Subsection({ title, children }: { title: string; children: ReactNode })
   );
 }
 
-export function ColorsOverviewSection() {
+function PrimitiveGroup({
+  title,
+  id,
+  description,
+  children,
+}: {
+  title: string;
+  id: string;
+  description: string;
+  children: ReactNode;
+}) {
   return (
-    <SectionBlock title="Overview">
-      <p className="v-layer-diagram">Primitive → Semantic → Functional → Product UI</p>
-      <RuleList
-        rules={[
-          "Product UI consumes semantic and component tokens — not primitives.",
-          "Brand colors are not status colors unless mapped through semantic tokens.",
-          "Functional palettes are for status feedback only.",
-        ]}
-      />
-    </SectionBlock>
+    <div id={id} className="v-primitive-group v-primitive-group--anchor">
+      <header className="v-primitive-group__header">
+        <h3 className="v-subsection__title">{title}</h3>
+        <p className="v-primitive-group__desc">{description}</p>
+      </header>
+      <div className="v-primitive-group__body">{children}</div>
+    </div>
   );
 }
 
 export function PrimitiveSection() {
   return (
-    <SectionBlock title="Primitive" id="primitive">
-      <p className="v-doc__desc" style={{ marginBottom: 0 }}>
-        Brand and neutral ramps. Raw values — not for direct use in product UI.
-      </p>
-      <Subsection title="Green">
-        <ColorRamp steps={rampToSteps(primitive.green)} />
-      </Subsection>
-      <Subsection title="Lavender">
-        <ColorRamp steps={rampToSteps(primitive.lavender)} />
-      </Subsection>
-      <Subsection title="Iridescence">
-        <div
-          className="v-swatch-gradient v-swatch-gradient--iridescence"
-          aria-hidden
-        />
-        <ColorRamp steps={rampToSteps(primitive.iridescence)} />
-      </Subsection>
-      <Subsection title="Neutral">
+    <SectionBlock
+      title="Primitive"
+      id="primitive"
+      description="Raw color ramps grouped by Brand, Neutral, and Functional. Not for direct use in product UI."
+    >
+      <PrimitiveGroup
+        title="Brand"
+        id="primitive-brand"
+        description="Core identity palettes — green, lavender, and iridescence."
+      >
+        <Subsection title="Green" nested>
+          <ColorRamp steps={rampToSteps(primitive.green)} />
+        </Subsection>
+        <Subsection title="Lavender" nested>
+          <ColorRamp steps={rampToSteps(primitive.lavender)} />
+        </Subsection>
+        <Subsection title="Iridescence" nested>
+          <div className="v-swatch-gradient v-swatch-gradient--iridescence" aria-hidden />
+          <ColorRamp steps={rampToSteps(primitive.iridescence)} />
+        </Subsection>
+      </PrimitiveGroup>
+
+      <PrimitiveGroup
+        title="Neutral"
+        id="primitive-neutral"
+        description="Grayscale ramps for surfaces, text, and borders."
+      >
         <ColorRamp steps={rampToSteps(primitive.neutral)} />
-      </Subsection>
+      </PrimitiveGroup>
+
+      <PrimitiveGroup
+        title="Functional"
+        id="primitive-functional"
+        description="Status palettes for success, warning, error, and info feedback."
+      >
+        <Subsection title="Success" nested>
+          <ColorRamp steps={rampToSteps(primitive.success)} />
+        </Subsection>
+        <Subsection title="Warning" nested>
+          <ColorRamp steps={rampToSteps(primitive.warning)} />
+        </Subsection>
+        <Subsection title="Error" nested>
+          <ColorRamp steps={rampToSteps(primitive.error)} />
+        </Subsection>
+        <Subsection title="Info" nested>
+          <ColorRamp steps={rampToSteps(primitive.info)} />
+        </Subsection>
+        <Subsection title="Meaning">
+          <RuleList
+            rules={[
+              "Success — completed, saved, positive outcomes.",
+              "Warning — attention required, upcoming issues.",
+              "Error — failed actions, validation problems.",
+              "Info — neutral guidance, educational messages.",
+              "Do not use brand colors as status colors.",
+            ]}
+          />
+        </Subsection>
+      </PrimitiveGroup>
     </SectionBlock>
   );
 }
 
 export function SemanticSection() {
   return (
-    <SectionBlock title="Semantic" id="semantic">
-      <p className="v-doc__desc" style={{ marginBottom: 0 }}>
-        Purpose-driven UI roles shared across all Visionary products.
-      </p>
+    <SectionBlock
+      title="Semantic"
+      id="semantic"
+      description="Purpose-driven UI roles shared across all Visionary products."
+    >
       <Subsection title="Roles">
         <SemanticTokenTable tokens={semantic as unknown as Record<string, unknown>} />
       </Subsection>
@@ -91,35 +158,14 @@ export function SemanticSection() {
   );
 }
 
-export function FunctionalSection() {
+export function ComponentSection() {
   return (
-    <SectionBlock title="Functional" id="functional">
-      <p className="v-doc__desc" style={{ marginBottom: 0 }}>
-        Status palettes for success, warning, error, and info feedback.
-      </p>
-      <Subsection title="Success">
-        <ColorRamp steps={rampToSteps(primitive.success)} />
-      </Subsection>
-      <Subsection title="Warning">
-        <ColorRamp steps={rampToSteps(primitive.warning)} />
-      </Subsection>
-      <Subsection title="Error">
-        <ColorRamp steps={rampToSteps(primitive.error)} />
-      </Subsection>
-      <Subsection title="Info">
-        <ColorRamp steps={rampToSteps(primitive.info)} />
-      </Subsection>
-      <Subsection title="Meaning">
-        <RuleList
-          rules={[
-            "Success — completed, saved, positive outcomes.",
-            "Warning — attention required, upcoming issues.",
-            "Error — failed actions, validation problems.",
-            "Info — neutral guidance, educational messages.",
-            "Do not use brand colors as status colors.",
-          ]}
-        />
-      </Subsection>
+    <SectionBlock
+      title="Component"
+      id="component"
+      description="Semantic roles mapped to Button, Input, Card, Alert, and Modal color slots."
+    >
+      <ComponentTokenTable tokens={component as unknown as Record<string, unknown>} />
     </SectionBlock>
   );
 }

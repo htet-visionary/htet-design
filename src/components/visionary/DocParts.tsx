@@ -90,10 +90,12 @@ export function DocPage({ title, description, eyebrow, children }: DocPageProps)
 export function SectionBlock({
   title,
   id,
+  description,
   children,
 }: {
   title: string;
   id?: string;
+  description?: string;
   children: ReactNode;
 }) {
   const sectionId = id ?? slugify(title);
@@ -101,6 +103,7 @@ export function SectionBlock({
   return (
     <section id={sectionId} className="v-section v-section--anchor">
       <h2 className="v-section__title">{title}</h2>
+      {description && <p className="v-section__desc">{description}</p>}
       {children}
     </section>
   );

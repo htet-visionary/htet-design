@@ -46,6 +46,11 @@ function topCategory(token: string): string {
   return token.split(".")[0] ?? token;
 }
 
+function stripTokenPrefix(token: string, prefix: string): string {
+  const head = `${prefix}.`;
+  return token.startsWith(head) ? token.slice(head.length) : token;
+}
+
 function tokenLabel(token: string): string {
   return token.split(".").slice(1).join(".") || token;
 }
@@ -192,14 +197,19 @@ function TokenMiniPreview({
   );
 }
 
-function SemanticTokenCard({ token, value }: TokenLeaf) {
+function SemanticTokenCard({
+  token,
+  value,
+  prefix,
+}: TokenLeaf & { prefix: string }) {
   const category = topCategory(token);
+  const display = stripTokenPrefix(token, prefix);
 
   return (
     <li className={`v-semantic-card v-semantic-card--${category}`}>
       <TokenMiniPreview category={category} token={token} value={value} />
       <div className="v-semantic-card__body">
-        <code className="v-semantic-card__token">{token}</code>
+        <code className="v-semantic-card__token">{display}</code>
         <CopyHexCode hex={value} className="v-copy-hex--token" />
       </div>
     </li>
@@ -207,14 +217,15 @@ function SemanticTokenCard({ token, value }: TokenLeaf) {
 }
 
 function StatusGroup({ name, tokens }: { name: string; tokens: Record<string, unknown> }) {
-  const leaves = collectLeaves(tokens, `status.${name}`);
+  const prefix = `status.${name}`;
+  const leaves = collectLeaves(tokens, prefix);
 
   return (
     <div className={`v-semantic-status v-semantic-status--${name}`}>
       <p className="v-semantic-status__label">{formatDisplayName(name)}</p>
       <ul className="v-semantic-grid">
         {leaves.map((leaf) => (
-          <SemanticTokenCard key={leaf.token} {...leaf} />
+          <SemanticTokenCard key={leaf.token} {...leaf} prefix={prefix} />
         ))}
       </ul>
     </div>
@@ -260,7 +271,7 @@ function CategoryBlock({
       </header>
       <ul className="v-semantic-grid">
         {leaves.map((leaf) => (
-          <SemanticTokenCard key={leaf.token} {...leaf} />
+          <SemanticTokenCard key={leaf.token} {...leaf} prefix={category} />
         ))}
       </ul>
     </section>

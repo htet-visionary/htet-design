@@ -29,7 +29,7 @@ function FontRoleCard({ role }: { role: FontRole }) {
         Aa
       </div>
       <div className="v-type-card__body">
-        <code className="v-type-card__token">fonts.{role}</code>
+        <code className="v-type-card__token">{role}</code>
         <p className="v-type-card__value">
           {family}, {fallback}
         </p>
@@ -74,7 +74,7 @@ function ScaleCard({
   name: (typeof typographyEntries)[number][0];
   style: (typeof typographyEntries)[number][1];
 }) {
-  const token = `typography.${typographyTokenKey(name)}`;
+  const token = typographyTokenKey(name);
 
   return (
     <li className="v-type-card v-type-card--scale">
@@ -169,12 +169,12 @@ export function TypographyTokenBoard() {
         </header>
         <ul className="v-type-grid">
           <ReadingWidthCard
-            token="reading.max-width"
+            token="max-width"
             value={reading.maxWidth}
             measureRatio={1}
           />
           <ReadingWidthCard
-            token="reading.optimal-width"
+            token="optimal-width"
             value={reading.optimalWidth}
             measureRatio={60 / 65}
           />

@@ -28,45 +28,6 @@ export function SpacingScalePreview() {
   );
 }
 
-export function SpacingUsagePreview() {
-  return (
-    <div className="v-foundation-preview v-usage-grid" aria-label="Spacing usage preview">
-      <figure className="v-usage-demo">
-        <figcaption className="v-usage-demo__label">Inline gap · spacing.2</figcaption>
-        <div className="v-usage-demo__surface v-spacing-usage-inline">
-          <span className="v-spacing-usage-inline__icon" aria-hidden />
-          <span className="v-spacing-usage-inline__text">Label</span>
-        </div>
-      </figure>
-
-      <figure className="v-usage-demo">
-        <figcaption className="v-usage-demo__label">Component padding · spacing.4</figcaption>
-        <div className="v-usage-demo__surface">
-          <div className="v-spacing-usage-padding">
-            <span>Content</span>
-          </div>
-        </div>
-      </figure>
-
-      <figure className="v-usage-demo">
-        <figcaption className="v-usage-demo__label">Between components · spacing.6</figcaption>
-        <div className="v-usage-demo__surface v-spacing-usage-stack">
-          <span className="v-spacing-usage-stack__item">Item A</span>
-          <span className="v-spacing-usage-stack__item">Item B</span>
-        </div>
-      </figure>
-
-      <figure className="v-usage-demo">
-        <figcaption className="v-usage-demo__label">Section separation · spacing.12</figcaption>
-        <div className="v-usage-demo__surface v-spacing-usage-sections">
-          <span className="v-spacing-usage-sections__block">Section</span>
-          <span className="v-spacing-usage-sections__block">Section</span>
-        </div>
-      </figure>
-    </div>
-  );
-}
-
 export function RadiusScalePreview() {
   return (
     <ul className="v-foundation-preview v-radius-scale" aria-label="Radius scale preview">
