@@ -1,8 +1,5 @@
+import { HubSectionPage } from "@/components/HubSectionPage";
+
 export default function BlogPage() {
-  return (
-    <main className="v-hub-page">
-      <h1 className="v-hub-page__title">Blog</h1>
-      <p className="v-hub-page__desc">Coming soon.</p>
-    </main>
-  );
+  return <HubSectionPage title="Blog" description="Coming soon." />;
 }

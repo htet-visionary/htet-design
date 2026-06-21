@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { visionaryMeta } from "@design-system/visionary";
 import { visionaryNavigation, designSystemBase, type NavItem } from "@/lib/navigation";
 import { NavIcon, dsNavIcons } from "@/lib/nav-icons";
+import { SiteHubNav } from "@/components/SiteHubNav";
 
 function NavLink({
   item,
@@ -148,6 +149,9 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
             {menuOpen ? "Close menu" : "Open menu"}
           </span>
         </button>
+        <Link href="/" className="v-shell__mobile-hub-link" onClick={closeMenu}>
+          Menu
+        </Link>
         <Link href={designSystemBase} className="v-shell__mobile-title" onClick={closeMenu}>
           {visionaryMeta.name}
         </Link>
@@ -169,6 +173,8 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
         aria-hidden={isMobile && !menuOpen ? true : undefined}
         inert={isMobile && !menuOpen ? true : undefined}
       >
+        <SiteHubNav />
+
         <div className="v-shell__brand">
           <Link href={designSystemBase} className="v-shell__brand-link" onClick={closeMenu}>
             {visionaryMeta.name}

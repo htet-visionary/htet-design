@@ -11,9 +11,6 @@ export default function HomePage() {
             key={item.href}
             href={item.href}
             className="v-hub__card"
-            {...(item.openInNewTab
-              ? { target: "_blank", rel: "noopener noreferrer" }
-              : {})}
           >
             <NavIcon href={item.href} map={siteMenuIcons} className="v-hub__icon" />
             <span className="v-hub__label">{item.title}</span>

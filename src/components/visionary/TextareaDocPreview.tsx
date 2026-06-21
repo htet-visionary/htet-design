@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 export type TextareaState = "default" | "hover" | "focus" | "disabled";
 export type TextareaSize = "sm" | "md" | "lg";
 export type TextareaValidation = "success" | "warning" | "error";
-export type TextareaRows = 3 | 5 | 8;
 
 const variantStates: { id: TextareaState; label: string }[] = [
   { id: "default", label: "Default" },
@@ -12,10 +11,21 @@ const variantStates: { id: TextareaState; label: string }[] = [
   { id: "disabled", label: "Inactive" },
 ];
 
+function TextareaResizeHandle() {
+  return (
+    <span className="v-cmp-textarea__resize" aria-hidden>
+      <svg viewBox="0 0 10 10" fill="none">
+        <path d="M9.5 0.5L0.5 9.5" stroke="currentColor" strokeWidth="1" />
+        <path d="M9.5 3.5L3.5 9.5" stroke="currentColor" strokeWidth="1" />
+        <path d="M9.5 6.5L6.5 9.5" stroke="currentColor" strokeWidth="1" />
+      </svg>
+    </span>
+  );
+}
+
 export function DocTextarea({
   state = "default",
   size = "md",
-  rows = 3,
   validation,
   label = "Notes",
   value = "",
@@ -25,7 +35,6 @@ export function DocTextarea({
 }: {
   state?: TextareaState;
   size?: TextareaSize;
-  rows?: TextareaRows;
   validation?: TextareaValidation;
   label?: string;
   value?: string;
@@ -50,16 +59,18 @@ export function DocTextarea({
     >
       <span className="v-cmp-field__label">{label}</span>
       <span className="v-cmp-field__control">
-        <span
-          className={[
-            "v-cmp-textarea",
-            `v-cmp-textarea--rows-${rows}`,
-            showPlaceholder ? "v-cmp-textarea--placeholder-only" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
-          {displayValue}
+        <span className="v-cmp-textarea-shell">
+          <span
+            className={[
+              "v-cmp-textarea",
+              showPlaceholder ? "v-cmp-textarea--placeholder-only" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            {displayValue}
+          </span>
+          <TextareaResizeHandle />
         </span>
       </span>
       {message && validation ? (
@@ -99,7 +110,6 @@ export function TextareaVariantsPreview() {
         children: (
           <DocTextarea
             size="sm"
-            rows={3}
             state={item.id}
             value={
               item.id === "disabled"
@@ -123,49 +133,15 @@ export function TextareaSizesPreview() {
       items={[
         {
           label: "Small · sm",
-          children: <DocTextarea size="sm" rows={3} value="" label="Notes" />,
+          children: <DocTextarea size="sm" value="" label="Notes" />,
         },
         {
           label: "Medium · md",
-          children: <DocTextarea size="md" rows={3} value="" label="Notes" />,
+          children: <DocTextarea size="md" value="" label="Notes" />,
         },
         {
           label: "Large · lg",
-          children: <DocTextarea size="lg" rows={3} value="" label="Notes" />,
-        },
-      ]}
-    />
-  );
-}
-
-const rowsSampleCopy: Record<TextareaRows, string> = {
-  3: "Add context for your team.",
-  5: "Summarize the change for reviewers.\nInclude scope, risks, and rollout notes.",
-  8: "Document the decision and expected outcome.\nList dependencies, owners, and follow-up tasks.\nKeep updates concise for async review.",
-};
-
-export function TextareaRowsPreview() {
-  return (
-    <TextareaGroup
-      label="Textarea rows"
-      items={[
-        {
-          label: "3 rows",
-          children: (
-            <DocTextarea size="sm" rows={3} value={rowsSampleCopy[3]} label="Notes" />
-          ),
-        },
-        {
-          label: "5 rows",
-          children: (
-            <DocTextarea size="sm" rows={5} value={rowsSampleCopy[5]} label="Notes" />
-          ),
-        },
-        {
-          label: "8 rows",
-          children: (
-            <DocTextarea size="sm" rows={8} value={rowsSampleCopy[8]} label="Notes" />
-          ),
+          children: <DocTextarea size="lg" value="" label="Notes" />,
         },
       ]}
     />
@@ -182,7 +158,6 @@ export function TextareaValidationPreview() {
           children: (
             <DocTextarea
               size="sm"
-              rows={3}
               validation="success"
               label="Notes"
               value="Looks good — ready to submit."
@@ -195,7 +170,6 @@ export function TextareaValidationPreview() {
           children: (
             <DocTextarea
               size="sm"
-              rows={3}
               validation="warning"
               label="Notes"
               value="Short summary"
@@ -208,7 +182,6 @@ export function TextareaValidationPreview() {
           children: (
             <DocTextarea
               size="sm"
-              rows={3}
               validation="error"
               label="Notes"
               value="Hi"

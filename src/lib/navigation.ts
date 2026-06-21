@@ -90,12 +90,14 @@ export function getFirstComponentHref(): string {
 export type SiteMenuItem = {
   title: string;
   href: string;
-  openInNewTab?: boolean;
+  shortTitle?: string;
 };
 
+export const siteHubPath = "/";
+
 export const siteMenuItems: SiteMenuItem[] = [
-  { title: "Visionary Design System", href: designSystemBase, openInNewTab: true },
-  { title: "Portfolio", href: "/portfolio", openInNewTab: true },
+  { title: "Visionary Design System", shortTitle: "Design System", href: designSystemBase },
+  { title: "Portfolio", href: "/portfolio" },
   { title: "Product", href: "/product" },
   { title: "Blog", href: "/blog" },
 ];

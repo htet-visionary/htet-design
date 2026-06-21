@@ -1,6 +1,5 @@
 import { DocPage, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  TextareaRowsPreview,
   TextareaSizesPreview,
   TextareaValidationPreview,
   TextareaVariantsPreview,
@@ -11,7 +10,7 @@ export default function TextareaPage() {
     <DocPage
       eyebrow="Guidelines · Components"
       title="Textarea"
-      description="Multi-line fields across states, sizes, row expansion, and validation feedback."
+      description="Multi-line fields across states, sizes, and validation feedback."
     >
       <SectionBlock title="Variants">
         <TextareaVariantsPreview />
@@ -19,10 +18,6 @@ export default function TextareaPage() {
 
       <SectionBlock title="Sizes">
         <TextareaSizesPreview />
-      </SectionBlock>
-
-      <SectionBlock title="Rows">
-        <TextareaRowsPreview />
       </SectionBlock>
 
       <SectionBlock title="Success, error, and warning">
