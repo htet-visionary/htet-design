@@ -148,9 +148,6 @@ export function VisionaryShell({ children }: { children: ReactNode }) {
             {menuOpen ? "Close menu" : "Open menu"}
           </span>
         </button>
-        <Link href="/" className="v-shell__mobile-hub-link" onClick={closeMenu}>
-          Menu
-        </Link>
         <Link href={designSystemBase} className="v-shell__mobile-title" onClick={closeMenu}>
           {visionaryMeta.name}
         </Link>
