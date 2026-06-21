@@ -234,10 +234,16 @@
   color: var(--v-link-default);
   text-decoration: none;
   flex-shrink: 0;
+  padding: var(--v-space-2) var(--v-space-3);
+  border-radius: var(--v-radius-sm);
+  transition:
+    color var(--v-motion-fast) var(--v-motion-easing-standard),
+    background-color var(--v-motion-fast) var(--v-motion-easing-standard);
 }
 
 .v-shell__mobile-hub-link:hover {
-  color: var(--v-link-hover);
+  color: var(--v-action-primary);
+  background: var(--v-green-50);
 }
 
 .v-shell__overlay {
