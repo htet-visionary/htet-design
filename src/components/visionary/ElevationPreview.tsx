@@ -1,165 +1,134 @@
-import { elevation } from "@design-system/visionary";
+import type { ReactNode } from "react";
+import { elevation, semantic } from "@design-system/visionary";
 
-type ElevationLevel = keyof typeof elevation;
-
-const levelRows: Array<{
-  name: ElevationLevel;
-  shadow?: string;
-  zIndex: number;
-  variant: ElevationLevel;
-}> = [
-  { name: "card", shadow: elevation.card.shadow, zIndex: elevation.card.zIndex, variant: "card" },
+const dropShadowRows = [
   {
-    name: "dropdown",
-    shadow: elevation.dropdown.shadow,
-    zIndex: elevation.dropdown.zIndex,
-    variant: "dropdown",
-  },
-  { name: "overlay", zIndex: elevation.overlay.zIndex, variant: "overlay" },
-  { name: "modal", shadow: elevation.modal.shadow, zIndex: elevation.modal.zIndex, variant: "modal" },
-];
-
-const usageRows: Array<{
-  name: string;
-  token: ElevationLevel;
-  shadow?: string;
-  zIndex: number;
-  variant: ElevationLevel;
-}> = [
-  {
-    name: "Card, panel",
-    token: "card",
+    level: "card" as const,
     shadow: elevation.card.shadow,
-    zIndex: elevation.card.zIndex,
-    variant: "card",
+    usage: "Cards and panels",
   },
   {
-    name: "Dropdown, menu",
-    token: "dropdown",
+    level: "dropdown" as const,
     shadow: elevation.dropdown.shadow,
-    zIndex: elevation.dropdown.zIndex,
-    variant: "dropdown",
+    usage: "Menus and popovers",
   },
   {
-    name: "Modal scrim",
-    token: "overlay",
-    zIndex: elevation.overlay.zIndex,
-    variant: "overlay",
-  },
-  {
-    name: "Modal dialog",
-    token: "modal",
+    level: "modal" as const,
     shadow: elevation.modal.shadow,
-    zIndex: elevation.modal.zIndex,
-    variant: "modal",
+    usage: "Dialogs and sheets",
   },
 ];
 
-type ElevationVariant = (typeof levelRows)[number]["variant"];
-type ElevationSize = "scale" | "usage";
+const overlayRows = [
+  {
+    level: "scrim" as const,
+    token: "overlay.scrim",
+    value: semantic.overlay.scrim,
+    usage: "Modal and dialog backdrops",
+  },
+  {
+    level: "scrim-light" as const,
+    token: "overlay.scrim-light",
+    value: semantic.overlay.scrimLight,
+    usage: "Drawers and non-blocking overlays",
+  },
+  {
+    level: "none" as const,
+    token: "none",
+    value: "transparent",
+    usage: "Dropdowns and floating layers",
+  },
+];
 
-function ElevationValues({
-  shadow,
-  zIndex,
-  className,
+function PreviewFrame({ children }: { children: ReactNode }) {
+  return <span className="v-elevation-preview-frame">{children}</span>;
+}
+
+function DropShadowPreviewBox({
+  level,
 }: {
-  shadow?: string;
-  zIndex: number;
-  className?: string;
+  level: (typeof dropShadowRows)[number]["level"];
 }) {
   return (
-    <span className={["v-elevation-values", className].filter(Boolean).join(" ")}>
-      {shadow ? (
-        <span className="v-elevation-values__shadow">{shadow}</span>
-      ) : (
-        <span className="v-elevation-values__shadow v-elevation-values__shadow--none">—</span>
-      )}
-      <span className="v-elevation-values__z">z-index {zIndex}</span>
+    <span
+      className={`v-elevation-specimen v-elevation-specimen--${level} v-elevation-specimen--shadow-preview`}
+      aria-hidden
+    />
+  );
+}
+
+function OverlayPreviewBox({
+  level,
+}: {
+  level: (typeof overlayRows)[number]["level"];
+}) {
+  return (
+    <span
+      className={`v-elevation-overlay-preview v-elevation-overlay-preview--${level}`}
+      aria-hidden
+    >
+      <span className="v-elevation-overlay-preview__content" />
+      {level !== "none" ? <span className="v-elevation-overlay-preview__scrim" /> : null}
     </span>
   );
 }
 
-function ElevationSpecimen({
-  variant,
-  size,
-}: {
-  variant: ElevationVariant;
-  size: ElevationSize;
-}) {
-  const className = [
-    "v-elevation-specimen",
-    `v-elevation-specimen--${variant}`,
-    `v-elevation-specimen--${size}`,
-  ].join(" ");
-
-  if (variant === "overlay") {
-    return (
-      <span className={className} aria-hidden>
-        <span className="v-elevation-specimen__overlay-content" />
-        <span className="v-elevation-specimen__overlay-scrim" />
-      </span>
-    );
-  }
-
-  if (variant === "card" && size === "usage") {
-    return (
-      <span className={className} aria-hidden>
-        <span className="v-elevation-specimen__card-line" />
-        <span className="v-elevation-specimen__card-line v-elevation-specimen__card-line--short" />
-      </span>
-    );
-  }
-
-  if (variant === "modal" && size === "usage") {
-    return (
-      <span className={className} aria-hidden>
-        <span className="v-elevation-specimen__modal-title" />
-        <span className="v-elevation-specimen__card-line" />
-        <span className="v-elevation-specimen__card-line v-elevation-specimen__card-line--short" />
-      </span>
-    );
-  }
-
-  if (variant === "dropdown" && size === "usage") {
-    return (
-      <span className={className} aria-hidden>
-        <span className="v-elevation-specimen__menu-item" />
-        <span className="v-elevation-specimen__menu-item" />
-        <span className="v-elevation-specimen__menu-item v-elevation-specimen__menu-item--muted" />
-      </span>
-    );
-  }
-
-  return <span className={className} aria-hidden />;
-}
-
-export function ElevationLevelsPreview() {
+export function ElevationDropShadowPreview() {
   return (
-    <ul className="v-foundation-preview v-spacing-scale v-elevation-scale" aria-label="Elevation levels">
-      {levelRows.map((row) => (
-        <li key={row.name} className="v-spacing-scale__row v-elevation-scale__row">
-          <code className="v-code v-code--sm v-spacing-scale__token">{row.name}</code>
-          <ElevationSpecimen variant={row.variant} size="scale" />
-          <ElevationValues shadow={row.shadow} zIndex={row.zIndex} />
-        </li>
-      ))}
-    </ul>
+    <div
+      className="v-foundation-preview v-elevation-token-table"
+      aria-label="Elevation drop shadow"
+    >
+      <div className="v-elevation-token-table__head" aria-hidden>
+        <span>Level</span>
+        <span>Preview</span>
+        <span>Shadow</span>
+      </div>
+      <ul className="v-elevation-token-table__body">
+        {dropShadowRows.map((row) => (
+          <li key={row.level} className="v-elevation-token-table__row">
+            <code className="v-code v-code--sm v-spacing-scale__token">{row.level}</code>
+            <span className="v-elevation-token-table__preview">
+              <PreviewFrame>
+                <DropShadowPreviewBox level={row.level} />
+              </PreviewFrame>
+            </span>
+            <code className="v-code v-code--sm v-spacing-scale__token v-elevation-token-table__value">
+              {row.shadow}
+            </code>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
-export function ElevationUsagePreview() {
+export function ElevationOverlayPreview() {
   return (
-    <ul className="v-foundation-preview v-spacing-usage" aria-label="Elevation usage">
-      {usageRows.map((row) => (
-        <li key={row.name} className="v-spacing-usage__row">
-          <span className="v-spacing-usage__name">{row.name}</span>
-          <ElevationSpecimen variant={row.variant} size="usage" />
-          <span className="v-spacing-usage__meta v-spacing-usage__meta--elevation">
-            <code className="v-code v-code--sm">{row.token}</code>
-            <ElevationValues shadow={row.shadow} zIndex={row.zIndex} />
-          </span>
-        </li>
-      ))}
-    </ul>
+    <div
+      className="v-foundation-preview v-elevation-token-table v-elevation-token-table--overlay"
+      aria-label="Elevation overlay"
+    >
+      <div className="v-elevation-token-table__head" aria-hidden>
+        <span>Style</span>
+        <span>Preview</span>
+        <span>Value</span>
+      </div>
+      <ul className="v-elevation-token-table__body">
+        {overlayRows.map((row) => (
+          <li key={row.level} className="v-elevation-token-table__row">
+            <code className="v-code v-code--sm v-spacing-scale__token">{row.level}</code>
+            <span className="v-elevation-token-table__preview">
+              <PreviewFrame>
+                <OverlayPreviewBox level={row.level} />
+              </PreviewFrame>
+            </span>
+            <code className="v-code v-code--sm v-spacing-scale__token v-elevation-token-table__value">
+              {row.value}
+            </code>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

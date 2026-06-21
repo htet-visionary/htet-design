@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Accessibility,
-  Activity,
   AlertTriangle,
   BookOpen,
   Briefcase,
@@ -39,7 +38,6 @@ export const dsNavIcons: Record<string, LucideIcon> = {
   [`${designSystemBase}/foundations/spacing`]: Ruler,
   [`${designSystemBase}/foundations/radius`]: Circle,
   [`${designSystemBase}/foundations/elevation`]: Layers,
-  [`${designSystemBase}/foundations/motion`]: Activity,
   [`${designSystemBase}/foundations/layout`]: LayoutGrid,
   [`${designSystemBase}/accessibility`]: Accessibility,
   [`${designSystemBase}/themes/lucky-charm`]: Sparkles,

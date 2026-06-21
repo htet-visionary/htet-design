@@ -1,7 +1,7 @@
 import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  ElevationLevelsPreview,
-  ElevationUsagePreview,
+  ElevationDropShadowPreview,
+  ElevationOverlayPreview,
 } from "@/components/visionary/ElevationPreview";
 
 export default function ElevationPage() {
@@ -9,17 +9,14 @@ export default function ElevationPage() {
     <DocPage
       eyebrow="Foundations"
       title="Elevation"
-      description="Shadows and z-index communicate layering — not importance."
+      description="Drop shadow and overlay communicate layering — not importance."
     >
-      <SectionBlock title="Levels">
-        <ElevationLevelsPreview />
+      <SectionBlock title="Drop shadow">
+        <ElevationDropShadowPreview />
       </SectionBlock>
 
-      <SectionBlock
-        title="Usage"
-        description="How elevation levels map to common surfaces."
-      >
-        <ElevationUsagePreview />
+      <SectionBlock title="Overlay">
+        <ElevationOverlayPreview />
       </SectionBlock>
 
       <SectionBlock title="Rules">
@@ -27,7 +24,7 @@ export default function ElevationPage() {
           rules={[
             "Do not stack more than one modal level.",
             "Do not introduce new shadows without approval.",
-            "Dropdowns inside modals inherit modal z-index context.",
+            "Use overlay.scrim for modals; scrim-light for drawers; none for floating layers.",
           ]}
         />
       </SectionBlock>

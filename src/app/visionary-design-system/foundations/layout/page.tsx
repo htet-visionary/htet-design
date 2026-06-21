@@ -1,9 +1,8 @@
 import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  BreakpointsScalePreview,
-  ContainerScalePreview,
+  BreakpointVisualScalePreview,
+  BreakpointsTablePreview,
   GridScalePreview,
-  LayoutUsagePreview,
   TouchTargetPreview,
 } from "@/components/visionary/LayoutPreview";
 
@@ -12,25 +11,18 @@ export default function LayoutPage() {
     <DocPage
       eyebrow="Foundations"
       title="Layout"
-      description="Mobile-first breakpoints, containers, and 12-column grid."
+      description="Mobile-first breakpoints and 12-column grid."
     >
       <SectionBlock title="Breakpoints">
-        <BreakpointsScalePreview />
+        <BreakpointsTablePreview />
       </SectionBlock>
 
-      <SectionBlock title="Containers">
-        <ContainerScalePreview />
+      <SectionBlock title="Visual scale">
+        <BreakpointVisualScalePreview />
       </SectionBlock>
 
       <SectionBlock title="Grid">
         <GridScalePreview />
-      </SectionBlock>
-
-      <SectionBlock
-        title="Usage"
-        description="How layout tokens map to common page structures."
-      >
-        <LayoutUsagePreview />
       </SectionBlock>
 
       <SectionBlock title="Touch targets">

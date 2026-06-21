@@ -32,7 +32,6 @@ export const visionaryNavigation: NavGroup[] = [
       { title: "Icons", href: `${designSystemBase}/foundations/icons` },
       { title: "Radius", href: `${designSystemBase}/foundations/radius` },
       { title: "Elevation", href: `${designSystemBase}/foundations/elevation` },
-      { title: "Motion", href: `${designSystemBase}/foundations/motion` },
       { title: "Layout", href: `${designSystemBase}/foundations/layout` },
     ],
   },

@@ -440,6 +440,7 @@ semantic:
 
 * `overlay.scrim` covers modal and dialog backdrops.
 * `overlay.scrim-light` covers non-blocking overlays such as drawers on large screens.
+* Floating layers such as dropdowns and menus use no scrim — shadow only.
 
 **On-Solid**
 
@@ -534,7 +535,11 @@ Rules:
 * Do not autoplay decorative motion.
 * Essential feedback (e.g. loading indicators) may remain but must not flash.
 
-See Motion System for token-level reduced motion behavior.
+When `prefers-reduced-motion: reduce`:
+
+* Set all durations to `motion.duration.instant` (0ms)
+* Opacity fade only, max 100ms for modal and alert enter
+* No parallax, scale, or slide transforms
 
 ---
 
@@ -750,6 +755,10 @@ radius:
 
 Elevation communicates layering — not importance.
 
+## Drop shadow
+
+Three shadow levels for raised surfaces.
+
 elevation:
 
   card:
@@ -760,21 +769,35 @@ elevation:
     shadow: 0 8px 24px rgba(0, 0, 0, 0.08)
     z-index: 100
 
-  overlay:
-    z-index: 150
-
   modal:
     shadow: 0 16px 48px rgba(0, 0, 0, 0.12)
     z-index: 200
 
-## Elevation Usage
-
-| Surface | Token | Shadow | Z-index |
+| Level | Token | Shadow | Usage |
 | --- | --- | --- | --- |
-| Card, panel | card | 0 4px 12px rgba(0, 0, 0, 0.04) | 1 |
-| Dropdown, menu | dropdown | 0 8px 24px rgba(0, 0, 0, 0.08) | 100 |
-| Modal scrim | overlay | — | 150 |
-| Modal dialog | modal | 0 16px 48px rgba(0, 0, 0, 0.12) | 200 |
+| Card | card | 0 4px 12px rgba(0, 0, 0, 0.04) | Cards and panels |
+| Dropdown | dropdown | 0 8px 24px rgba(0, 0, 0, 0.08) | Menus and popovers |
+| Modal | modal | 0 16px 48px rgba(0, 0, 0, 0.12) | Dialogs and sheets |
+
+## Overlay
+
+Three scrim styles for backdrop treatment. Scrim layers use `elevation.overlay` z-index (150).
+
+overlay:
+
+  scrim: "rgba(36, 31, 27, 0.48)"
+  scrim-light: "rgba(36, 31, 27, 0.24)"
+  none: transparent
+
+| Style | Token | Value | Usage |
+| --- | --- | --- | --- |
+| Scrim | overlay.scrim | rgba(36, 31, 27, 0.48) | Modal and dialog backdrops |
+| Scrim light | overlay.scrim-light | rgba(36, 31, 27, 0.24) | Drawers and non-blocking overlays |
+| None | — | transparent | Dropdowns and floating layers |
+
+elevation.overlay:
+
+  z-index: 150
 
 ## Elevation Rules
 
@@ -782,6 +805,7 @@ elevation:
 * Do not stack more than one modal level.
 * Dropdowns inside modals inherit modal z-index context.
 * Do not introduce new shadows without approval.
+* Use overlay.scrim for modals, overlay.scrim-light for drawers, and no scrim for floating layers.
 
 ---
 
@@ -826,6 +850,16 @@ grid:
   margin-lg: spacing.8
 
 ## Layout Usage
+
+Mobile-first means styles apply from the smallest breakpoint and scale up.
+
+| Breakpoint | Min width | Max width | Device |
+| --- | --- | --- | --- |
+| sm | 640px | 767px | Mobile |
+| md | 768px | 1023px | Tablet |
+| lg | 1024px | 1279px | Laptop |
+| xl | 1280px | 1535px | Desktop |
+| 2xl | 1536px | — | Large Desktop |
 
 | Structure | Token | Value |
 | --- | --- | --- |

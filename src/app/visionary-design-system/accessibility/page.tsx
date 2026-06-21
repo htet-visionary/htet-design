@@ -1,10 +1,10 @@
+import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import { focusRing, touchTarget } from "@design-system/visionary";
+  ContrastRequirementsPreview,
+  FocusRingPreview,
+  ReducedMotionPreview,
+  TouchTargetPreview,
+} from "@/components/visionary/AccessibilityPreview";
 
 export default function AccessibilityPage() {
   return (
@@ -14,38 +14,17 @@ export default function AccessibilityPage() {
       description="WCAG 2.1 Level AA minimum for all Visionary products."
     >
       <SectionBlock title="Contrast requirements">
-        <TokenTable
-          rows={[
-            { token: "Body text on background", value: "4.5:1 minimum" },
-            {
-              token: "Large text (18px+ regular, 14px+ bold)",
-              value: "3:1 minimum",
-            },
-            { token: "UI components / graphical objects", value: "3:1 minimum" },
-            { token: "Focus indicator vs adjacent colors", value: "3:1 minimum" },
-            {
-              token: "Text on solid action or status fills",
-              value: "4.5:1 minimum",
-              note: "use text.on-solid",
-            },
+        <ContrastRequirementsPreview />
+        <RuleList
+          rules={[
+            "Validate semantic pairings before release.",
+            "Do not ship new token combinations without contrast verification.",
           ]}
         />
       </SectionBlock>
 
       <SectionBlock title="Focus ring">
-        <TokenTable
-          rows={[
-            { token: "width", value: `${focusRing.width}px` },
-            { token: "style", value: focusRing.style },
-            { token: "color", value: "focus.ring", note: "var(--v-focus-ring)" },
-            { token: "offset", value: `${focusRing.offset}px` },
-            {
-              token: "offset-color",
-              value: "focus.ring-offset",
-              note: "var(--v-focus-ring-offset)",
-            },
-          ]}
-        />
+        <FocusRingPreview />
         <RuleList
           rules={[
             "Use :focus-visible, not :focus alone.",
@@ -56,34 +35,25 @@ export default function AccessibilityPage() {
       </SectionBlock>
 
       <SectionBlock title="Touch targets">
-        <TokenTable
-          rows={[
-            {
-              token: "minimum",
-              value: `${touchTarget.minimum}px`,
-              note: "var(--v-touch-min)",
-            },
-            {
-              token: "recommended",
-              value: `${touchTarget.recommended}px`,
-              note: "var(--v-touch-recommended)",
-            },
-            {
-              token: "spacing-between-targets",
-              value: `${touchTarget.spacingBetween}px`,
-              note: "spacing.2",
-            },
+        <TouchTargetPreview />
+        <RuleList
+          rules={[
+            "Visual size may be smaller only when the hit area meets touchTarget.minimum.",
+            "Icon-only controls must expand their hit area to 44px minimum.",
+            "Dense desktop layouts may use 44px minimum; mobile should prefer 48px.",
           ]}
         />
       </SectionBlock>
 
       <SectionBlock title="Reduced motion">
+        <ReducedMotionPreview />
         <RuleList
           rules={[
             "Respect prefers-reduced-motion: reduce.",
             "Non-essential animation → motion.duration.instant.",
-            "Opacity fade only, max 100ms for modal/alert enter.",
+            "Opacity fade only, max 100ms for modal and alert enter.",
             "No autoplay decorative motion.",
+            "Essential feedback such as loading indicators may remain but must not flash.",
           ]}
         />
       </SectionBlock>

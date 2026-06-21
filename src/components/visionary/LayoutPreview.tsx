@@ -1,148 +1,171 @@
 import {
+  Laptop,
+  Monitor,
+  Smartphone,
+  Tablet,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import {
   breakpoints,
-  container,
-  content,
   grid,
   touchTarget,
 } from "@design-system/visionary";
 
-const breakpointMax = breakpoints["2xl"];
-const containerMax = container.xl;
+type BreakpointName = keyof typeof breakpoints;
 
-type ContainerToken = keyof typeof container;
-type ContentToken = keyof typeof content;
+type BreakpointRow = {
+  name: BreakpointName;
+  min: number;
+  max: number | null;
+  device: string;
+  icon: LucideIcon;
+};
 
-function LayoutScaleBar({ ratio }: { ratio: number }) {
-  return (
-    <span className="v-layout-scale__track" aria-hidden>
-      <span
-        className="v-layout-scale__bar"
-        style={{ width: `${Math.min(Math.max(ratio * 100, 2), 100)}%` }}
-      />
-    </span>
-  );
+const breakpointRows: BreakpointRow[] = [
+  { name: "sm", min: breakpoints.sm, max: breakpoints.md - 1, device: "Mobile", icon: Smartphone },
+  { name: "md", min: breakpoints.md, max: breakpoints.lg - 1, device: "Tablet", icon: Tablet },
+  { name: "lg", min: breakpoints.lg, max: breakpoints.xl - 1, device: "Laptop", icon: Laptop },
+  { name: "xl", min: breakpoints.xl, max: breakpoints["2xl"] - 1, device: "Desktop", icon: Monitor },
+  {
+    name: "2xl",
+    min: breakpoints["2xl"],
+    max: null,
+    device: "Large Desktop",
+    icon: Monitor,
+  },
+];
+
+function breakpointTokenClass() {
+  return "v-code v-code--sm v-spacing-scale__token";
 }
 
-function ContainerWidthSpecimen({
-  token,
-  px,
+const breakpointScaleVisualMax = Math.round(breakpoints["2xl"] * 1.25);
+const openSegmentArrowReserve = 4;
+
+function axisLabelClass(value: number) {
+  const position = (value / breakpointScaleVisualMax) * 100;
+
+  if (position <= 6) {
+    return "v-layout-bp-scale__label--align-start";
+  }
+
+  if (position >= 94) {
+    return "v-layout-bp-scale__label--align-end";
+  }
+
+  return "v-layout-bp-scale__label--align-center";
+}
+
+function BreakpointVisualScale({
+  min,
+  max,
 }: {
-  token: ContainerToken | ContentToken;
-  px: number | string;
+  min: number;
+  max: number | null;
 }) {
-  const ratio =
-    typeof px === "number" ? px / containerMax : 1;
+  const left = (min / breakpointScaleVisualMax) * 100;
+  const width = max
+    ? ((max - min + 1) / breakpointScaleVisualMax) * 100
+    : Math.max(100 - left - openSegmentArrowReserve, 6);
 
-  if (typeof px === "string") {
-    return (
-      <span className="v-layout-specimen v-layout-specimen--full" aria-hidden>
-        <span className="v-layout-specimen__full-bar" />
-      </span>
-    );
-  }
-
-  if (token === "reading" || token === "narrow" || token === "wide") {
-    return (
+  return (
+    <div className="v-layout-bp-scale" aria-hidden>
+      <div className="v-layout-bp-scale__track">
+      <span className="v-layout-bp-scale__axis" />
       <span
-        className="v-layout-specimen v-layout-specimen--content"
-        style={{ maxWidth: px }}
-        aria-hidden
+        className={[
+          "v-layout-bp-scale__segment",
+          max ? "" : "v-layout-bp-scale__segment--open",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        style={{ left: `${left}%`, width: `${width}%` }}
       >
-        <span className="v-layout-specimen__content-line" />
-        <span className="v-layout-specimen__content-line v-layout-specimen__content-line--short" />
+        <span className="v-layout-bp-scale__tick v-layout-bp-scale__tick--start" />
+        {max ? <span className="v-layout-bp-scale__tick v-layout-bp-scale__tick--end" /> : null}
       </span>
-    );
-  }
-
-  return (
-    <span className="v-layout-specimen v-layout-specimen--container" aria-hidden>
-      <span className="v-layout-specimen__container-shell" style={{ width: px }} />
-    </span>
-  );
-}
-
-function GridUsageSpecimen() {
-  return (
-    <span className="v-layout-specimen v-layout-specimen--grid" aria-hidden>
-      <span className="v-layout-grid-preview__grid v-layout-grid-preview__grid--compact">
-        {Array.from({ length: grid.columns }, (_, index) => (
-          <span key={index} className="v-layout-grid-preview__col" />
-        ))}
+      <span
+        className={[
+          "v-layout-bp-scale__label",
+          "v-layout-bp-scale__label--axis",
+          axisLabelClass(min),
+        ].join(" ")}
+        style={{ left: `${left}%` }}
+      >
+        {min}px
       </span>
-    </span>
+      {max ? (
+        <span
+          className={[
+            "v-layout-bp-scale__label",
+            "v-layout-bp-scale__label--axis",
+            axisLabelClass(max + 1),
+          ].join(" ")}
+          style={{ left: `${((max + 1) / breakpointScaleVisualMax) * 100}%` }}
+        >
+          {max}px
+        </span>
+      ) : (
+        <span className="v-layout-bp-scale__arrow" aria-hidden />
+      )}
+      </div>
+    </div>
   );
 }
 
 function TouchTargetSpecimen({ size }: { size: "minimum" | "recommended" }) {
-  const px = size === "minimum" ? touchTarget.minimum : touchTarget.recommended;
-
   return (
-    <span className="v-layout-specimen v-layout-specimen--touch" aria-hidden>
-      <span className="v-touch-target-preview">
-        <span
-          className={`v-touch-target-preview__hit v-touch-target-preview__hit--${size === "minimum" ? "min" : "rec"}`}
-        />
-        <span className="v-touch-target-preview__visual" />
-      </span>
-      <span className="v-layout-specimen__touch-label">{px}px</span>
+    <span className="v-touch-target-preview" aria-hidden>
+      <span
+        className={`v-touch-target-preview__hit v-touch-target-preview__hit--${size === "minimum" ? "min" : "rec"}`}
+      />
+      <span className="v-touch-target-preview__visual" />
     </span>
   );
 }
 
-export function BreakpointsScalePreview() {
+export function BreakpointsTablePreview() {
   return (
-    <ul className="v-foundation-preview v-spacing-scale" aria-label="Breakpoint scale">
-      {(Object.keys(breakpoints) as Array<keyof typeof breakpoints>).map((name) => {
-        const px = breakpoints[name];
-        return (
-          <li key={name} className="v-spacing-scale__row">
-            <code className="v-code v-code--sm v-spacing-scale__token">{name}</code>
-            <LayoutScaleBar ratio={px / breakpointMax} />
-            <span className="v-spacing-scale__px">{px}px</span>
-          </li>
-        );
-      })}
-    </ul>
+    <div className="v-foundation-preview v-layout-bp-table" aria-label="Breakpoints">
+      <div className="v-layout-bp-table__head" aria-hidden>
+        <span>Name</span>
+        <span>Min width</span>
+        <span>Max width</span>
+        <span>Device range</span>
+      </div>
+      <ul className="v-layout-bp-table__body">
+        {breakpointRows.map((row) => {
+          const Icon = row.icon;
+          return (
+            <li key={row.name} className="v-layout-bp-table__row">
+              <code className={breakpointTokenClass()}>{row.name}</code>
+              <span className="v-layout-bp-table__value">{row.min}px</span>
+              <span className="v-layout-bp-table__value">
+                {row.max ? `${row.max}px` : "—"}
+              </span>
+              <span className="v-layout-bp-table__device">
+                <Icon
+                  className="v-layout-bp-table__icon"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+                <span>{row.device}</span>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
-export function ContainerScalePreview() {
-  const containerRows = (Object.keys(container) as ContainerToken[]).map((name) => ({
-    name,
-    group: "container" as const,
-    px: container[name],
-    display:
-      typeof container[name] === "number"
-        ? `${container[name]}px`
-        : container[name],
-  }));
-
-  const contentRows = (Object.keys(content) as ContentToken[]).map((name) => ({
-    name,
-    group: "content" as const,
-    px: content[name],
-    display: `${content[name]}px`,
-  }));
-
+export function BreakpointVisualScalePreview() {
   return (
-    <ul className="v-foundation-preview v-spacing-scale" aria-label="Container and content widths">
-      {containerRows.map((row) => (
-        <li key={`container-${row.name}`} className="v-spacing-scale__row">
-          <code className="v-code v-code--sm v-spacing-scale__token">{row.name}</code>
-          <LayoutScaleBar
-            ratio={typeof row.px === "number" ? row.px / containerMax : 1}
-          />
-          <span className="v-spacing-scale__px">{row.display}</span>
-        </li>
-      ))}
-      {contentRows.map((row) => (
-        <li
-          key={`content-${row.name}`}
-          className="v-spacing-scale__row v-layout-scale__row--content"
-        >
-          <code className="v-code v-code--sm v-spacing-scale__token">{row.name}</code>
-          <LayoutScaleBar ratio={row.px / containerMax} />
-          <span className="v-spacing-scale__px">{row.display}</span>
+    <ul className="v-foundation-preview v-layout-bp-scales" aria-label="Breakpoint visual scale">
+      {breakpointRows.map((row) => (
+        <li key={row.name} className="v-layout-bp-scales__row">
+          <code className={breakpointTokenClass()}>{row.name}</code>
+          <BreakpointVisualScale min={row.min} max={row.max} />
         </li>
       ))}
     </ul>
@@ -159,15 +182,13 @@ export function GridScalePreview() {
   ];
 
   return (
-    <div className="v-layout-grid-scale">
-      <figure className="v-foundation-preview v-layout-grid-preview" aria-label="12-column grid">
-        <div className="v-layout-grid-preview__grid">
-          {Array.from({ length: grid.columns }, (_, index) => (
-            <span key={index} className="v-layout-grid-preview__col" aria-hidden />
-          ))}
-        </div>
-      </figure>
-      <ul className="v-foundation-preview v-spacing-scale v-layout-grid-scale__specs" aria-label="Grid tokens">
+    <div className="v-foundation-preview v-layout-grid-scale" aria-label="12-column grid">
+      <div className="v-layout-grid-preview__grid">
+        {Array.from({ length: grid.columns }, (_, index) => (
+          <span key={index} className="v-layout-grid-preview__col" aria-hidden />
+        ))}
+      </div>
+      <ul className="v-layout-grid-scale__specs" aria-label="Grid tokens">
         {gridRows.map((row) => (
           <li key={row.name} className="v-spacing-scale__row">
             <code className="v-code v-code--sm v-spacing-scale__token">{row.name}</code>
@@ -188,93 +209,19 @@ export function GridScalePreview() {
   );
 }
 
-const usageRows = [
-  {
-    name: "Page shell",
-    token: "xl",
-    value: `${container.xl}px`,
-    specimen: { kind: "container" as const, token: "xl" as ContainerToken, px: container.xl },
-  },
-  {
-    name: "Article body",
-    token: "reading",
-    value: `${content.reading}px`,
-    specimen: { kind: "content" as const, token: "reading" as ContentToken, px: content.reading },
-  },
-  {
-    name: "Form column",
-    token: "narrow",
-    value: `${content.narrow}px`,
-    specimen: { kind: "content" as const, token: "narrow" as ContentToken, px: content.narrow },
-  },
-  {
-    name: "Marketing hero",
-    token: "full",
-    value: "100%",
-    specimen: { kind: "container-full" as const, token: "full" as ContainerToken, px: "100%" },
-  },
-  {
-    name: "Product layout",
-    token: "12 col",
-    value: `${grid.columns} columns`,
-    specimen: { kind: "grid" as const },
-  },
-];
-
-export function LayoutUsagePreview() {
-  return (
-    <ul className="v-foundation-preview v-spacing-usage" aria-label="Layout usage">
-      {usageRows.map((row) => (
-        <li key={row.name} className="v-spacing-usage__row">
-          <span className="v-spacing-usage__name">{row.name}</span>
-          {row.specimen.kind === "grid" ? (
-            <GridUsageSpecimen />
-          ) : (
-            <ContainerWidthSpecimen
-              token={row.specimen.token}
-              px={row.specimen.px}
-            />
-          )}
-          <span className="v-spacing-usage__meta">
-            <code className="v-code v-code--sm">{row.token}</code>
-            <span aria-hidden>·</span>
-            <span>{row.value}</span>
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export function TouchTargetPreview() {
   const rows = [
     { name: "minimum", px: touchTarget.minimum, variant: "minimum" as const },
     { name: "recommended", px: touchTarget.recommended, variant: "recommended" as const },
-    {
-      name: "spacing-between",
-      px: touchTarget.spacingBetween,
-      variant: null,
-    },
   ];
 
   return (
-    <ul className="v-foundation-preview v-spacing-scale" aria-label="Touch target scale">
+    <ul className="v-foundation-preview v-spacing-scale v-touch-target-scale" aria-label="Touch target scale">
       {rows.map((row) => (
-        <li key={row.name} className="v-spacing-scale__row">
+        <li key={row.name} className="v-spacing-scale__row v-touch-target-scale__row">
           <code className="v-code v-code--sm v-spacing-scale__token">{row.name}</code>
-          {row.variant ? (
-            <TouchTargetSpecimen size={row.variant} />
-          ) : (
-            <span className="v-layout-scale__track v-layout-scale__track--gap" aria-hidden>
-              <span
-                className="v-layout-scale__gap-bar"
-                style={{ width: row.px }}
-              />
-            </span>
-          )}
-          <span className="v-spacing-scale__px">
-            {row.variant ? `${row.px}px` : `spacing.2 · ${row.px}px`}
-          </span>
+          <TouchTargetSpecimen size={row.variant} />
+          <span className="v-spacing-scale__px">{row.px}px</span>
         </li>
       ))}
     </ul>
