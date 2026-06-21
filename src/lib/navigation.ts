@@ -40,13 +40,6 @@ export const visionaryNavigation: NavGroup[] = [
     items: [{ title: "Accessibility", href: `${designSystemBase}/accessibility` }],
   },
   {
-    title: "Themes",
-    items: [
-      { title: "Lucky Charm", href: `${designSystemBase}/themes/lucky-charm` },
-      { title: "Dream Fund", href: `${designSystemBase}/themes/dream-fund` },
-    ],
-  },
-  {
     title: "Components",
     items: [
       { title: "Accordion", href: `${designSystemBase}/components/accordion` },
@@ -75,6 +68,13 @@ export const visionaryNavigation: NavGroup[] = [
       { title: "Tag", href: `${designSystemBase}/components/tag` },
       { title: "Textarea", href: `${designSystemBase}/components/textarea` },
       { title: "Toast", href: `${designSystemBase}/components/toast` },
+    ],
+  },
+  {
+    title: "Themes",
+    items: [
+      { title: "Lucky Charm", href: `${designSystemBase}/themes/lucky-charm` },
+      { title: "Dream Fund", href: `${designSystemBase}/themes/dream-fund` },
     ],
   },
 ];
