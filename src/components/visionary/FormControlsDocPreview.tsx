@@ -13,43 +13,6 @@ function fieldWrapperClass(state: FieldState = "default") {
     .join(" ");
 }
 
-export function TextareaVariantsPreview() {
-  return (
-    <ComponentDocGroup
-      label="Textarea variants"
-      items={[
-        {
-          label: "Default",
-          children: (
-            <div className={fieldWrapperClass("default")} aria-hidden>
-              <span className="v-cmp-field__label">Notes</span>
-              <span className="v-cmp-textarea">Placeholder text</span>
-            </div>
-          ),
-        },
-        {
-          label: "Focus",
-          children: (
-            <div className={fieldWrapperClass("focus")} aria-hidden>
-              <span className="v-cmp-field__label">Notes</span>
-              <span className="v-cmp-textarea">Add context for your team.</span>
-            </div>
-          ),
-        },
-        {
-          label: "Inactive",
-          children: (
-            <div className={fieldWrapperClass("disabled")} aria-hidden>
-              <span className="v-cmp-field__label">Notes</span>
-              <span className="v-cmp-textarea">Locked value</span>
-            </div>
-          ),
-        },
-      ]}
-    />
-  );
-}
-
 export function SelectVariantsPreview() {
   return (
     <ComponentDocGroup

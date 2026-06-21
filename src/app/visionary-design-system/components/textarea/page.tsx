@@ -1,10 +1,33 @@
-import { componentDocPage } from "@/components/visionary/componentDocPage";
-import { TextareaVariantsPreview } from "@/components/visionary/FormControlsDocPreview";
+import { DocPage, SectionBlock } from "@/components/visionary/DocParts";
+import {
+  TextareaRowsPreview,
+  TextareaSizesPreview,
+  TextareaValidationPreview,
+  TextareaVariantsPreview,
+} from "@/components/visionary/TextareaDocPreview";
 
 export default function TextareaPage() {
-  return componentDocPage({
-    title: "Textarea",
-    description: "Multi-line text fields for longer form content.",
-    preview: <TextareaVariantsPreview />,
-  });
+  return (
+    <DocPage
+      eyebrow="Guidelines · Components"
+      title="Textarea"
+      description="Multi-line fields across states, sizes, row expansion, and validation feedback."
+    >
+      <SectionBlock title="Variants">
+        <TextareaVariantsPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Sizes">
+        <TextareaSizesPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Rows">
+        <TextareaRowsPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Success, error, and warning">
+        <TextareaValidationPreview />
+      </SectionBlock>
+    </DocPage>
+  );
 }

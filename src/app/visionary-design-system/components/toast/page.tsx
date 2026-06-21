@@ -1,10 +1,23 @@
-import { componentDocPage } from "@/components/visionary/componentDocPage";
-import { ToastVariantsPreview } from "@/components/visionary/FeedbackDocPreview";
+import { DocPage, SectionBlock } from "@/components/visionary/DocParts";
+import {
+  ToastDismissiblePreview,
+  ToastVariantsPreview,
+} from "@/components/visionary/ToastDocPreview";
 
 export default function ToastPage() {
-  return componentDocPage({
-    title: "Toast",
-    description: "Transient feedback messages that appear above the page.",
-    preview: <ToastVariantsPreview />,
-  });
+  return (
+    <DocPage
+      eyebrow="Guidelines · Components"
+      title="Toast"
+      description="Transient feedback messages across variants and dismissible patterns."
+    >
+      <SectionBlock title="Variants">
+        <ToastVariantsPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Dismissible">
+        <ToastDismissiblePreview />
+      </SectionBlock>
+    </DocPage>
+  );
 }

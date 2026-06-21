@@ -30,7 +30,8 @@
   text-decoration: none;
   transition:
     color var(--v-motion-fast) var(--v-motion-easing-standard),
-    background-color var(--v-motion-fast) var(--v-motion-easing-standard);
+    background-color var(--v-motion-fast) var(--v-motion-easing-standard),
+    box-shadow var(--v-motion-fast) var(--v-motion-easing-standard);
 }
 
 .v-hub__icon {
@@ -46,7 +47,8 @@
 
 .v-hub__card:hover {
   color: var(--v-action-primary);
-  background: var(--v-bg-subtle);
+  background: color-mix(in srgb, var(--v-action-primary) 10%, var(--v-surface-primary));
+  box-shadow: inset 0 0 0 1px var(--v-border-brand);
 }
 
 .v-hub__card:hover .v-hub__icon {

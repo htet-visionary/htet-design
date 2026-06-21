@@ -59,6 +59,7 @@ export const visionaryNavigation: NavGroup[] = [
       { title: "Checkbox", href: `${designSystemBase}/components/checkbox` },
       { title: "Chip", href: `${designSystemBase}/components/chip` },
       { title: "Dropdown", href: `${designSystemBase}/components/dropdown` },
+      { title: "Divider", href: `${designSystemBase}/components/divider` },
       { title: "Empty state", href: `${designSystemBase}/components/empty-state` },
       { title: "Input", href: `${designSystemBase}/components/input` },
       { title: "List", href: `${designSystemBase}/components/list` },

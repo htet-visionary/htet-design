@@ -38,6 +38,7 @@ import {
   Bell,
   ChevronsUpDown,
   BadgeCheck,
+  SeparatorHorizontal,
 } from "lucide-react";
 import { designSystemBase } from "./navigation";
 
@@ -76,6 +77,7 @@ export const dsNavIcons: Record<string, LucideIcon> = {
   [`${base}/tabs`]: LayoutTemplate,
   [`${base}/accordion`]: LayoutList,
   [`${base}/dropdown`]: ChevronDown,
+  [`${base}/divider`]: SeparatorHorizontal,
   [`${base}/menu`]: Menu,
   [`${base}/breadcrumb`]: ChevronDown,
   [`${base}/navigation`]: Compass,
