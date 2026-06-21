@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRight, ImageIcon, Mail } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { PortfolioHighlights } from "@/components/portfolio/PortfolioHighlights";
 import { PortfolioNav } from "@/components/portfolio/PortfolioNav";
 import { PortfolioSocialLinks } from "@/components/portfolio/PortfolioSocialLinks";
 import {
   activitiesIntro,
-  galleryPlaceholders,
+  portfolioGallery,
   portfolioProfile,
   skillCategories,
   workPlaceholders,
@@ -64,10 +64,11 @@ export default function PortfolioPage() {
                 <div className="v-portfolio-hero__frame">
                   <Image
                     src={portfolioProfile.heroImage}
-                    alt={`${portfolioProfile.name} on a green hillside walkway`}
+                    alt={`${portfolioProfile.name} leaning on a wooden fence with green hills and blue sky behind`}
                     fill
                     priority
-                    sizes="(max-width: 768px) 100vw, 42vw"
+                    unoptimized
+                    sizes="(max-width: 767px) 100vw, 560px"
                     className="v-portfolio-hero__image"
                   />
                 </div>
@@ -160,27 +161,34 @@ export default function PortfolioPage() {
 
               <div className="v-portfolio-activities__scroller">
                 <ul className="v-portfolio-activities__track" aria-label="Photo gallery">
-                  {galleryPlaceholders.map((item, index) => (
+                  {portfolioGallery.map((item, index) => (
                     <li
                       key={item.id}
                       className={[
                         "v-portfolio-activities__slide",
                         item.aspect === "tall" ? "v-portfolio-activities__slide--tall" : "",
+                        item.aspect === "wide" ? "v-portfolio-activities__slide--wide" : "",
                       ]
                         .filter(Boolean)
                         .join(" ")}
                     >
-                      <div className="v-portfolio-activities__placeholder">
-                        <ImageIcon
-                          className="v-portfolio-activities__icon"
-                          strokeWidth={1.5}
-                          aria-hidden
+                      <figure className="v-portfolio-activities__figure">
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          fill
+                          unoptimized
+                          sizes="(max-width: 767px) 11rem, 15rem"
+                          className="v-portfolio-activities__image"
+                          style={{ objectPosition: item.objectPosition }}
                         />
-                        <span className="v-portfolio-activities__caption">{item.caption}</span>
-                        <span className="v-portfolio-activities__index">
+                        <figcaption className="v-portfolio-activities__caption">
+                          {item.caption}
+                        </figcaption>
+                        <span className="v-portfolio-activities__index" aria-hidden>
                           {String(index + 1).padStart(2, "0")}
                         </span>
-                      </div>
+                      </figure>
                     </li>
                   ))}
                 </ul>
@@ -191,38 +199,34 @@ export default function PortfolioPage() {
 
         <section id="contact" className="v-portfolio-section v-portfolio-contact">
           <div className="v-portfolio-section__inner">
-            <PortfolioSectionHead index="04" eyebrow="Let's connect" title="Contact" />
+            <PortfolioSectionHead
+              index="04"
+              eyebrow="Let's connect"
+              title="Contact"
+              description="Drop me a message. Let's share ideas & discuss ways to collaborate."
+            />
 
-            <div className="v-portfolio-contact__intro">
-              <p className="v-portfolio-contact__line">Drop me a message.</p>
-              <p className="v-portfolio-contact__line v-portfolio-contact__line--accent">
-                Let&apos;s share ideas &amp; discuss ways to collaborate.
-              </p>
-            </div>
+            <ul className="v-portfolio-contact-list">
+              <li className="v-portfolio-contact-list__item">
+                <article className="v-portfolio-contact-list__row">
+                  <div className="v-portfolio-contact-list__email-group">
+                    <p className="v-portfolio-contact-list__label">Get in touch at</p>
+                    <div className="v-portfolio-contact-list__email-actions">
+                      <a
+                        href={`mailto:${portfolioProfile.email}`}
+                        className="v-portfolio-contact-list__email"
+                      >
+                        {portfolioProfile.email}
+                      </a>
+                    </div>
+                  </div>
 
-            <div className="v-portfolio-contact__bar">
-              <p className="v-portfolio-contact__label">Get in touch at</p>
-
-              <div className="v-portfolio-contact__email-row">
-                <a
-                  href={`mailto:${portfolioProfile.email}`}
-                  className="v-portfolio-contact__email"
-                >
-                  {portfolioProfile.email}
-                </a>
-                <PortfolioSocialLinks />
-              </div>
-
-              <a
-                href={`mailto:${portfolioProfile.email}`}
-                className="v-cmp-btn v-cmp-btn--secondary-green v-cmp-btn--md v-portfolio-contact__cta"
-              >
-                <span className="v-cmp-btn__icon" aria-hidden>
-                  <Mail strokeWidth={2} />
-                </span>
-                Send a message
-              </a>
-            </div>
+                  <div className="v-portfolio-contact-list__social-group">
+                    <PortfolioSocialLinks />
+                  </div>
+                </article>
+              </li>
+            </ul>
           </div>
         </section>
       </main>

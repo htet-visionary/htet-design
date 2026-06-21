@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, Download, Menu, X } from "lucide-react";
+import { ChevronLeft, Menu, X } from "lucide-react";
 import { SiteHubNav } from "@/components/SiteHubNav";
 import { siteHubPath } from "@/lib/navigation";
 import {
@@ -162,14 +162,10 @@ export function PortfolioNav() {
           </nav>
 
           <a
-            href={portfolioProfile.cvHref}
-            className="v-cmp-btn v-cmp-btn--primary-green v-cmp-btn--compact v-portfolio-topbar__cv"
-            download
+            href="#contact"
+            className="v-cmp-btn v-cmp-btn--primary-green v-cmp-btn--md v-portfolio-action-btn v-portfolio-topbar__cv"
           >
-            <span className="v-cmp-btn__icon" aria-hidden>
-              <Download strokeWidth={2} />
-            </span>
-            Download CV
+            Let&apos;s Connect
           </a>
         </div>
       </header>

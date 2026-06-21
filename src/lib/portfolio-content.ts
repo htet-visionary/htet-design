@@ -11,10 +11,17 @@ export const portfolioSocialLinks = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/htet-htet-aung-0073931b8/",
+    icon: "/portfolio/social/linkedin.png",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/thaethae_0",
+    icon: "/portfolio/social/instagram.png",
   },
   {
     label: "Behance",
     href: "https://www.behance.net/htethtetaung_ucsy16",
+    icon: "/portfolio/social/behance.png",
   },
 ] as const;
 
@@ -103,13 +110,47 @@ export const workPlaceholders = [
   },
 ] as const;
 
-export const galleryPlaceholders = [
-  { id: "gallery-1", aspect: "tall", caption: "Travel & nature" },
-  { id: "gallery-2", aspect: "wide", caption: "Family moments" },
-  { id: "gallery-3", aspect: "square", caption: "Toy collection" },
-  { id: "gallery-4", aspect: "square", caption: "Exploring cities" },
-  { id: "gallery-5", aspect: "wide", caption: "Weekend walks" },
-  { id: "gallery-6", aspect: "tall", caption: "Quiet mornings" },
+export const portfolioGallery = [
+  {
+    id: "gallery-1",
+    src: "/portfolio/gallery/01-travel-hills.png",
+    alt: "Htet Htet Aung looking out over a green hillside on a sunny day",
+    aspect: "tall",
+    caption: "Travel & nature",
+    objectPosition: "50% 35%",
+  },
+  {
+    id: "gallery-2",
+    src: "/portfolio/gallery/02-crater-trail.png",
+    alt: "Htet Htet Aung on a walkway overlooking a grassy crater slope",
+    aspect: "square",
+    caption: "Weekend walks",
+    objectPosition: "50% 45%",
+  },
+  {
+    id: "gallery-3",
+    src: "/portfolio/gallery/03-fence-lookout.png",
+    alt: "Htet Htet Aung leaning on a wooden fence with rolling green hills behind",
+    aspect: "tall",
+    caption: "Open landscapes",
+    objectPosition: "50% 40%",
+  },
+  {
+    id: "gallery-4",
+    src: "/portfolio/gallery/04-pathside.png",
+    alt: "Htet Htet Aung pausing on a scenic mountain path with a railing",
+    aspect: "wide",
+    caption: "Exploring trails",
+    objectPosition: "55% 50%",
+  },
+  {
+    id: "gallery-5",
+    src: "/portfolio/gallery/06-open-sky.png",
+    alt: "Htet Htet Aung standing by a fence under a wide blue sky",
+    aspect: "wide",
+    caption: "Fresh air moments",
+    objectPosition: "50% 45%",
+  },
 ] as const;
 
 export const activitiesIntro =
