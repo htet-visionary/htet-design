@@ -8,7 +8,6 @@ import type { LucideIcon } from "lucide-react";
 import {
   breakpoints,
   grid,
-  touchTarget,
 } from "@design-system/visionary";
 
 type BreakpointName = keyof typeof breakpoints;
@@ -113,17 +112,6 @@ function BreakpointVisualScale({
   );
 }
 
-function TouchTargetSpecimen({ size }: { size: "minimum" | "recommended" }) {
-  return (
-    <span className="v-touch-target-preview" aria-hidden>
-      <span
-        className={`v-touch-target-preview__hit v-touch-target-preview__hit--${size === "minimum" ? "min" : "rec"}`}
-      />
-      <span className="v-touch-target-preview__visual" />
-    </span>
-  );
-}
-
 export function BreakpointsTablePreview() {
   return (
     <div className="v-foundation-preview v-layout-bp-table" aria-label="Breakpoints">
@@ -206,24 +194,5 @@ export function GridScalePreview() {
         ))}
       </ul>
     </div>
-  );
-}
-
-export function TouchTargetPreview() {
-  const rows = [
-    { name: "minimum", px: touchTarget.minimum, variant: "minimum" as const },
-    { name: "recommended", px: touchTarget.recommended, variant: "recommended" as const },
-  ];
-
-  return (
-    <ul className="v-foundation-preview v-spacing-scale v-touch-target-scale" aria-label="Touch target scale">
-      {rows.map((row) => (
-        <li key={row.name} className="v-spacing-scale__row v-touch-target-scale__row">
-          <code className="v-code v-code--sm v-spacing-scale__token">{row.name}</code>
-          <TouchTargetSpecimen size={row.variant} />
-          <span className="v-spacing-scale__px">{row.px}px</span>
-        </li>
-      ))}
-    </ul>
   );
 }

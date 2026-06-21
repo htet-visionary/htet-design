@@ -40,18 +40,21 @@ const overlayRows = [
   },
 ];
 
-function PreviewFrame({ children }: { children: ReactNode }) {
-  return <span className="v-elevation-preview-frame">{children}</span>;
+function PreviewSlot({ children }: { children: ReactNode }) {
+  return <span className="v-elevation-token-table__preview">{children}</span>;
 }
 
 function DropShadowPreviewBox({
   level,
+  shadow,
 }: {
   level: (typeof dropShadowRows)[number]["level"];
+  shadow: string;
 }) {
   return (
     <span
       className={`v-elevation-specimen v-elevation-specimen--${level} v-elevation-specimen--shadow-preview`}
+      style={{ boxShadow: shadow }}
       aria-hidden
     />
   );
@@ -67,6 +70,7 @@ function OverlayPreviewBox({
       className={`v-elevation-overlay-preview v-elevation-overlay-preview--${level}`}
       aria-hidden
     >
+      <span className="v-elevation-overlay-preview__stage" />
       <span className="v-elevation-overlay-preview__content" />
       {level !== "none" ? <span className="v-elevation-overlay-preview__scrim" /> : null}
     </span>
@@ -87,12 +91,10 @@ export function ElevationDropShadowPreview() {
       <ul className="v-elevation-token-table__body">
         {dropShadowRows.map((row) => (
           <li key={row.level} className="v-elevation-token-table__row">
-            <code className="v-code v-code--sm v-spacing-scale__token">{row.level}</code>
-            <span className="v-elevation-token-table__preview">
-              <PreviewFrame>
-                <DropShadowPreviewBox level={row.level} />
-              </PreviewFrame>
-            </span>
+            <code className="v-code v-code--sm v-spacing-scale__token v-elevation-token-table__level">{row.level}</code>
+            <PreviewSlot>
+              <DropShadowPreviewBox level={row.level} shadow={row.shadow} />
+            </PreviewSlot>
             <code className="v-code v-code--sm v-spacing-scale__token v-elevation-token-table__value">
               {row.shadow}
             </code>
@@ -117,12 +119,10 @@ export function ElevationOverlayPreview() {
       <ul className="v-elevation-token-table__body">
         {overlayRows.map((row) => (
           <li key={row.level} className="v-elevation-token-table__row">
-            <code className="v-code v-code--sm v-spacing-scale__token">{row.level}</code>
-            <span className="v-elevation-token-table__preview">
-              <PreviewFrame>
-                <OverlayPreviewBox level={row.level} />
-              </PreviewFrame>
-            </span>
+            <code className="v-code v-code--sm v-spacing-scale__token v-elevation-token-table__level">{row.level}</code>
+            <PreviewSlot>
+              <OverlayPreviewBox level={row.level} />
+            </PreviewSlot>
             <code className="v-code v-code--sm v-spacing-scale__token v-elevation-token-table__value">
               {row.value}
             </code>

@@ -524,6 +524,19 @@ Rules:
 
 ---
 
+## Keyboard
+
+All interactive surfaces must be fully operable by keyboard.
+
+Requirements:
+
+* Tab order follows a logical sequence; all actions are reachable without a pointer.
+* Modals trap focus while open and return focus to the trigger on close.
+* Inputs require visible labels; placeholder text is not a substitute for a label.
+* Custom controls use the correct role and accessible name (`aria-label`, `aria-labelledby`).
+
+---
+
 ## Prefers Reduced Motion
 
 Respect `prefers-reduced-motion: reduce`.

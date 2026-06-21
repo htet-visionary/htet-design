@@ -3,7 +3,6 @@ import {
   BreakpointVisualScalePreview,
   BreakpointsTablePreview,
   GridScalePreview,
-  TouchTargetPreview,
 } from "@/components/visionary/LayoutPreview";
 
 export default function LayoutPage() {
@@ -25,10 +24,6 @@ export default function LayoutPage() {
         <GridScalePreview />
       </SectionBlock>
 
-      <SectionBlock title="Touch targets">
-        <TouchTargetPreview />
-      </SectionBlock>
-
       <SectionBlock title="Rules">
         <RuleList
           rules={[
@@ -36,7 +31,6 @@ export default function LayoutPage() {
             "Page shells use container.*; articles and forms use content.*.",
             "Single column below md; span cards in multiples of 3 or 4 on desktop.",
             "Max two nested grid levels.",
-            "Visual size may be smaller only when the hit area meets touchTarget.minimum.",
             "No custom breakpoints without approval.",
           ]}
         />

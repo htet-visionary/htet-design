@@ -1,7 +1,8 @@
 import { DocPage, RuleList, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  ContrastRequirementsPreview,
-  FocusRingPreview,
+  ContrastPreview,
+  FocusPreview,
+  KeyboardPreview,
   ReducedMotionPreview,
   TouchTargetPreview,
 } from "@/components/visionary/AccessibilityPreview";
@@ -13,49 +14,36 @@ export default function AccessibilityPage() {
       title="Accessibility"
       description="WCAG 2.1 Level AA minimum for all Visionary products."
     >
-      <SectionBlock title="Contrast requirements">
-        <ContrastRequirementsPreview />
+      <SectionBlock title="Guidelines">
         <RuleList
           rules={[
-            "Validate semantic pairings before release.",
-            "Do not ship new token combinations without contrast verification.",
+            "Target WCAG 2.1 Level AA for all products and surfaces.",
+            "Validate semantic pairings before release; do not ship unverified token combinations.",
+            "All components must be keyboard navigable, labeled, and use correct roles or ARIA.",
+            "Use :focus-visible and focus.ring tokens — do not disable focus indicators.",
+            "Respect prefers-reduced-motion: reduce for all non-essential animation.",
           ]}
         />
       </SectionBlock>
 
-      <SectionBlock title="Focus ring">
-        <FocusRingPreview />
-        <RuleList
-          rules={[
-            "Use :focus-visible, not :focus alone.",
-            "Do not remove outlines without a compliant replacement.",
-            "Nested interactives each receive their own focus ring.",
-          ]}
-        />
+      <SectionBlock title="Contrast">
+        <ContrastPreview />
       </SectionBlock>
 
-      <SectionBlock title="Touch targets">
+      <SectionBlock title="Focus">
+        <FocusPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Touch target">
         <TouchTargetPreview />
-        <RuleList
-          rules={[
-            "Visual size may be smaller only when the hit area meets touchTarget.minimum.",
-            "Icon-only controls must expand their hit area to 44px minimum.",
-            "Dense desktop layouts may use 44px minimum; mobile should prefer 48px.",
-          ]}
-        />
+      </SectionBlock>
+
+      <SectionBlock title="Keyboard">
+        <KeyboardPreview />
       </SectionBlock>
 
       <SectionBlock title="Reduced motion">
         <ReducedMotionPreview />
-        <RuleList
-          rules={[
-            "Respect prefers-reduced-motion: reduce.",
-            "Non-essential animation → motion.duration.instant.",
-            "Opacity fade only, max 100ms for modal and alert enter.",
-            "No autoplay decorative motion.",
-            "Essential feedback such as loading indicators may remain but must not flash.",
-          ]}
-        />
       </SectionBlock>
     </DocPage>
   );
