@@ -101,7 +101,6 @@ export const siteMenuItems: SiteMenuItem[] = [
     title: "Visionary Design System",
     shortTitle: "Design System",
     href: designSystemBase,
-    openInNewTab: true,
   },
   { title: "Portfolio", href: "/portfolio" },
   { title: "Product", href: "/product" },

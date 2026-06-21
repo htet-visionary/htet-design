@@ -41,6 +41,13 @@
   margin-bottom: var(--v-space-6);
 }
 
+.v-shell__sidebar .v-site-hub-nav {
+  margin-bottom: var(--v-space-4);
+  padding: 0 0 var(--v-space-4);
+  border-bottom: 1px solid var(--v-border-subtle);
+  background: transparent;
+}
+
 .v-shell__brand-link {
   font-family: var(--v-font-display);
   font-size: var(--v-type-heading-sm);
@@ -212,12 +219,14 @@
 }
 
 .v-shell__mobile-title {
+  flex: 1;
+  min-width: 0;
   font-family: var(--v-font-display);
-  font-size: var(--v-type-label);
-  line-height: 1.3;
+  font-size: var(--v-type-heading-sm);
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--v-text-primary);
   text-decoration: none;
-  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
