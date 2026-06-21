@@ -4,7 +4,7 @@ import {
   RuleList,
   SectionBlock,
 } from "@/components/visionary/DocParts";
-import { designSystemBase } from "@/lib/navigation";
+import { designSystemBase, getFirstComponentHref } from "@/lib/navigation";
 import { visionaryMeta, themes } from "@design-system/visionary";
 
 export default function OverviewPage() {
@@ -71,7 +71,7 @@ export default function OverviewPage() {
             },
             {
               title: "Components",
-              href: `${designSystemBase}/components/button`,
+              href: getFirstComponentHref(),
               description: "Button, Input, Card, Alert, Modal foundations.",
             },
           ]}

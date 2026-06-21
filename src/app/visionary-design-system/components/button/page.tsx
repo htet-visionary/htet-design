@@ -1,50 +1,37 @@
+import { DocPage, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import { component } from "@design-system/visionary";
+  ButtonIconAffixPreview,
+  ButtonSizesPreview,
+  ButtonVariantsPreview,
+  IconButtonPreview,
+  LinkButtonPreview,
+} from "@/components/visionary/ButtonDocPreview";
 
 export default function ButtonPage() {
-  const { primary, secondary, destructive, disabled, shared } = component.button;
-
   return (
     <DocPage
       eyebrow="Guidelines · Components"
       title="Button"
-      description="Primary, secondary, and destructive action patterns."
+      description="Green and accent action patterns across variants, states, sizes, and icon treatments."
     >
-      <SectionBlock title="Token slots">
-        <TokenTable
-          rows={[
-            { token: "primary.background", value: String(primary.background) },
-            {
-              token: "primary.background-hover",
-              value: String(primary.backgroundHover),
-            },
-            { token: "secondary.text", value: String(secondary.text) },
-            {
-              token: "destructive.background",
-              value: String(destructive.background),
-            },
-            { token: "disabled.background", value: String(disabled.background) },
-            { token: "shared.radius", value: shared.radius },
-            { token: "shared.min-height", value: shared.minHeight },
-          ]}
-        />
+      <SectionBlock title="Variants">
+        <ButtonVariantsPreview />
       </SectionBlock>
 
-      <SectionBlock title="Usage rules">
-        <RuleList
-          rules={[
-            "One primary button per view section.",
-            "Destructive buttons require confirmation for irreversible actions.",
-            "Secondary buttons handle cancel and low-emphasis actions.",
-            "Disabled buttons do not fire events.",
-            "Button labels use sentence case.",
-          ]}
-        />
+      <SectionBlock title="Sizes">
+        <ButtonSizesPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Prefix and suffix icons">
+        <ButtonIconAffixPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Link button">
+        <LinkButtonPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Icon button">
+        <IconButtonPreview />
       </SectionBlock>
     </DocPage>
   );

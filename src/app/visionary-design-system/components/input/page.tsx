@@ -1,39 +1,32 @@
+import { DocPage, SectionBlock } from "@/components/visionary/DocParts";
 import {
-  DocPage,
-  RuleList,
-  SectionBlock,
-  TokenTable,
-} from "@/components/visionary/DocParts";
-import { component } from "@design-system/visionary";
+  InputIconAffixPreview,
+  InputSizesPreview,
+  InputValidationPreview,
+  InputVariantsPreview,
+} from "@/components/visionary/InputDocPreview";
 
 export default function InputPage() {
-  const input = component.input;
-
   return (
     <DocPage
       eyebrow="Guidelines · Components"
       title="Input"
-      description="Form fields with label, helper, error, and focus states."
+      description="Form fields across states, sizes, inline icons, and validation feedback."
     >
-      <SectionBlock title="Token slots">
-        <TokenTable
-          rows={Object.entries(input).map(([key, val]) => ({
-            token: `input.${key}`,
-            value: String(val),
-          }))}
-        />
+      <SectionBlock title="Variants">
+        <InputVariantsPreview />
       </SectionBlock>
 
-      <SectionBlock title="Usage rules">
-        <RuleList
-          rules={[
-            "Every input requires a visible label.",
-            "Placeholder text is not a label.",
-            "Error state uses status.error.* — not destructive action tokens.",
-            "Helper text appears below the field.",
-            "Disabled inputs are not focusable.",
-          ]}
-        />
+      <SectionBlock title="Sizes">
+        <InputSizesPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Prefix and suffix icons">
+        <InputIconAffixPreview />
+      </SectionBlock>
+
+      <SectionBlock title="Success, error, and warning">
+        <InputValidationPreview />
       </SectionBlock>
     </DocPage>
   );

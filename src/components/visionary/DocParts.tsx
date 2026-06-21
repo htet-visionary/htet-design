@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { CopyHexCode } from "@/components/visionary/CopyHexCode";
+import { DocPager } from "@/components/visionary/DocPager";
 import { NavIcon, dsNavIcons } from "@/lib/nav-icons";
 import { slugify } from "@/lib/slugify";
 
@@ -83,6 +84,7 @@ export function DocPage({ title, description, eyebrow, children }: DocPageProps)
       <h1 className="v-doc__title">{title}</h1>
       {description && <p className="v-doc__desc">{description}</p>}
       <div className="v-doc__body">{children}</div>
+      <DocPager />
     </article>
   );
 }
