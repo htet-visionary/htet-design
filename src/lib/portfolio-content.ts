@@ -7,6 +7,17 @@ export const portfolioProfile = {
   cvHref: "/portfolio/cv.pdf",
 };
 
+export const portfolioSocialLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/htet-htet-aung-0073931b8/",
+  },
+  {
+    label: "Behance",
+    href: "https://www.behance.net/htethtetaung_ucsy16",
+  },
+] as const;
+
 export const portfolioHighlights = [
   {
     label: "Technical Skills",
@@ -68,26 +79,38 @@ export const portfolioNavItems = [
 export const workPlaceholders = [
   {
     title: "Product Experience",
-    description: "End-to-end UI/UX for a digital product — research, flows, and polished interfaces.",
+    description:
+      "End-to-end UI/UX for a digital product — research, flows, and polished interfaces.",
     tag: "Case study",
+    year: "2024",
+    roles: ["UX research", "UI design", "Prototyping"],
   },
   {
     title: "Design System",
-    description: "Scalable component library with tokens, patterns, and documentation for cross-team use.",
+    description:
+      "Scalable component library with tokens, patterns, and documentation for cross-team use.",
     tag: "Systems",
+    year: "2024",
+    roles: ["Design systems", "Documentation", "Tokens"],
   },
   {
     title: "Mobile App",
-    description: "Responsive mobile experience with prototyping, testing, and iterative refinement.",
+    description:
+      "Responsive mobile experience with prototyping, testing, and iterative refinement.",
     tag: "Mobile",
+    year: "2023",
+    roles: ["Mobile UI", "Prototyping", "Testing"],
   },
 ] as const;
 
 export const galleryPlaceholders = [
-  { id: "gallery-1", aspect: "tall" },
-  { id: "gallery-2", aspect: "wide" },
-  { id: "gallery-3", aspect: "square" },
-  { id: "gallery-4", aspect: "square" },
-  { id: "gallery-5", aspect: "wide" },
-  { id: "gallery-6", aspect: "tall" },
+  { id: "gallery-1", aspect: "tall", caption: "Travel & nature" },
+  { id: "gallery-2", aspect: "wide", caption: "Family moments" },
+  { id: "gallery-3", aspect: "square", caption: "Toy collection" },
+  { id: "gallery-4", aspect: "square", caption: "Exploring cities" },
+  { id: "gallery-5", aspect: "wide", caption: "Weekend walks" },
+  { id: "gallery-6", aspect: "tall", caption: "Quiet mornings" },
 ] as const;
+
+export const activitiesIntro =
+  "Travel, nature, family time, and my toy collection — moments that keep creativity grounded.";
