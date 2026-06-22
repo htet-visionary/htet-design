@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { focusRing, motion, touchTarget } from "@design-system/visionary";
+import { focusRing, touchTarget } from "@design-system/visionary";
 
 const contrastRows = [
   { pairing: "Body text", ratio: "4.5:1", variant: "body" as const },
@@ -58,8 +58,8 @@ const keyboardRows = [
 const reducedMotionRows = [
   {
     token: "motion.duration.instant",
-    value: `${motion.duration.instant}ms`,
-    note: "Use under prefers-reduced-motion",
+    value: "0ms",
+    note: "prefers-reduced-motion",
   },
   {
     token: "Max opacity fade",
@@ -272,21 +272,18 @@ export function KeyboardPreview() {
 export function ReducedMotionPreview() {
   return (
     <ul
-      className="v-foundation-preview v-spacing-scale v-a11y-reduced-motion"
+      className="v-foundation-preview v-a11y-reduced-motion"
       aria-label="Reduced motion"
     >
       {reducedMotionRows.map((row) => (
-        <li key={row.token} className="v-spacing-scale__row">
-          <code className="v-code v-code--sm v-spacing-scale__token">{row.token}</code>
-          <span className="v-a11y-reduced-motion__spacer" aria-hidden />
-          <span className="v-spacing-scale__px">
+        <li key={row.token} className="v-a11y-reduced-motion__row">
+          <code className="v-code v-code--sm v-a11y-reduced-motion__token">{row.token}</code>
+          <span className="v-a11y-reduced-motion__detail">
             {row.note ? (
-              <>
-                <span className="v-a11y-token-table__note">{row.note}</span>
-                <span aria-hidden> · </span>
-              </>
+              <span className="v-a11y-reduced-motion__note">{row.note}</span>
             ) : null}
-            {row.value}
+            {row.note ? <span className="v-a11y-reduced-motion__sep" aria-hidden> · </span> : null}
+            <span className="v-a11y-reduced-motion__value">{row.value}</span>
           </span>
         </li>
       ))}
