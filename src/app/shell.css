@@ -345,7 +345,7 @@
 
 .v-doc-pager {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--v-space-4);
@@ -421,39 +421,6 @@
   font-weight: 600;
   color: inherit;
   overflow-wrap: anywhere;
-}
-
-@media (max-width: 480px) {
-  .v-doc-pager {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--v-space-5);
-    padding-bottom: var(--v-space-6);
-  }
-
-  .v-doc-pager__link {
-    max-width: none;
-    width: 100%;
-  }
-
-  .v-doc-pager__link--prev {
-    margin-right: 0;
-  }
-
-  .v-doc-pager__link--next {
-    margin-left: 0;
-    justify-content: space-between;
-    text-align: left;
-  }
-
-  .v-doc-pager__link--next .v-doc-pager__text {
-    align-items: flex-start;
-    flex: 1;
-  }
-
-  .v-doc-pager__spacer {
-    display: none;
-  }
 }
 
 .v-section--anchor {

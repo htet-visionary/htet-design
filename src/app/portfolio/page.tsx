@@ -232,10 +232,12 @@ export default function PortfolioPage() {
       </main>
 
       <footer className="v-portfolio-footer">
-        <p className="v-portfolio-footer__text">
-          © {new Date().getFullYear()} {portfolioProfile.name}. Crafted with the Visionary design
-          system.
-        </p>
+        <div className="v-portfolio-section__inner">
+          <p className="v-portfolio-footer__text">
+            © {new Date().getFullYear()} {portfolioProfile.name}. Crafted with the Visionary design
+            system.
+          </p>
+        </div>
       </footer>
     </div>
   );
