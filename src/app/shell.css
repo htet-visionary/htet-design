@@ -2019,43 +2019,14 @@
   gap: var(--v-space-3);
 }
 
-.v-a11y-focus-card__spacer {
+.v-a11y-focus-card__spacer,
+.v-a11y-reduced-motion__spacer {
   display: block;
   min-width: 0;
 }
 
-.v-a11y-reduced-motion {
-  list-style: none;
-  margin: 0;
-  padding: var(--v-space-4);
-  background: var(--v-surface-primary);
-  border: 1px solid var(--v-border-subtle);
-  border-radius: var(--v-radius-md);
-  display: grid;
-  gap: var(--v-space-3);
-}
-
-.v-a11y-reduced-motion__item {
-  min-width: 0;
-}
-
-.v-a11y-reduced-motion__chip {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: var(--v-space-2) var(--v-space-3);
-  background: var(--v-bg-subtle);
-  border-radius: var(--v-radius-sm);
-  font-family: var(--v-font-interface);
-  font-size: var(--v-type-caption);
-  font-weight: 500;
-  line-height: 1.4;
-  color: var(--v-text-primary);
-}
-
-.v-a11y-reduced-motion__chip.v-code {
-  font-family: ui-monospace, monospace;
-  font-weight: 400;
+.v-a11y-reduced-motion .v-spacing-scale__row {
+  grid-template-columns: 11rem 1fr auto;
 }
 
 .v-a11y-keyboard-preview {

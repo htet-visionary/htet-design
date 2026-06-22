@@ -271,18 +271,23 @@ export function KeyboardPreview() {
 
 export function ReducedMotionPreview() {
   return (
-    <ul className="v-foundation-preview v-a11y-reduced-motion" aria-label="Reduced motion">
+    <ul
+      className="v-foundation-preview v-spacing-scale v-a11y-reduced-motion"
+      aria-label="Reduced motion"
+    >
       {reducedMotionRows.map((row) => (
-        <li
-          key={row.token}
-          className="v-a11y-reduced-motion__item"
-          aria-label={`${row.token}: ${row.note ? `${row.note}, ` : ""}${row.value}`}
-        >
-          {row.token.startsWith("motion.") ? (
-            <code className="v-code v-code--sm v-a11y-reduced-motion__chip">{row.token}</code>
-          ) : (
-            <span className="v-a11y-reduced-motion__chip">{row.token}</span>
-          )}
+        <li key={row.token} className="v-spacing-scale__row">
+          <code className="v-code v-code--sm v-spacing-scale__token">{row.token}</code>
+          <span className="v-a11y-reduced-motion__spacer" aria-hidden />
+          <span className="v-spacing-scale__px">
+            {row.note ? (
+              <>
+                <span className="v-a11y-token-table__note">{row.note}</span>
+                <span aria-hidden> · </span>
+              </>
+            ) : null}
+            {row.value}
+          </span>
         </li>
       ))}
     </ul>
