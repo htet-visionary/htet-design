@@ -96,15 +96,23 @@ export type SiteMenuItem = {
 
 export const siteHubPath = "/";
 
-export const siteMenuItems: SiteMenuItem[] = [
+export const siteHubTopItems: SiteMenuItem[] = [
+  { title: "Portfolio", href: "/portfolio" },
   {
     title: "Visionary Design System",
     shortTitle: "Design System",
     href: designSystemBase,
   },
-  { title: "Portfolio", href: "/portfolio" },
+];
+
+export const siteHubGridItems: SiteMenuItem[] = [
   { title: "Product", href: "/product" },
   { title: "Blog", href: "/blog" },
+];
+
+export const siteMenuItems: SiteMenuItem[] = [
+  ...siteHubTopItems,
+  ...siteHubGridItems,
 ];
 
 /** Flat sidebar order — mirrors VisionaryShell nav rendering. */
