@@ -13,7 +13,7 @@ import {
 const MOBILE_NAV_QUERY = "(max-width: 639px)";
 
 export function PortfolioNav() {
-  const [activeId, setActiveId] = useState<string>("about");
+  const [activeId, setActiveId] = useState<string>("about-bio");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobileNav, setIsMobileNav] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -257,9 +257,10 @@ export function PortfolioNav() {
           </nav>
 
           <a
-            href="#contact"
+            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(portfolioProfile.email)}`}
             className="v-cmp-btn v-cmp-btn--primary-green v-cmp-btn--md v-portfolio-action-btn v-portfolio-topbar__cv"
-            onClick={(event) => handleSectionNavClick(event, "contact")}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Let&apos;s Connect
           </a>

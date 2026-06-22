@@ -79,7 +79,7 @@ export const skillCategories = [
 ] as const;
 
 export const portfolioNavItems = [
-  { id: "about", label: "About" },
+  { id: "about-bio", label: "About" },
   { id: "work", label: "Work" },
   { id: "beyond-work", label: "Activities" },
   { id: "contact", label: "Contact" },

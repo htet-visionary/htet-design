@@ -427,7 +427,7 @@
 
 @media (min-width: 768px) {
   .v-portfolio-about > .v-portfolio-section__inner {
-    padding-top: var(--v-space-8);
+    padding-top: var(--v-space-4);
   }
 }
 
@@ -449,7 +449,7 @@
 
 @media (min-width: 768px) {
   .v-portfolio-hero {
-    margin-bottom: var(--v-space-10);
+    margin-bottom: var(--v-space-4);
   }
 }
 
@@ -487,9 +487,6 @@
 }
 
 .v-portfolio-hero-reveal {
-  --reveal-num: 0;
-  --pointer-x: 50%;
-  --pointer-y: 50%;
   position: absolute;
   inset: 0;
   user-select: none;
@@ -506,67 +503,12 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  clip-path: inset(calc(var(--reveal-num) * 1%) 0 0 0);
-  will-change: clip-path;
-}
-
-.v-portfolio-hero-reveal__divider {
-  position: absolute;
-  inset-inline: 0;
-  top: calc(var(--reveal-num) * 1%);
-  z-index: 2;
-  height: 0;
-  pointer-events: none;
-  will-change: top;
-}
-
-.v-portfolio-hero-reveal__divider-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  transform: translateY(-50%);
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--v-surface-primary) 55%, transparent),
-    color-mix(in srgb, var(--v-surface-primary) 90%, var(--v-text-primary)),
-    color-mix(in srgb, var(--v-surface-primary) 55%, transparent)
-  );
-  box-shadow:
-    0 0 8px color-mix(in srgb, var(--v-iridescence-300) 35%, transparent),
-    0 0 16px color-mix(in srgb, var(--v-iridescence-200) 25%, transparent);
-  opacity: 0.85;
-}
-
-.v-portfolio-hero-reveal--hovering .v-portfolio-hero-reveal__divider-line {
   opacity: 1;
+  transition: opacity var(--v-motion-slow) var(--v-motion-easing-standard);
 }
 
-.v-portfolio-hero-reveal__pointer {
-  position: absolute;
-  top: var(--pointer-y);
-  left: var(--pointer-x);
-  z-index: 3;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--v-portfolio-iridescence);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--v-surface-primary) 75%, transparent),
-    0 0 14px color-mix(in srgb, var(--v-iridescence-300) 60%, transparent),
-    0 0 24px color-mix(in srgb, var(--v-iridescence-200) 45%, transparent);
+.v-portfolio-hero-reveal:hover .v-portfolio-hero-reveal__illustration {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.85);
-  transition:
-    opacity var(--v-motion-fast) var(--v-motion-easing-standard),
-    transform var(--v-motion-fast) var(--v-motion-easing-standard);
-  pointer-events: none;
-}
-
-.v-portfolio-hero-reveal--hovering .v-portfolio-hero-reveal__pointer {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
 }
 
 .v-portfolio-hero-reveal__hint {
@@ -609,27 +551,19 @@
 }
 
 .v-portfolio-hero-reveal__status-photo {
-  opacity: 1;
+  opacity: 0;
 }
 
 .v-portfolio-hero-reveal__status-illustration {
-  opacity: 0;
-}
-
-.v-portfolio-hero-reveal[data-mode="photo"] .v-portfolio-hero-reveal__status-photo {
   opacity: 1;
 }
 
-.v-portfolio-hero-reveal[data-mode="photo"] .v-portfolio-hero-reveal__status-illustration {
-  opacity: 0;
-}
-
-.v-portfolio-hero-reveal[data-mode="illustration"] .v-portfolio-hero-reveal__status-photo {
-  opacity: 0;
-}
-
-.v-portfolio-hero-reveal[data-mode="illustration"] .v-portfolio-hero-reveal__status-illustration {
+.v-portfolio-hero-reveal:hover .v-portfolio-hero-reveal__status-photo {
   opacity: 1;
+}
+
+.v-portfolio-hero-reveal:hover .v-portfolio-hero-reveal__status-illustration {
+  opacity: 0;
 }
 
 .v-portfolio-hero__aside {
@@ -776,7 +710,7 @@
     gap: var(--v-space-6);
     align-items: stretch;
     min-height: auto;
-    padding-block: 0 var(--v-space-10);
+    padding-block: 0 var(--v-space-4);
   }
 
   .v-portfolio-hero__intro {
@@ -1744,12 +1678,9 @@
     animation: none;
   }
 
+  .v-portfolio-hero-reveal__illustration,
   .v-portfolio-hero-reveal__status-photo,
   .v-portfolio-hero-reveal__status-illustration {
-    transition: none;
-  }
-
-  .v-portfolio-hero-reveal__pointer {
     transition: none;
   }
 
