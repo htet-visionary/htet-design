@@ -61,11 +61,6 @@ export function PortfolioNav() {
   }, []);
 
   useEffect(() => {
-    if (!isMobileNav) {
-      document.documentElement.style.removeProperty("--v-portfolio-topbar-height");
-      return;
-    }
-
     const header = headerRef.current;
     if (!header) return;
 
@@ -79,8 +74,11 @@ export function PortfolioNav() {
     syncHeaderHeight();
     const observer = new ResizeObserver(syncHeaderHeight);
     observer.observe(header);
-    return () => observer.disconnect();
-  }, [isMobileNav, menuOpen]);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--v-portfolio-topbar-height");
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) {

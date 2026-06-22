@@ -1,6 +1,8 @@
 export const portfolioProfile = {
   name: "Htet Htet Aung",
   title: "Product UI/UX Designer",
+  heroDisciplines: ["Product", "UI/UX", "Design Systems"],
+  heroHeadline: ["Htet's", "Portfolio"],
   bio: "I am a nature lover who always looks for inner peace and happiness. I love traveling and exploring new experiences. I also enjoy spending time with my family, friends, colleagues, and my toy collection.",
   email: "htet2024visionary@gmail.com",
   heroImage: "/portfolio/hero.png",
@@ -52,7 +54,6 @@ export const skillCategories = [
       "Product Design",
       "Design Systems",
       "Design Thinking & Problem Solving",
-      "Systematic Design",
       "Accessibility",
     ],
   },
@@ -110,7 +111,27 @@ export const workPlaceholders = [
   },
 ] as const;
 
-export const portfolioGallery = [
+export const portfolioGalleryCategories = [
+  { id: "all", label: "All moments" },
+  { id: "travel", label: "Travel & nature" },
+  { id: "city", label: "City life" },
+  { id: "everyday", label: "Everyday joy" },
+] as const;
+
+export type PortfolioGalleryCategory =
+  (typeof portfolioGalleryCategories)[number]["id"];
+
+export type PortfolioGalleryItem = {
+  id: string;
+  src: string;
+  alt: string;
+  aspect: "tall" | "square" | "wide";
+  caption: string;
+  objectPosition: string;
+  category: Exclude<PortfolioGalleryCategory, "all">;
+};
+
+export const portfolioGallery: readonly PortfolioGalleryItem[] = [
   {
     id: "gallery-1",
     src: "/portfolio/gallery/07-capybara.png",
@@ -118,6 +139,7 @@ export const portfolioGallery = [
     aspect: "tall",
     caption: "Toy collection",
     objectPosition: "50% 45%",
+    category: "everyday",
   },
   {
     id: "gallery-2",
@@ -126,6 +148,7 @@ export const portfolioGallery = [
     aspect: "tall",
     caption: "Exploring cities",
     objectPosition: "50% 40%",
+    category: "city",
   },
   {
     id: "gallery-3",
@@ -134,6 +157,7 @@ export const portfolioGallery = [
     aspect: "tall",
     caption: "Quiet mornings",
     objectPosition: "50% 35%",
+    category: "travel",
   },
   {
     id: "gallery-4",
@@ -142,6 +166,7 @@ export const portfolioGallery = [
     aspect: "tall",
     caption: "Travel & nature",
     objectPosition: "50% 50%",
+    category: "travel",
   },
   {
     id: "gallery-5",
@@ -150,6 +175,7 @@ export const portfolioGallery = [
     aspect: "tall",
     caption: "Weekend walks",
     objectPosition: "50% 40%",
+    category: "city",
   },
   {
     id: "gallery-6",
@@ -158,6 +184,7 @@ export const portfolioGallery = [
     aspect: "square",
     caption: "Stay active",
     objectPosition: "50% 45%",
+    category: "everyday",
   },
   {
     id: "gallery-7",
@@ -166,8 +193,9 @@ export const portfolioGallery = [
     aspect: "square",
     caption: "Family moments",
     objectPosition: "50% 50%",
+    category: "travel",
   },
-] as const;
+];
 
 export const activitiesIntro =
   "Travel, nature, family time, and my toy collection — moments that keep creativity grounded.";

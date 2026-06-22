@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { PortfolioGallery } from "@/components/portfolio/PortfolioGallery";
+import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioHighlights } from "@/components/portfolio/PortfolioHighlights";
 import { PortfolioNav } from "@/components/portfolio/PortfolioNav";
 import { PortfolioSocialLinks } from "@/components/portfolio/PortfolioSocialLinks";
@@ -52,32 +53,16 @@ export default function PortfolioPage() {
 
       <main className="v-portfolio-main">
         <section id="about" className="v-portfolio-section v-portfolio-about">
+          <PortfolioHero />
+
           <div className="v-portfolio-section__inner">
-            <div className="v-portfolio-lead">
-              <p className="v-portfolio-lead__role">{portfolioProfile.title}</p>
-              <h1 className="v-portfolio-lead__name">{portfolioProfile.name}</h1>
-              <p className="v-portfolio-lead__bio">{portfolioProfile.bio}</p>
-            </div>
+            <p className="v-portfolio-about__bio" id="about-bio">
+              {portfolioProfile.bio}
+            </p>
 
-            <div className="v-portfolio-hero">
-              <div className="v-portfolio-hero__visual">
-                <div className="v-portfolio-hero__frame">
-                  <Image
-                    src={portfolioProfile.heroImage}
-                    alt={`${portfolioProfile.name} leaning on a wooden fence with green hills and blue sky behind`}
-                    fill
-                    priority
-                    unoptimized
-                    sizes="(max-width: 767px) 100vw, 560px"
-                    className="v-portfolio-hero__image"
-                  />
-                </div>
-              </div>
-
-              <aside className="v-portfolio-hero__aside">
-                <p className="v-portfolio-hero__aside-label">At a glance</p>
-                <PortfolioHighlights />
-              </aside>
+            <div className="v-portfolio-highlights-panel">
+              <p className="v-portfolio-highlights-panel__label">At a glance</p>
+              <PortfolioHighlights />
             </div>
 
             <div className="v-portfolio-capabilities">
@@ -153,47 +138,7 @@ export default function PortfolioPage() {
               description={activitiesIntro}
             />
 
-            <div className="v-portfolio-activities__layout">
-              <p className="v-portfolio-activities__note">
-                Scroll through moments that shape how I see the world — travel, nature, and time
-                with the people (and toys) I love.
-              </p>
-
-              <div className="v-portfolio-activities__scroller">
-                <ul className="v-portfolio-activities__track" aria-label="Photo gallery">
-                  {portfolioGallery.map((item, index) => (
-                    <li
-                      key={item.id}
-                      className={[
-                        "v-portfolio-activities__slide",
-                        item.aspect === "tall" ? "v-portfolio-activities__slide--tall" : "",
-                        item.aspect === "wide" ? "v-portfolio-activities__slide--wide" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                    >
-                      <figure className="v-portfolio-activities__figure">
-                        <Image
-                          src={item.src}
-                          alt={item.alt}
-                          fill
-                          unoptimized
-                          sizes="(max-width: 767px) 11rem, 15rem"
-                          className="v-portfolio-activities__image"
-                          style={{ objectPosition: item.objectPosition }}
-                        />
-                        <figcaption className="v-portfolio-activities__caption">
-                          {item.caption}
-                        </figcaption>
-                        <span className="v-portfolio-activities__index" aria-hidden>
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                      </figure>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <PortfolioGallery items={portfolioGallery} intro={activitiesIntro} />
           </div>
         </section>
 
