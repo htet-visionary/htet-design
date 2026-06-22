@@ -1,25 +1,17 @@
 .v-hub {
   min-height: 100dvh;
   display: flex;
-  flex-direction: column;
   background: var(--v-bg-default);
 }
 
-.v-hub__top,
 .v-hub__grid {
+  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   width: 100%;
   gap: 1px;
   background: var(--v-border-subtle);
-}
-
-.v-hub__top {
-  flex: 1;
-}
-
-.v-hub__grid {
-  flex: 1;
 }
 
 .v-hub__card {
@@ -70,9 +62,9 @@
 }
 
 @media (max-width: 768px) {
-  .v-hub__top,
   .v-hub__grid {
     grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
   }
 
   .v-hub__card {

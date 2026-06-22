@@ -1,9 +1,5 @@
 import Link from "next/link";
-import {
-  siteHubGridItems,
-  siteHubTopItems,
-  type SiteMenuItem,
-} from "@/lib/navigation";
+import { siteMenuItems, type SiteMenuItem } from "@/lib/navigation";
 import { NavIcon, siteMenuIcons } from "@/lib/nav-icons";
 
 function HubMenuCard({ item }: { item: SiteMenuItem }) {
@@ -24,13 +20,8 @@ function HubMenuCard({ item }: { item: SiteMenuItem }) {
 export default function HomePage() {
   return (
     <main className="v-hub">
-      <nav className="v-hub__top" aria-label="Primary destinations">
-        {siteHubTopItems.map((item) => (
-          <HubMenuCard key={item.href} item={item} />
-        ))}
-      </nav>
-      <nav className="v-hub__grid" aria-label="More destinations">
-        {siteHubGridItems.map((item) => (
+      <nav className="v-hub__grid" aria-label="Site menu">
+        {siteMenuItems.map((item) => (
           <HubMenuCard key={item.href} item={item} />
         ))}
       </nav>
