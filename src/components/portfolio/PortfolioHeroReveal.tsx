@@ -114,11 +114,6 @@ export function PortfolioHeroReveal({
       ref={containerRef}
       className="v-portfolio-hero-reveal"
       data-mode="illustration"
-      style={{
-        "--reveal-num": "0",
-        "--pointer-x": "50%",
-        "--pointer-y": "50%",
-      }}
       onPointerEnter={onPointerEnter}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
