@@ -4,6 +4,7 @@ import { PortfolioGallery } from "@/components/portfolio/PortfolioGallery";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioHighlights } from "@/components/portfolio/PortfolioHighlights";
 import { PortfolioNav } from "@/components/portfolio/PortfolioNav";
+import { PortfolioScrollReveal } from "@/components/portfolio/PortfolioScrollReveal";
 import { PortfolioSocialLinks } from "@/components/portfolio/PortfolioSocialLinks";
 import {
   activitiesIntro,
@@ -31,7 +32,7 @@ function PortfolioSectionHead({
   description?: string;
 }) {
   return (
-    <header className="v-portfolio-section-head">
+    <header className="v-portfolio-section-head" data-reveal>
       <span className="v-portfolio-section-head__index" aria-hidden>
         {index}
       </span>
@@ -48,42 +49,49 @@ function PortfolioSectionHead({
 
 export default function PortfolioPage() {
   return (
-    <div className="v-portfolio">
-      <PortfolioNav />
+    <PortfolioScrollReveal>
+      <div className="v-portfolio">
+        <PortfolioNav />
 
-      <main className="v-portfolio-main">
-        <section id="about" className="v-portfolio-section v-portfolio-about">
-          <PortfolioHero />
+        <main className="v-portfolio-main">
+          <section id="about" className="v-portfolio-section v-portfolio-about">
+            <PortfolioHero />
 
-          <div className="v-portfolio-section__inner">
-            <p className="v-portfolio-about__bio" id="about-bio">
-              {portfolioProfile.bio}
-            </p>
+            <div className="v-portfolio-section__inner">
+              <div className="v-portfolio-about__intro" id="about-bio">
+                <PortfolioSectionHead
+                  index="01"
+                  eyebrow="About me"
+                  title="At a glance"
+                  description={portfolioProfile.bio}
+                />
+                <PortfolioHighlights />
+              </div>
 
-            <div className="v-portfolio-highlights-panel">
-              <p className="v-portfolio-highlights-panel__label">At a glance</p>
-              <PortfolioHighlights />
-            </div>
-
-            <div className="v-portfolio-capabilities">
-              <p className="v-portfolio-capabilities__label">Capabilities</p>
-              <div className="v-portfolio-capabilities__grid">
-                {skillCategories.map((category) => (
-                  <article key={category.title} className="v-portfolio-capabilities__group">
-                    <h3 className="v-portfolio-capabilities__title">{category.title}</h3>
-                    <ul className="v-portfolio-capabilities__list">
-                      {category.items.map((skill) => (
-                        <li key={skill}>
-                          <span className="v-cmp-chip">{skill}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                ))}
+              <div className="v-portfolio-capabilities" data-reveal data-reveal-delay="120">
+                <p className="v-portfolio-capabilities__label">Capabilities</p>
+                <div className="v-portfolio-capabilities__grid">
+                  {skillCategories.map((category, categoryIndex) => (
+                    <article
+                      key={category.title}
+                      className="v-portfolio-capabilities__group"
+                      data-reveal
+                      data-reveal-delay={String(160 + categoryIndex * 70)}
+                    >
+                      <h3 className="v-portfolio-capabilities__title">{category.title}</h3>
+                      <ul className="v-portfolio-capabilities__list">
+                        {category.items.map((skill) => (
+                          <li key={skill}>
+                            <span className="v-cmp-chip">{skill}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
         <section id="work" className="v-portfolio-section v-portfolio-work">
           <div className="v-portfolio-section__inner">
@@ -96,7 +104,12 @@ export default function PortfolioPage() {
 
             <ul className="v-portfolio-work-list">
               {workPlaceholders.map((project, index) => (
-                <li key={project.title} className="v-portfolio-work-list__item">
+                <li
+                  key={project.title}
+                  className="v-portfolio-work-list__item"
+                  data-reveal
+                  data-reveal-delay={String(index * 90)}
+                >
                   <article className="v-portfolio-work-list__card">
                     <div
                       className={[
@@ -152,7 +165,7 @@ export default function PortfolioPage() {
             />
 
             <ul className="v-portfolio-contact-list">
-              <li className="v-portfolio-contact-list__item">
+              <li className="v-portfolio-contact-list__item" data-reveal data-reveal-delay="80">
                 <article className="v-portfolio-contact-list__row">
                   <div className="v-portfolio-contact-list__email-group">
                     <p className="v-portfolio-contact-list__label">Get in touch at</p>
@@ -176,7 +189,7 @@ export default function PortfolioPage() {
         </section>
       </main>
 
-      <footer className="v-portfolio-footer">
+      <footer className="v-portfolio-footer" data-reveal>
         <div className="v-portfolio-section__inner">
           <p className="v-portfolio-footer__text">
             © {new Date().getFullYear()} {portfolioProfile.name}. Crafted with the Visionary design
@@ -185,5 +198,6 @@ export default function PortfolioPage() {
         </div>
       </footer>
     </div>
+    </PortfolioScrollReveal>
   );
 }

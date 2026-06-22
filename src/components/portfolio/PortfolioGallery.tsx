@@ -95,7 +95,7 @@ export function PortfolioGallery({ items, intro }: PortfolioGalleryProps) {
 
   return (
     <div className="v-portfolio-gallery">
-      <div className="v-portfolio-gallery__toolbar">
+      <div className="v-portfolio-gallery__toolbar" data-reveal>
         <p className="v-portfolio-gallery__intro">
           {activeCategory === "all" ? intro : activeCategoryLabel}
         </p>
@@ -144,7 +144,7 @@ export function PortfolioGallery({ items, intro }: PortfolioGalleryProps) {
         </div>
       </div>
 
-      <div className="v-portfolio-gallery__scroller" ref={scrollerRef}>
+      <div className="v-portfolio-gallery__scroller" ref={scrollerRef} data-reveal data-reveal-delay="100">
         <ul className="v-portfolio-gallery__track" aria-label="Photo gallery">
           {filteredItems.map((item, index) => (
             <li
@@ -155,6 +155,8 @@ export function PortfolioGallery({ items, intro }: PortfolioGalleryProps) {
               ]
                 .filter(Boolean)
                 .join(" ")}
+              data-reveal
+              data-reveal-delay={String(140 + index * 60)}
             >
               <button
                 type="button"
@@ -190,15 +192,13 @@ export function PortfolioGallery({ items, intro }: PortfolioGalleryProps) {
             className="v-portfolio-gallery__lightbox-panel"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="v-portfolio-gallery__lightbox-header">
-              <button
-                type="button"
-                className="v-portfolio-gallery__lightbox-close"
-                onClick={closeLightbox}
-              >
-                close
-              </button>
-            </div>
+            <button
+              type="button"
+              className="v-portfolio-gallery__lightbox-close"
+              onClick={closeLightbox}
+            >
+              close
+            </button>
 
             <div className="v-portfolio-gallery__lightbox-stage">
               {filteredItems.length > 1 ? (

@@ -5,7 +5,8 @@ export const portfolioProfile = {
   heroHeadline: ["Htet's", "Portfolio"],
   bio: "I am a nature lover who always looks for inner peace and happiness. I love traveling and exploring new experiences. I also enjoy spending time with my family, friends, colleagues, and my toy collection.",
   email: "htet2024visionary@gmail.com",
-  heroImage: "/portfolio/hero.png",
+  heroImage: "/portfolio/hero-photo.png",
+  heroIllustration: "/portfolio/hero-illustration.png",
   cvHref: "/portfolio/cv.pdf",
 };
 

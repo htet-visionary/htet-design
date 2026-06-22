@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback } from "react";
+import { PortfolioHeroReveal } from "@/components/portfolio/PortfolioHeroReveal";
 import { portfolioProfile } from "@/lib/portfolio-content";
 
 export function PortfolioHero() {
@@ -43,14 +43,8 @@ export function PortfolioHero() {
         </div>
 
         <figure className="v-portfolio-hero__visual">
-          <Image
-            src={portfolioProfile.heroImage}
-            alt={`${portfolioProfile.name} leaning on a wooden fence with green hills and blue sky behind`}
-            fill
-            priority
-            unoptimized
-            sizes="(max-width: 767px) 72vw, 26rem"
-            className="v-portfolio-hero__image"
+          <PortfolioHeroReveal
+            alt={`${portfolioProfile.name} on a mountain overlook with Mount Fuji in the distance`}
           />
         </figure>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, Menu, X } from "lucide-react";
 import { SiteHubNav } from "@/components/SiteHubNav";
 import { siteHubPath } from "@/lib/navigation";
@@ -17,6 +17,48 @@ export function PortfolioNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobileNav, setIsMobileNav] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const isNavigatingRef = useRef(false);
+  const navigateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const navigateToSection = useCallback(
+    (id: string, options?: { closeMenu?: boolean }) => {
+      const target = document.getElementById(id);
+
+      if (!target) {
+        return;
+      }
+
+      setActiveId(id);
+      isNavigatingRef.current = true;
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth";
+
+      if (window.location.hash !== `#${id}`) {
+        window.history.pushState(null, "", `#${id}`);
+      }
+
+      target.scrollIntoView({ behavior, block: "start" });
+
+      if (navigateTimeoutRef.current) {
+        clearTimeout(navigateTimeoutRef.current);
+      }
+
+      navigateTimeoutRef.current = setTimeout(
+        () => {
+          isNavigatingRef.current = false;
+        },
+        prefersReducedMotion ? 0 : 1000,
+      );
+
+      if (options?.closeMenu) {
+        setMenuOpen(false);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     const sectionIds = portfolioNavItems.map((item) => item.id);
@@ -24,26 +66,70 @@ export function PortfolioNav() {
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
-    if (sections.length === 0) return;
+    if (sections.length === 0) {
+      return;
+    }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const getScrollOffset = () => {
+      const value = getComputedStyle(document.documentElement)
+        .getPropertyValue("--v-portfolio-scroll-offset")
+        .trim();
+      const parsed = Number.parseFloat(value);
 
-        if (visible[0]?.target.id) {
-          setActiveId(visible[0].target.id);
+      return Number.isFinite(parsed) ? parsed : 96;
+    };
+
+    const syncActiveSection = () => {
+      if (isNavigatingRef.current) {
+        return;
+      }
+
+      const scrollBottom = window.scrollY + window.innerHeight;
+      const pageBottom = document.documentElement.scrollHeight;
+
+      if (scrollBottom >= pageBottom - 4) {
+        setActiveId(sections[sections.length - 1].id);
+        return;
+      }
+
+      const marker = window.scrollY + getScrollOffset();
+      let current = sections[0].id;
+
+      for (const section of sections) {
+        const top = section.getBoundingClientRect().top + window.scrollY;
+
+        if (top <= marker) {
+          current = section.id;
         }
-      },
-      {
-        rootMargin: "-20% 0px -55% 0px",
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      },
-    );
+      }
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      setActiveId(current);
+    };
+
+    const syncActiveFromHash = () => {
+      const hash = window.location.hash.slice(1);
+
+      if (hash && sectionIds.includes(hash as (typeof sectionIds)[number])) {
+        setActiveId(hash);
+      } else {
+        syncActiveSection();
+      }
+    };
+
+    syncActiveFromHash();
+    window.addEventListener("scroll", syncActiveSection, { passive: true });
+    window.addEventListener("hashchange", syncActiveFromHash);
+    window.addEventListener("resize", syncActiveSection);
+
+    return () => {
+      window.removeEventListener("scroll", syncActiveSection);
+      window.removeEventListener("hashchange", syncActiveFromHash);
+      window.removeEventListener("resize", syncActiveSection);
+
+      if (navigateTimeoutRef.current) {
+        clearTimeout(navigateTimeoutRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -103,6 +189,15 @@ export function PortfolioNav() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  const handleSectionNavClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+    options?: { closeMenu?: boolean },
+  ) => {
+    event.preventDefault();
+    navigateToSection(id, options);
+  };
+
   return (
     <>
       <header
@@ -153,6 +248,8 @@ export function PortfolioNav() {
                 ]
                   .filter(Boolean)
                   .join(" ")}
+                aria-current={activeId === item.id ? "page" : undefined}
+                onClick={(event) => handleSectionNavClick(event, item.id)}
               >
                 {item.label}
               </a>
@@ -162,6 +259,7 @@ export function PortfolioNav() {
           <a
             href="#contact"
             className="v-cmp-btn v-cmp-btn--primary-green v-cmp-btn--md v-portfolio-action-btn v-portfolio-topbar__cv"
+            onClick={(event) => handleSectionNavClick(event, "contact")}
           >
             Let&apos;s Connect
           </a>
@@ -203,8 +301,10 @@ export function PortfolioNav() {
                   ]
                     .filter(Boolean)
                     .join(" ")}
-                  aria-current={activeId === item.id ? "true" : undefined}
-                  onClick={closeMenu}
+                  aria-current={activeId === item.id ? "page" : undefined}
+                  onClick={(event) =>
+                    handleSectionNavClick(event, item.id, { closeMenu: true })
+                  }
                 >
                   {item.label}
                 </Link>

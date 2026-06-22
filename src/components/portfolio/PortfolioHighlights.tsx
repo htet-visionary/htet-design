@@ -7,7 +7,8 @@ export function PortfolioHighlights() {
         <li
           key={item.label}
           className="v-portfolio-highlights__item"
-          style={{ animationDelay: `${index * 70}ms` }}
+          data-reveal
+          data-reveal-delay={String(120 + index * 70)}
         >
           <span className="v-portfolio-highlights__index" aria-hidden>
             {String(index + 1).padStart(2, "0")}
