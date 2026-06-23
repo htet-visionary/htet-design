@@ -111,18 +111,20 @@ export default function PortfolioPage() {
                   data-reveal-delay={String(index * 90)}
                 >
                   <article className="v-portfolio-work-list__card">
-                    <div
-                      className={[
-                        "v-portfolio-work-list__thumb",
-                        `v-portfolio-work-list__thumb--${(index % 3) + 1}`,
-                      ].join(" ")}
-                      aria-hidden
-                    />
-                    <div className="v-portfolio-work-list__body">
+                    <div className="v-portfolio-work-list__media">
+                      <div
+                        className={[
+                          "v-portfolio-work-list__thumb",
+                          `v-portfolio-work-list__thumb--${(index % 3) + 1}`,
+                        ].join(" ")}
+                        aria-hidden
+                      />
                       <div className="v-portfolio-work-list__meta">
                         <span className="v-cmp-tag">{project.tag}</span>
                         <span className="v-portfolio-work-list__year">{project.year}</span>
                       </div>
+                    </div>
+                    <div className="v-portfolio-work-list__body">
                       <h3 className="v-portfolio-work-list__title">{project.title}</h3>
                       <p className="v-portfolio-work-list__desc">{project.description}</p>
                       <ul className="v-portfolio-work-list__roles">
@@ -150,9 +152,9 @@ export default function PortfolioPage() {
               title="Activities"
               description={activitiesIntro}
             />
-
-            <PortfolioGallery items={portfolioGallery} intro={activitiesIntro} />
           </div>
+
+          <PortfolioGallery items={portfolioGallery} intro={activitiesIntro} />
         </section>
 
         <section id="contact" className="v-portfolio-section v-portfolio-contact">

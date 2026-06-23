@@ -93,38 +93,6 @@ export function PortfolioGallery({ items, intro }: PortfolioGalleryProps) {
     scrollerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
   }, [activeCategory]);
 
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-
-    if (!scroller) {
-      return;
-    }
-
-    let scrollEndTimer: ReturnType<typeof setTimeout> | undefined;
-
-    const onScroll = () => {
-      scroller.classList.add("v-portfolio-gallery__scroller--scrolling");
-
-      if (scrollEndTimer) {
-        clearTimeout(scrollEndTimer);
-      }
-
-      scrollEndTimer = setTimeout(() => {
-        scroller.classList.remove("v-portfolio-gallery__scroller--scrolling");
-      }, 200);
-    };
-
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      scroller.removeEventListener("scroll", onScroll);
-
-      if (scrollEndTimer) {
-        clearTimeout(scrollEndTimer);
-      }
-    };
-  }, []);
-
   return (
     <div className="v-portfolio-gallery">
       <div className="v-portfolio-gallery__toolbar" data-reveal>
