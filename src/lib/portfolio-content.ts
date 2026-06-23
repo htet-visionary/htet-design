@@ -3,7 +3,7 @@ export const portfolioProfile = {
   title: "Product UI/UX Designer",
   heroDisciplines: ["Product", "UI/UX", "Design Systems"],
   heroHeadline: ["Htet's", "Portfolio"],
-  bio: "I am a nature lover who always looks for inner peace and happiness. I love traveling and exploring new experiences. I also enjoy spending time with my family, friends, colleagues, and my toy collection.",
+  bio: "I translate complex requirements into intuitive, functional interfaces through systematic design and iterative prototyping. My focus is on building cohesive design systems that bridge the gap between user needs and technical implementation, ensuring clarity and consistency across every digital touchpoint.",
   email: "htet2024visionary@gmail.com",
   heroImage: "/portfolio/hero-photo.png",
   heroIllustration: "/portfolio/hero-illustration.png",
@@ -30,20 +30,16 @@ export const portfolioSocialLinks = [
 
 export const portfolioHighlights = [
   {
-    label: "Technical Skills",
+    label: "Product Design",
     text: "Expert in Figma, prototyping, and design-to-dev handoff.",
   },
   {
-    label: "Design & Code",
-    text: "Strong knowledge of HTML, CSS, and React.",
+    label: "Design System & Frontend",
+    text: "Experienced in HTML, CSS, and React, now developing AI-powered design systems.",
   },
   {
-    label: "AI-Powered",
-    text: "Using Generative AI to boost creativity and efficiency.",
-  },
-  {
-    label: "Language",
-    text: "Certified JLPT N2 and English B2 Level.",
+    label: "AI-powered Workflow",
+    text: "Applying Generative AI to accelerate design exploration, and development.",
   },
 ] as const;
 

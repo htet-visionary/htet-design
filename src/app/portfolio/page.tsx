@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
 import { PortfolioGallery } from "@/components/portfolio/PortfolioGallery";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioHighlights } from "@/components/portfolio/PortfolioHighlights";
 import { PortfolioNav } from "@/components/portfolio/PortfolioNav";
 import { PortfolioScrollReveal } from "@/components/portfolio/PortfolioScrollReveal";
 import { PortfolioSocialLinks } from "@/components/portfolio/PortfolioSocialLinks";
+import { PortfolioWorkStack } from "@/components/portfolio/PortfolioWorkStack";
 import {
   activitiesIntro,
   portfolioGallery,
   portfolioProfile,
   skillCategories,
-  workPlaceholders,
 } from "@/lib/portfolio-content";
 import "./portfolio.css";
 
@@ -102,45 +101,7 @@ export default function PortfolioPage() {
               description="Product design projects spanning research, systems, and polished interfaces."
             />
 
-            <ul className="v-portfolio-work-list">
-              {workPlaceholders.map((project, index) => (
-                <li
-                  key={project.title}
-                  className="v-portfolio-work-list__item"
-                  data-reveal
-                  data-reveal-delay={String(index * 90)}
-                >
-                  <article className="v-portfolio-work-list__card">
-                    <div className="v-portfolio-work-list__media">
-                      <div
-                        className={[
-                          "v-portfolio-work-list__thumb",
-                          `v-portfolio-work-list__thumb--${(index % 3) + 1}`,
-                        ].join(" ")}
-                        aria-hidden
-                      />
-                      <div className="v-portfolio-work-list__meta">
-                        <span className="v-cmp-tag">{project.tag}</span>
-                        <span className="v-portfolio-work-list__year">{project.year}</span>
-                      </div>
-                    </div>
-                    <div className="v-portfolio-work-list__body">
-                      <h3 className="v-portfolio-work-list__title">{project.title}</h3>
-                      <p className="v-portfolio-work-list__desc">{project.description}</p>
-                      <ul className="v-portfolio-work-list__roles">
-                        {project.roles.map((role) => (
-                          <li key={role}>{role}</li>
-                        ))}
-                      </ul>
-                      <span className="v-portfolio-work-list__link">
-                        View project
-                        <ArrowUpRight strokeWidth={2} aria-hidden />
-                      </span>
-                    </div>
-                  </article>
-                </li>
-              ))}
-            </ul>
+            <PortfolioWorkStack />
           </div>
         </section>
 

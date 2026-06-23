@@ -871,62 +871,84 @@
   background: color-mix(in srgb, var(--v-green-100) 40%, var(--v-surface-primary));
 }
 
-/* Work — editorial project list */
+/* Work — sticky stacked project cards */
 .v-portfolio-work {
   background: color-mix(in srgb, var(--v-green-50) 25%, var(--v-bg-default));
 }
 
-.v-portfolio-work-list {
+.v-portfolio-work-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 var(--v-space-12);
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.v-portfolio-work-list__item + .v-portfolio-work-list__item {
-  border-top: 1px solid var(--v-border-subtle);
+.v-portfolio-work-stack__item {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
 }
 
-.v-portfolio-work-list__card {
-  display: grid;
+.v-portfolio-work-stack__item[data-stack-index="0"] {
+  top: calc(var(--v-portfolio-scroll-offset) + var(--v-space-4));
+  z-index: 1;
+  padding-bottom: min(34vh, 18rem);
+}
+
+.v-portfolio-work-stack__item[data-stack-index="1"] {
+  top: calc(var(--v-portfolio-scroll-offset) + var(--v-space-8));
+  z-index: 2;
+  padding-bottom: min(24vh, 12rem);
+}
+
+.v-portfolio-work-stack__item[data-stack-index="2"] {
+  top: calc(var(--v-portfolio-scroll-offset) + var(--v-space-12));
+  z-index: 3;
+  padding-bottom: var(--v-space-4);
+}
+
+.v-portfolio-work-stack__card {
+  display: flex;
+  flex-direction: column;
   gap: var(--v-space-5);
-  padding: var(--v-space-6) 0;
-  justify-items: center;
+  width: min(100%, 26rem);
+  padding: var(--v-space-5);
+  background: var(--v-surface-primary);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-lg);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--v-text-primary) 5%, transparent),
+    0 16px 36px color-mix(in srgb, var(--v-green-900) 10%, transparent);
   text-align: center;
-  transition: opacity var(--v-motion-normal) var(--v-motion-easing-standard);
+  transform-origin: center top;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow var(--v-motion-normal) var(--v-motion-easing-standard);
+  will-change: transform;
 }
 
-@media (min-width: 768px) {
-  .v-portfolio-work-list__card {
-    grid-template-columns: 1fr;
-    gap: var(--v-space-6);
-    padding: var(--v-space-8) 0;
-  }
+.v-portfolio-work-stack__item:hover .v-portfolio-work-stack__card {
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--v-text-primary) 5%, transparent),
+    0 22px 44px color-mix(in srgb, var(--v-green-900) 12%, transparent);
 }
 
-.v-portfolio-work-list__item:hover .v-portfolio-work-list__card {
-  opacity: 0.92;
-}
-
-.v-portfolio-work-list__media {
+.v-portfolio-work-stack__media {
   position: relative;
-  width: min(100%, 20rem);
+  width: 100%;
 }
 
-.v-portfolio-work-list__thumb {
+.v-portfolio-work-stack__thumb {
   width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: var(--v-radius-lg);
-  transition: transform var(--v-motion-normal) var(--v-motion-easing-standard);
+  border-radius: var(--v-radius-md);
 }
 
-.v-portfolio-work-list__item:hover .v-portfolio-work-list__thumb {
-  transform: scale(1.01);
-}
-
-.v-portfolio-work-list__thumb--1 {
+.v-portfolio-work-stack__thumb--1 {
   background: linear-gradient(
     145deg,
     color-mix(in srgb, var(--v-green-300) 55%, var(--v-surface-primary)),
@@ -934,7 +956,7 @@
   );
 }
 
-.v-portfolio-work-list__thumb--2 {
+.v-portfolio-work-stack__thumb--2 {
   background: linear-gradient(
     145deg,
     color-mix(in srgb, var(--v-green-200) 60%, var(--v-surface-primary)),
@@ -942,7 +964,7 @@
   );
 }
 
-.v-portfolio-work-list__thumb--3 {
+.v-portfolio-work-stack__thumb--3 {
   background: linear-gradient(
     145deg,
     color-mix(in srgb, var(--v-green-400) 35%, var(--v-surface-primary)),
@@ -950,15 +972,7 @@
   );
 }
 
-.v-portfolio-work-list__body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--v-space-3);
-  min-width: 0;
-}
-
-.v-portfolio-work-list__meta {
+.v-portfolio-work-stack__meta {
   position: absolute;
   inset: auto var(--v-space-3) var(--v-space-3);
   display: flex;
@@ -968,14 +982,22 @@
   gap: var(--v-space-3);
 }
 
-.v-portfolio-work-list__year {
+.v-portfolio-work-stack__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--v-space-3);
+  min-width: 0;
+}
+
+.v-portfolio-work-stack__year {
   font-family: var(--v-font-interface);
   font-size: var(--v-type-caption);
   letter-spacing: 0.06em;
   color: var(--v-text-muted);
 }
 
-.v-portfolio-work-list__title {
+.v-portfolio-work-stack__title {
   margin: 0;
   font-family: var(--v-font-display);
   font-size: clamp(1.25rem, 3vw, var(--v-type-heading-sm));
@@ -984,7 +1006,7 @@
   color: var(--v-text-primary);
 }
 
-.v-portfolio-work-list__desc {
+.v-portfolio-work-stack__desc {
   margin: 0 auto;
   max-width: var(--v-content-reading);
   font-family: var(--v-font-reading);
@@ -993,7 +1015,7 @@
   color: var(--v-text-secondary);
 }
 
-.v-portfolio-work-list__roles {
+.v-portfolio-work-stack__roles {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -1003,13 +1025,13 @@
   list-style: none;
 }
 
-.v-portfolio-work-list__roles li {
+.v-portfolio-work-stack__roles li {
   font-family: var(--v-font-interface);
   font-size: var(--v-type-caption);
   color: var(--v-text-muted);
 }
 
-.v-portfolio-work-list__link {
+.v-portfolio-work-stack__link {
   display: inline-flex;
   align-items: center;
   gap: var(--v-space-2);
@@ -1021,13 +1043,29 @@
   transition: gap var(--v-motion-fast) var(--v-motion-easing-standard);
 }
 
-.v-portfolio-work-list__link svg {
+.v-portfolio-work-stack__link svg {
   width: var(--v-icon-sm);
   height: var(--v-icon-sm);
 }
 
-.v-portfolio-work-list__item:hover .v-portfolio-work-list__link {
+.v-portfolio-work-stack__item:hover .v-portfolio-work-stack__link {
   gap: var(--v-space-3);
+}
+
+@media (max-width: 767px) {
+  .v-portfolio-work-stack__item[data-stack-index="0"] {
+    top: calc(var(--v-portfolio-scroll-offset) + var(--v-space-2));
+    padding-bottom: min(30vh, 14rem);
+  }
+
+  .v-portfolio-work-stack__item[data-stack-index="1"] {
+    top: calc(var(--v-portfolio-scroll-offset) + var(--v-space-5));
+    padding-bottom: min(22vh, 10rem);
+  }
+
+  .v-portfolio-work-stack__item[data-stack-index="2"] {
+    top: calc(var(--v-portfolio-scroll-offset) + var(--v-space-8));
+  }
 }
 
 /* Activities — sara2626-inspired gallery grid */
@@ -1599,15 +1637,23 @@
   }
 
   .v-portfolio-highlights__item:hover,
-  .v-portfolio-work-list__item:hover .v-portfolio-work-list__thumb {
+  .v-portfolio-work-stack__card {
     transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .v-portfolio-work-stack__item {
+    position: relative;
+    top: auto;
+    padding-bottom: var(--v-space-6);
   }
 
   .v-portfolio-gallery__trigger {
     transition: none;
   }
 
-  .v-portfolio-work-list__item:hover .v-portfolio-work-list__link {
+  .v-portfolio-work-stack__item:hover .v-portfolio-work-stack__link {
     gap: var(--v-space-2);
   }
 }
