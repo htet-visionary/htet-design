@@ -32,45 +32,17 @@ export const portfolioHighlights = [
   {
     label: "Product Design",
     text: "Expert in Figma, prototyping, and design-to-dev handoff.",
+    chips: ["User Research & Analysis", "UI/UX Design", "UI Testing & Feedback Loops"],
   },
   {
     label: "Design System & Frontend",
     text: "Experienced in HTML, CSS, and React, now developing AI-powered design systems.",
+    chips: ["Tokens & Components", "Accessibility"],
   },
   {
     label: "AI-powered Workflow",
     text: "Applying Generative AI to accelerate design exploration, and development.",
-  },
-] as const;
-
-export const skillCategories = [
-  {
-    title: "Design & Strategy",
-    items: [
-      "UI/UX Design",
-      "Product Design",
-      "Design Systems",
-      "Design Thinking & Problem Solving",
-      "Accessibility",
-    ],
-  },
-  {
-    title: "Research",
-    items: [
-      "User Research & Analysis",
-      "User Flows",
-      "Wireframing & Prototyping",
-      "UI Testing & Feedback Loops",
-    ],
-  },
-  {
-    title: "Visual & Interface",
-    items: [
-      "Responsive Web Design",
-      "Mobile App Design",
-      "Visual Design",
-      "Presentation Design",
-    ],
+    chips: ["Responsive Web/App Design", "Visual Design", "Presentation Design"],
   },
 ] as const;
 
@@ -97,6 +69,10 @@ export const workPlaceholders = [
     tag: "Systems",
     year: "2024",
     roles: ["Design systems", "Documentation", "Tokens"],
+    thumb: {
+      src: "/portfolio/work/design-system.png",
+      alt: "Visionary Design System overview with colors, components, and token architecture",
+    },
   },
   {
     title: "Mobile App",

@@ -10,7 +10,6 @@ import {
   activitiesIntro,
   portfolioGallery,
   portfolioProfile,
-  skillCategories,
 } from "@/lib/portfolio-content";
 import "./portfolio.css";
 
@@ -65,29 +64,6 @@ export default function PortfolioPage() {
                   description={portfolioProfile.bio}
                 />
                 <PortfolioHighlights />
-              </div>
-
-              <div className="v-portfolio-capabilities" data-reveal data-reveal-delay="120">
-                <p className="v-portfolio-capabilities__label">Capabilities</p>
-                <div className="v-portfolio-capabilities__grid">
-                  {skillCategories.map((category, categoryIndex) => (
-                    <article
-                      key={category.title}
-                      className="v-portfolio-capabilities__group"
-                      data-reveal
-                      data-reveal-delay={String(160 + categoryIndex * 70)}
-                    >
-                      <h3 className="v-portfolio-capabilities__title">{category.title}</h3>
-                      <ul className="v-portfolio-capabilities__list">
-                        {category.items.map((skill) => (
-                          <li key={skill}>
-                            <span className="v-cmp-chip">{skill}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </article>
-                  ))}
-                </div>
               </div>
             </div>
           </section>

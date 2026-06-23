@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { workPlaceholders } from "@/lib/portfolio-content";
 
@@ -76,17 +77,25 @@ export function PortfolioWorkStack() {
         >
           <article className="v-portfolio-work-stack__card">
             <div className="v-portfolio-work-stack__media">
-              <div
-                className={[
-                  "v-portfolio-work-stack__thumb",
-                  `v-portfolio-work-stack__thumb--${(index % 3) + 1}`,
-                ].join(" ")}
-                aria-hidden
-              />
-              <div className="v-portfolio-work-stack__meta">
-                <span className="v-cmp-tag">{project.tag}</span>
-                <span className="v-portfolio-work-stack__year">{project.year}</span>
-              </div>
+              {"thumb" in project && project.thumb ? (
+                <div className="v-portfolio-work-stack__thumb v-portfolio-work-stack__thumb--image">
+                  <Image
+                    src={project.thumb.src}
+                    alt={project.thumb.alt}
+                    fill
+                    className="v-portfolio-work-stack__thumb-image"
+                    sizes="(max-width: 768px) 100vw, 26rem"
+                  />
+                </div>
+              ) : (
+                <div
+                  className={[
+                    "v-portfolio-work-stack__thumb",
+                    `v-portfolio-work-stack__thumb--${(index % 3) + 1}`,
+                  ].join(" ")}
+                  aria-hidden
+                />
+              )}
             </div>
 
             <div className="v-portfolio-work-stack__body">
