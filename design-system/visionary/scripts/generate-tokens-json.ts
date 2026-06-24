@@ -312,7 +312,7 @@ function mapFoundations(): TokenTree {
   };
 }
 
-function mapThemeOverrides(theme: typeof dreamFundTheme): TokenTree {
+function mapThemeOverrides(theme: typeof luckyCharmTheme | typeof dreamFundTheme): TokenTree {
   const { overrides } = theme;
 
   return {
