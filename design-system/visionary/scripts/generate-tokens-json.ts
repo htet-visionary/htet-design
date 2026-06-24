@@ -15,12 +15,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = join(__dirname, "..", "tokens.json");
 
 const PRIMITIVE_PALETTES = new Set(Object.keys(primitive));
+const TRANSPARENT_COLOR = "#00000000";
 
 type TokenLeaf = { value: string; type: string; description?: string };
 type TokenTree = { [key: string]: TokenTree | TokenLeaf };
 
 function color(value: string, description?: string): TokenLeaf {
-  return { value: value.toUpperCase(), type: "color", ...(description ? { description } : {}) };
+  return { value: normalizeColorLiteral(value), type: "color", ...(description ? { description } : {}) };
 }
 
 function dimension(px: number, description?: string): TokenLeaf {
@@ -51,32 +52,131 @@ function camelToKebab(value: string): string {
   return value.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
+function rgbaToHex8(value: string): string {
+  const match = value.match(/rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([0-9.]+)\s*\)/i);
+  if (!match) {
+    return value;
+  }
+
+  const [, r, g, b, a] = match;
+  const alpha = Math.round(Number(a) * 255)
+    .toString(16)
+    .padStart(2, "0")
+    .toUpperCase();
+
+  const toHex = (channel: string) => Number(channel).toString(16).padStart(2, "0").toUpperCase();
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}${alpha}`;
+}
+
+function normalizeColorLiteral(value: string): string {
+  if (value === "transparent") {
+    return TRANSPARENT_COLOR;
+  }
+
+  if (value.startsWith("rgba(")) {
+    return rgbaToHex8(value);
+  }
+
+  if (value.startsWith("#")) {
+    return value.toUpperCase();
+  }
+
+  return value;
+}
+
+function buildRefMap(tree: unknown, prefix = ""): Map<string, string> {
+  const map = new Map<string, string>();
+
+  for (const [key, value] of Object.entries(tree as Record<string, unknown>)) {
+    const path = prefix ? `${prefix}.${key}` : key;
+
+    if (typeof value === "string") {
+      map.set(path, value);
+      continue;
+    }
+
+    for (const [childPath, childValue] of buildRefMap(value, path)) {
+      map.set(childPath, childValue);
+    }
+  }
+
+  return map;
+}
+
+const semanticRefMap = buildRefMap(semanticRefs);
+
+function primitiveStepRef(palette: string, step: string): string {
+  const tokenStep = step === "0" ? "base" : step;
+  return `primitive.${palette}.${tokenStep}`;
+}
+
+function resolvePrimitivePath(ref: string): string | null {
+  if (ref.startsWith("rgba(") || ref === "transparent") {
+    return null;
+  }
+
+  let current = ref;
+  const visited = new Set<string>();
+
+  while (!PRIMITIVE_PALETTES.has(current.split(".")[0])) {
+    if (visited.has(current)) {
+      return null;
+    }
+
+    visited.add(current);
+    const next = semanticRefMap.get(current);
+    if (!next) {
+      return null;
+    }
+
+    current = next;
+  }
+
+  const [palette, step] = current.split(".");
+  if (!palette || !step) {
+    return null;
+  }
+
+  return primitiveStepRef(palette, step);
+}
+
+function colorAlias(ref: string): TokenLeaf {
+  const literal = normalizeColorLiteral(ref);
+  if (literal.startsWith("#")) {
+    return color(literal);
+  }
+
+  const primitivePath = resolvePrimitivePath(ref);
+  if (primitivePath) {
+    return { value: `{${primitivePath}}`, type: "color" };
+  }
+
+  const directSemantic = semanticRefMap.get(ref);
+  if (directSemantic) {
+    const semanticLiteral = normalizeColorLiteral(directSemantic);
+    if (semanticLiteral.startsWith("#")) {
+      return color(semanticLiteral);
+    }
+  }
+
+  return { value: `{semantic.${normalizeSemanticRef(ref)}}`, type: "color" };
+}
+
 function resolveRef(ref: string): string {
   if (ref.startsWith("rgba(") || ref === "transparent") {
-    return ref;
+    return normalizeColorLiteral(ref);
+  }
+
+  const primitivePath = resolvePrimitivePath(ref);
+  if (primitivePath) {
+    return primitivePath;
   }
 
   const [head] = ref.split(".");
   if (PRIMITIVE_PALETTES.has(head)) {
-    return `primitive.${ref}`;
+    const [palette, step] = ref.split(".");
+    return primitiveStepRef(palette, step);
   }
-
-  const foundationRoots = new Set([
-    "spacing",
-    "radius",
-    "elevation",
-    "motion",
-    "touchTarget",
-    "content",
-    "container",
-    "breakpoint",
-    "grid",
-    "font",
-    "typographyScale",
-    "reading",
-    "icon",
-    "focusRing",
-  ]);
 
   if (ref.startsWith("touch-target.")) {
     return `foundations.${ref.replace("touch-target", "touchTarget")}`;
@@ -102,24 +202,43 @@ function resolveRef(ref: string): string {
     return `foundations.elevation.${layer}.${prop}`;
   }
 
+  const foundationRoots = new Set([
+    "spacing",
+    "radius",
+    "elevation",
+    "motion",
+    "touchTarget",
+    "content",
+    "container",
+    "breakpoint",
+    "grid",
+    "font",
+    "typographyScale",
+    "reading",
+    "icon",
+    "focusRing",
+  ]);
+
   if (foundationRoots.has(head)) {
     return `foundations.${ref}`;
   }
 
   const typographyStyles = new Set(Object.keys(foundations.typography).map(camelToKebab));
   if (typographyStyles.has(ref) || Object.keys(foundations.typography).includes(ref)) {
-    const key = Object.keys(foundations.typography).includes(ref)
-      ? camelToKebab(ref)
-      : ref;
+    const key = Object.keys(foundations.typography).includes(ref) ? camelToKebab(ref) : ref;
     return `foundations.typographyScale.${key}`;
   }
 
-  return `semantic.${ref}`;
+  return `semantic.${normalizeSemanticRef(ref)}`;
 }
 
 function refToken(ref: string, type = "color"): TokenLeaf {
+  if (type === "color") {
+    return colorAlias(ref);
+  }
+
   if (ref.startsWith("rgba(") || ref === "transparent") {
-    return text(ref, type);
+    return text(normalizeColorLiteral(ref), type);
   }
 
   return { value: `{${resolveRef(ref)}}`, type };
@@ -130,24 +249,29 @@ function mapPrimitive(): TokenTree {
 
   for (const [palette, steps] of Object.entries(primitive)) {
     tree[palette] = {};
+
     for (const [step, hex] of Object.entries(steps)) {
       (tree[palette] as TokenTree)[step] = color(hex);
+
+      if (step === "0") {
+        (tree[palette] as TokenTree).base = color(hex, "Alias for step 0 — Figma-safe reference");
+      }
     }
   }
 
   return tree;
 }
 
-function mapSemanticRefs(tree: unknown, prefix = ""): TokenTree {
+function mapSemanticRefs(tree: unknown): TokenTree {
   const out: TokenTree = {};
 
   for (const [key, value] of Object.entries(tree as Record<string, unknown>)) {
     if (typeof value === "string") {
-      out[key] = refToken(value);
+      out[key] = colorAlias(value);
       continue;
     }
 
-    out[key] = mapSemanticRefs(value, prefix ? `${prefix}.${key}` : key);
+    out[key] = mapSemanticRefs(value);
   }
 
   return out;
@@ -177,7 +301,16 @@ function inferComponentType(ref: string): string {
     return "boxShadow";
   }
 
-  if (ref.startsWith("spacing.") || ref.includes("padding") || ref.includes("minHeight") || ref.includes("maxWidth")) {
+  if (
+    ref.startsWith("spacing.") ||
+    ref.startsWith("touch-target.") ||
+    ref.startsWith("touchTarget.") ||
+    ref.startsWith("content.") ||
+    ref.startsWith("container.") ||
+    ref.includes("padding") ||
+    ref.includes("minHeight") ||
+    ref.includes("maxWidth")
+  ) {
     return "dimension";
   }
 
@@ -189,7 +322,11 @@ function inferComponentType(ref: string): string {
     return "number";
   }
 
-  if (["label", "body", "caption", "hero", "headingXl", "headingLg", "headingMd", "headingSm", "bodyLg"].includes(ref)) {
+  if (
+    ["label", "body", "caption", "hero", "headingXl", "headingLg", "headingMd", "headingSm", "bodyLg"].includes(
+      ref,
+    )
+  ) {
     return "typography";
   }
 
@@ -197,8 +334,22 @@ function inferComponentType(ref: string): string {
 }
 
 function mapFoundations(): TokenTree {
-  const { spacing, radius, fonts, typography, reading, icons, elevation, motion, touchTarget, focusRing, breakpoints, container, content, grid } =
-    foundations;
+  const {
+    spacing,
+    radius,
+    fonts,
+    typography,
+    reading,
+    icons,
+    elevation,
+    motion,
+    touchTarget,
+    focusRing,
+    breakpoints,
+    container,
+    content,
+    grid,
+  } = foundations;
 
   const typographyScale: TokenTree = {};
   for (const [name, style] of Object.entries(typography)) {
@@ -227,13 +378,13 @@ function mapFoundations(): TokenTree {
 
   const iconColors: TokenTree = {};
   for (const [name, ref] of Object.entries(icons.color)) {
-    iconColors[name] = refToken(normalizeSemanticRef(ref));
+    iconColors[name] = colorAlias(normalizeSemanticRef(ref));
   }
 
   const elevationTree: TokenTree = {};
   for (const [name, layer] of Object.entries(elevation)) {
     elevationTree[name] = {
-      ...( "shadow" in layer ? { shadow: shadow(layer.shadow) } : {}),
+      ...("shadow" in layer ? { shadow: shadow(layer.shadow) } : {}),
       zIndex: number(layer.zIndex),
     };
   }
@@ -352,8 +503,8 @@ const tokens = {
       id: "default",
       name: "Default",
       selectedTokenSets: {
-        primitive: "source",
-        foundations: "source",
+        primitive: "enabled",
+        foundations: "enabled",
         semantic: "enabled",
         component: "enabled",
         "theme/lucky-charm": "disabled",
@@ -364,10 +515,10 @@ const tokens = {
       id: "lucky-charm",
       name: "Lucky Charm",
       selectedTokenSets: {
-        primitive: "source",
-        foundations: "source",
-        semantic: "source",
-        component: "source",
+        primitive: "enabled",
+        foundations: "enabled",
+        semantic: "enabled",
+        component: "enabled",
         "theme/lucky-charm": "enabled",
         "theme/dream-fund": "disabled",
       },
@@ -376,10 +527,10 @@ const tokens = {
       id: "dream-fund",
       name: "Dream Fund",
       selectedTokenSets: {
-        primitive: "source",
-        foundations: "source",
-        semantic: "source",
-        component: "source",
+        primitive: "enabled",
+        foundations: "enabled",
+        semantic: "enabled",
+        component: "enabled",
         "theme/lucky-charm": "disabled",
         "theme/dream-fund": "enabled",
       },
