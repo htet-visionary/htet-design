@@ -1,3 +1,5 @@
+import { designSystemBase } from "./navigation";
+
 export const portfolioProfile = {
   name: "Htet Htet Aung",
   title: "Product UI/UX Designer",
@@ -31,18 +33,18 @@ export const portfolioSocialLinks = [
 export const portfolioHighlights = [
   {
     label: "Product Design",
-    text: "Expert in Figma, prototyping, and design-to-dev handoff.",
-    chips: ["User Research & Analysis", "UI/UX Design", "UI Testing & Feedback Loops"],
+    text: "Expert in Figma, wireframing, prototyping, and design-to-dev handoff.",
+    chips: ["UI/UX Design", "Responsive Web & Mobile", "User Flows & Usability Testing"],
   },
   {
     label: "Design System & Frontend",
     text: "Experienced in HTML, CSS, and React, now developing AI-powered design systems.",
-    chips: ["Tokens & Components", "Accessibility"],
+    chips: ["Tokens & Components", "Accessibility", "Design System Documentation"],
   },
   {
     label: "AI-powered Workflow",
     text: "Applying Generative AI to accelerate design exploration, and development.",
-    chips: ["Responsive Web/App Design", "Visual Design", "Presentation Design"],
+    chips: ["AI-assisted Design", "Prompt Engineering"],
   },
 ] as const;
 
@@ -55,32 +57,35 @@ export const portfolioNavItems = [
 
 export const workPlaceholders = [
   {
-    title: "Product Experience",
+    title: "Dream Fund",
     description:
-      "End-to-end UI/UX for a digital product — research, flows, and polished interfaces.",
-    tag: "Case study",
-    year: "2024",
-    roles: ["UX research", "UI design", "Prototyping"],
+      "Goal-oriented budgeting platform helping users save toward meaningful goals.",
+    tag: "Product Design Case Study",
+    year: "2026",
+    roles: ["UX research", "・", "UI design", "・", "Prototyping"],
+    href: "/dream-fund",
   },
   {
-    title: "Design System",
+    title: "Visionary Design System",
     description:
       "Scalable component library with tokens, patterns, and documentation for cross-team use.",
-    tag: "Systems",
-    year: "2024",
-    roles: ["Design systems", "Documentation", "Tokens"],
+    tag: "Design Systems",
+    year: "2026",
+    roles: ["Design systems", "・", "Tokens", "・", "AI"],
     thumb: {
       src: "/portfolio/work/design-system.png",
       alt: "Visionary Design System overview with colors, components, and token architecture",
     },
+    href: designSystemBase,
+    openInNewTab: true,
   },
   {
-    title: "Mobile App",
+    title: "Lucky Charm",
     description:
-      "Responsive mobile experience with prototyping, testing, and iterative refinement.",
-    tag: "Mobile",
-    year: "2023",
-    roles: ["Mobile UI", "Prototyping", "Testing"],
+      "Character-driven lifestyle brand focused on storytelling, identity, and delightful products.",
+    tag: "Brand & Character Experience",
+    year: "2026",
+    roles: ["Branding", "・", "Product Concept"],
   },
 ] as const;
 

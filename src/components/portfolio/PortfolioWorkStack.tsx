@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { workPlaceholders } from "@/lib/portfolio-content";
 
@@ -102,14 +103,27 @@ export function PortfolioWorkStack() {
               <h3 className="v-portfolio-work-stack__title">{project.title}</h3>
               <p className="v-portfolio-work-stack__desc">{project.description}</p>
               <ul className="v-portfolio-work-stack__roles">
-                {project.roles.map((role) => (
-                  <li key={role}>{role}</li>
+                {project.roles.map((role, roleIndex) => (
+                  <li key={`${project.title}-role-${roleIndex}`}>{role}</li>
                 ))}
               </ul>
-              <span className="v-portfolio-work-stack__link">
-                View project
-                <ArrowUpRight strokeWidth={2} aria-hidden />
-              </span>
+              {"href" in project && project.href ? (
+                <Link
+                  href={project.href}
+                  className="v-portfolio-work-stack__link"
+                  {...("openInNewTab" in project && project.openInNewTab
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  View project
+                  <ArrowUpRight strokeWidth={2} aria-hidden />
+                </Link>
+              ) : (
+                <span className="v-portfolio-work-stack__link">
+                  View project
+                  <ArrowUpRight strokeWidth={2} aria-hidden />
+                </span>
+              )}
             </div>
           </article>
         </li>

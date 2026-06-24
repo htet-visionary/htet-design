@@ -993,7 +993,14 @@
   font-size: var(--v-type-label);
   font-weight: 500;
   color: var(--v-action-primary);
+  text-decoration: none;
   transition: gap var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+a.v-portfolio-work-stack__link:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--v-radius-sm);
 }
 
 .v-portfolio-work-stack__link svg {

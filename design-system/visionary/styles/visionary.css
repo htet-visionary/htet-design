@@ -197,3 +197,11 @@
   font-size: var(--v-type-body);
   line-height: 1.6;
 }
+
+/* ── Product themes — semantic slot overrides only; primary stays green.500 ── */
+.v-theme-dream-fund {
+  --v-action-accent: var(--v-warning-600);
+  --v-action-accent-hover: var(--v-warning-700);
+  --v-action-accent-active: var(--v-warning-700);
+  --v-border-accent: var(--v-warning-500);
+}

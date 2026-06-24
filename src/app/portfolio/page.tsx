@@ -74,7 +74,7 @@ export default function PortfolioPage() {
               index="02"
               eyebrow="Selected work"
               title="Work"
-              description="Product design projects spanning research, systems, and polished interfaces."
+              description="Design projects spanning research, systems, and polished interfaces."
             />
 
             <PortfolioWorkStack />
