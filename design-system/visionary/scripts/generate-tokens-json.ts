@@ -16,9 +16,13 @@ const OUT_PATH = join(__dirname, "..", "tokens.json");
 
 const PRIMITIVE_PALETTES = new Set(Object.keys(primitive));
 const TRANSPARENT_COLOR = "#00000000";
+const TYPOGRAPHY_STYLE_NAMES = new Set(Object.keys(foundations.typography));
 
-type TokenLeaf = { value: string; type: string; description?: string };
+type TokenValue = string | Record<string, string>;
+type TokenLeaf = { value: TokenValue; type: string; description?: string };
 type TokenTree = { [key: string]: TokenTree | TokenLeaf };
+
+const fixesReport: string[] = [];
 
 function color(value: string, description?: string): TokenLeaf {
   return { value: normalizeColorLiteral(value), type: "color", ...(description ? { description } : {}) };
@@ -105,9 +109,36 @@ function buildRefMap(tree: unknown, prefix = ""): Map<string, string> {
 
 const semanticRefMap = buildRefMap(semanticRefs);
 
-function primitiveStepRef(palette: string, step: string): string {
-  const tokenStep = step === "0" ? "base" : step;
+function primitiveStepKey(step: string | number): string {
+  return String(step) === "0" ? "base" : String(step);
+}
+
+function primitiveExists(palette: string, step: string | number): boolean {
+  const paletteTokens = primitive[palette as keyof typeof primitive];
+  if (!paletteTokens) {
+    return false;
+  }
+
+  const key = String(step);
+  if (key in paletteTokens) {
+    return true;
+  }
+
+  return key === "0" || key === "base";
+}
+
+function primitivePath(palette: string, step: string | number): string {
+  const tokenStep = primitiveStepKey(step);
+
+  if (!primitiveExists(palette, step)) {
+    throw new Error(`Missing primitive color: ${palette}.${tokenStep}`);
+  }
+
   return `primitive.${palette}.${tokenStep}`;
+}
+
+function primitiveRef(palette: string, step: string | number): TokenLeaf {
+  return { value: `{${primitivePath(palette, step)}}`, type: "color" };
 }
 
 function resolvePrimitivePath(ref: string): string | null {
@@ -137,45 +168,68 @@ function resolvePrimitivePath(ref: string): string | null {
     return null;
   }
 
-  return primitiveStepRef(palette, step);
+  if (!primitiveExists(palette, step === "base" ? 0 : step)) {
+    return null;
+  }
+
+  return primitivePath(palette, step === "base" ? 0 : step);
 }
 
-function colorAlias(ref: string): TokenLeaf {
+function colorAlias(ref: string, context = "token"): TokenLeaf {
   const literal = normalizeColorLiteral(ref);
   if (literal.startsWith("#")) {
+    if (ref === "transparent" || ref.startsWith("rgba(")) {
+      fixesReport.push(`${context}: converted literal ${ref} → ${literal}`);
+    }
     return color(literal);
   }
 
-  const primitivePath = resolvePrimitivePath(ref);
-  if (primitivePath) {
-    return { value: `{${primitivePath}}`, type: "color" };
+  const primitiveTarget = resolvePrimitivePath(ref);
+  if (primitiveTarget) {
+    return { value: `{${primitiveTarget}}`, type: "color" };
   }
 
   const directSemantic = semanticRefMap.get(ref);
   if (directSemantic) {
     const semanticLiteral = normalizeColorLiteral(directSemantic);
     if (semanticLiteral.startsWith("#")) {
+      fixesReport.push(`${context}: resolved ${ref} → literal ${semanticLiteral}`);
       return color(semanticLiteral);
+    }
+
+    const nestedPrimitive = resolvePrimitivePath(directSemantic);
+    if (nestedPrimitive) {
+      fixesReport.push(`${context}: resolved ${ref} → {${nestedPrimitive}}`);
+      return { value: `{${nestedPrimitive}}`, type: "color" };
     }
   }
 
-  return { value: `{semantic.${normalizeSemanticRef(ref)}}`, type: "color" };
+  const [head, step] = ref.split(".");
+  if (PRIMITIVE_PALETTES.has(head) && step) {
+    return primitiveRef(head, step);
+  }
+
+  throw new Error(`Unable to resolve color reference "${ref}" for ${context}`);
 }
 
-function resolveRef(ref: string): string {
+function typographyCompositeRef(styleName: string): string {
+  const key = TYPOGRAPHY_STYLE_NAMES.has(styleName) ? camelToKebab(styleName) : styleName;
+  return `foundations.typography.${key}`;
+}
+
+function resolveRef(ref: string, context = "token"): string {
   if (ref.startsWith("rgba(") || ref === "transparent") {
     return normalizeColorLiteral(ref);
   }
 
-  const primitivePath = resolvePrimitivePath(ref);
-  if (primitivePath) {
-    return primitivePath;
+  const primitiveTarget = resolvePrimitivePath(ref);
+  if (primitiveTarget) {
+    return primitiveTarget;
   }
 
-  const [head] = ref.split(".");
-  if (PRIMITIVE_PALETTES.has(head)) {
-    const [palette, step] = ref.split(".");
-    return primitiveStepRef(palette, step);
+  const [head, step] = ref.split(".");
+  if (PRIMITIVE_PALETTES.has(head) && step) {
+    return primitivePath(head, step);
   }
 
   if (ref.startsWith("touch-target.")) {
@@ -214,6 +268,7 @@ function resolveRef(ref: string): string {
     "grid",
     "font",
     "typographyScale",
+    "typography",
     "reading",
     "icon",
     "focusRing",
@@ -223,25 +278,23 @@ function resolveRef(ref: string): string {
     return `foundations.${ref}`;
   }
 
-  const typographyStyles = new Set(Object.keys(foundations.typography).map(camelToKebab));
-  if (typographyStyles.has(ref) || Object.keys(foundations.typography).includes(ref)) {
-    const key = Object.keys(foundations.typography).includes(ref) ? camelToKebab(ref) : ref;
-    return `foundations.typographyScale.${key}`;
+  if (TYPOGRAPHY_STYLE_NAMES.has(ref)) {
+    return typographyCompositeRef(ref);
   }
 
-  return `semantic.${normalizeSemanticRef(ref)}`;
+  throw new Error(`Unable to resolve reference "${ref}" for ${context}`);
 }
 
-function refToken(ref: string, type = "color"): TokenLeaf {
+function refToken(ref: string, type: string, context = "token"): TokenLeaf {
   if (type === "color") {
-    return colorAlias(ref);
+    return colorAlias(ref, context);
   }
 
   if (ref.startsWith("rgba(") || ref === "transparent") {
     return text(normalizeColorLiteral(ref), type);
   }
 
-  return { value: `{${resolveRef(ref)}}`, type };
+  return { value: `{${resolveRef(ref, context)}}`, type };
 }
 
 function mapPrimitive(): TokenTree {
@@ -251,42 +304,48 @@ function mapPrimitive(): TokenTree {
     tree[palette] = {};
 
     for (const [step, hex] of Object.entries(steps)) {
-      (tree[palette] as TokenTree)[step] = color(hex);
+      const exportStep = palette === "neutral" && step === "0" ? "base" : step;
 
-      if (step === "0") {
-        (tree[palette] as TokenTree).base = color(hex, "Alias for step 0 — Figma-safe reference");
+      if (palette === "neutral" && step === "0") {
+        fixesReport.push("primitive.neutral.0 → primitive.neutral.base (removed duplicate numeric token)");
       }
+
+      (tree[palette] as TokenTree)[exportStep] = color(hex);
     }
   }
 
   return tree;
 }
 
-function mapSemanticRefs(tree: unknown): TokenTree {
+function mapSemanticRefs(tree: unknown, contextPrefix = "semantic"): TokenTree {
   const out: TokenTree = {};
 
   for (const [key, value] of Object.entries(tree as Record<string, unknown>)) {
+    const context = `${contextPrefix}.${key}`;
+
     if (typeof value === "string") {
-      out[key] = colorAlias(value);
+      out[key] = colorAlias(value, context);
       continue;
     }
 
-    out[key] = mapSemanticRefs(value);
+    out[key] = mapSemanticRefs(value, context);
   }
 
   return out;
 }
 
-function mapComponentRefs(tree: unknown): TokenTree {
+function mapComponentRefs(tree: unknown, contextPrefix = "component"): TokenTree {
   const out: TokenTree = {};
 
   for (const [key, value] of Object.entries(tree as Record<string, unknown>)) {
+    const context = `${contextPrefix}.${key}`;
+
     if (typeof value === "string") {
-      out[key] = refToken(value, inferComponentType(value));
+      out[key] = refToken(value, inferComponentType(value), context);
       continue;
     }
 
-    out[key] = mapComponentRefs(value);
+    out[key] = mapComponentRefs(value, context);
   }
 
   return out;
@@ -322,11 +381,7 @@ function inferComponentType(ref: string): string {
     return "number";
   }
 
-  if (
-    ["label", "body", "caption", "hero", "headingXl", "headingLg", "headingMd", "headingSm", "bodyLg"].includes(
-      ref,
-    )
-  ) {
+  if (TYPOGRAPHY_STYLE_NAMES.has(ref)) {
     return "typography";
   }
 
@@ -352,15 +407,34 @@ function mapFoundations(): TokenTree {
   } = foundations;
 
   const typographyScale: TokenTree = {};
+  const typographyComposite: TokenTree = {};
+
   for (const [name, style] of Object.entries(typography)) {
-    typographyScale[camelToKebab(name)] = {
+    const key = camelToKebab(name);
+
+    typographyScale[key] = {
       size: dimension(style.size),
       weight: number(style.weight),
       lineHeight: text(String(style.lineHeight), "lineHeights"),
       letterSpacing: text(style.letterSpacing, "letterSpacing"),
       font: text(`{foundations.font.${style.font}.stack}`, "fontFamilies"),
     };
+
+    typographyComposite[key] = {
+      type: "typography",
+      value: {
+        fontFamily: `{foundations.font.${style.font}.stack}`,
+        fontWeight: String(style.weight),
+        fontSize: `{foundations.typographyScale.${key}.size}`,
+        lineHeight: String(style.lineHeight),
+        letterSpacing: style.letterSpacing,
+      },
+    };
   }
+
+  fixesReport.push(
+    "component.button.shared.font, component.input.font, component.alert.shared.font → foundations.typography.* composites",
+  );
 
   const fontTree: TokenTree = {};
   for (const [name, font] of Object.entries(fonts)) {
@@ -378,7 +452,7 @@ function mapFoundations(): TokenTree {
 
   const iconColors: TokenTree = {};
   for (const [name, ref] of Object.entries(icons.color)) {
-    iconColors[name] = colorAlias(normalizeSemanticRef(ref));
+    iconColors[name] = colorAlias(normalizeSemanticRef(ref), `foundations.icon.color.${name}`);
   }
 
   const elevationTree: TokenTree = {};
@@ -404,6 +478,7 @@ function mapFoundations(): TokenTree {
     radius: radiusTree,
     font: fontTree,
     typographyScale,
+    typography: typographyComposite,
     reading: {
       maxWidth: text(reading.maxWidth, "other", "Maximum comfortable reading measure"),
       optimalWidth: text(reading.optimalWidth, "other", "Optimal reading measure"),
@@ -541,5 +616,92 @@ const tokens = {
   },
 };
 
+function flattenSet(setName: string, tree: TokenTree, prefix = ""): Map<string, TokenLeaf> {
+  const out = new Map<string, TokenLeaf>();
+
+  for (const [key, value] of Object.entries(tree)) {
+    const path = prefix ? `${prefix}.${key}` : key;
+
+    if (value && typeof value === "object" && "value" in value && "type" in value) {
+      out.set(`${setName}.${path}`, value as TokenLeaf);
+      continue;
+    }
+
+    for (const [childPath, childToken] of flattenSet(setName, value as TokenTree, path)) {
+      out.set(childPath, childToken);
+    }
+  }
+
+  return out;
+}
+
+function collectReferencePaths(value: TokenValue, refs: string[]) {
+  if (typeof value === "string") {
+    const match = value.match(/^\{([^}]+)\}$/);
+    if (match) {
+      refs.push(match[1]);
+    }
+    return;
+  }
+
+  for (const nested of Object.values(value)) {
+    const match = nested.match(/^\{([^}]+)\}$/);
+    if (match) {
+      refs.push(match[1]);
+    }
+  }
+}
+
+function validateTokens(output: typeof tokens): string[] {
+  const all = new Map<string, TokenLeaf>();
+
+  for (const setName of TOKEN_SET_ORDER) {
+    const setTree = output[setName as keyof typeof output] as TokenTree;
+    for (const [path, token] of flattenSet(setName, setTree)) {
+      all.set(path, token);
+    }
+  }
+
+  const unresolved: string[] = [];
+
+  for (const [path, token] of all) {
+    if (path.startsWith("primitive.")) {
+      if (!token.value || typeof token.value !== "string" || !token.type) {
+        unresolved.push(`${path}: invalid primitive leaf`);
+      } else if (token.type !== "color") {
+        unresolved.push(`${path}: primitive must be type color`);
+      } else if (/^\{/.test(token.value)) {
+        unresolved.push(`${path}: primitive must not reference ${token.value}`);
+      }
+      continue;
+    }
+
+    const refs: string[] = [];
+    collectReferencePaths(token.value, refs);
+
+    for (const ref of refs) {
+      if (!all.has(ref)) {
+        unresolved.push(`${path}: unresolved reference {${ref}}`);
+      }
+    }
+  }
+
+  return unresolved;
+}
+
+const unresolved = validateTokens(tokens);
+if (unresolved.length > 0) {
+  throw new Error(`tokens.json validation failed:\n${unresolved.map((line) => `- ${line}`).join("\n")}`);
+}
+
 writeFileSync(OUT_PATH, `${JSON.stringify(tokens, null, 2)}\n`, "utf8");
+
 console.log(`Wrote ${OUT_PATH}`);
+console.log(`Validated ${TOKEN_SET_ORDER.length} token sets — 0 unresolved references`);
+
+if (fixesReport.length > 0) {
+  console.log("\nFixes applied:");
+  for (const fix of fixesReport) {
+    console.log(`- ${fix}`);
+  }
+}
