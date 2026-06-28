@@ -3231,6 +3231,71 @@
   outline-offset: 2px;
 }
 
+/* Interactive button links — map design-system states to pseudo-classes */
+a.v-cmp-btn {
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--v-motion-fast) var(--v-motion-easing-standard),
+    border-color var(--v-motion-fast) var(--v-motion-easing-standard),
+    color var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+button.v-cmp-btn {
+  cursor: pointer;
+}
+
+a.v-cmp-btn .v-cmp-btn__icon svg {
+  width: var(--v-icon-sm);
+  height: var(--v-icon-sm);
+}
+
+a.v-cmp-btn--primary-green:hover,
+a.v-cmp-btn--primary:hover {
+  background: var(--v-action-primary-hover);
+}
+
+a.v-cmp-btn--primary-green:active,
+a.v-cmp-btn--primary:active {
+  background: var(--v-action-primary-active);
+}
+
+a.v-cmp-btn--secondary-green:hover {
+  background: var(--v-bg-subtle);
+  border-color: var(--v-green-500);
+}
+
+a.v-cmp-btn--secondary-green:active {
+  background: color-mix(in srgb, var(--v-green-100) 45%, var(--v-surface-primary));
+}
+
+a.v-cmp-btn--accent-primary:hover {
+  background: var(--v-action-accent-hover);
+}
+
+a.v-cmp-btn--accent-primary:active {
+  background: var(--v-action-accent-hover);
+}
+
+a.v-cmp-btn--accent-secondary:hover,
+a.v-cmp-btn--secondary:hover {
+  background: var(--v-bg-subtle);
+}
+
+a.v-cmp-btn--link:hover {
+  color: var(--v-link-hover);
+  text-decoration: underline;
+}
+
+a.v-cmp-btn:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: 2px;
+}
+
+a.v-cmp-btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Input specimen */
 .v-cmp-field {
   display: grid;

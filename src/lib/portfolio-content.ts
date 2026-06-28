@@ -34,7 +34,7 @@ export const portfolioHighlights = [
   {
     label: "Product Design",
     text: "Expert in Figma, wireframing, prototyping, and design-to-dev handoff.",
-    chips: ["UI/UX Design", "Responsive Web & Mobile", "User Flows & Usability Testing"],
+    chips: ["UI/UX Design", "Responsive Web & Mobile", "UI Testing & Feedback Loops"],
   },
   {
     label: "Design System & Frontend",
@@ -59,7 +59,7 @@ export const workPlaceholders = [
   {
     title: "Dream Fund",
     description:
-      "Goal-oriented budgeting platform helping users save toward meaningful goals.",
+      "Dream-first financial companion helping users achieve goals with confidence.",
     tag: "Product Design Case Study",
     year: "2026",
     roles: ["UX research", "・", "UI design", "・", "Prototyping"],

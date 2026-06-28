@@ -1,4 +1,4 @@
-export type GoalColor = "green" | "accent" | "lavender";
+export type DreamPriority = "high" | "medium" | "low";
 
 export type DreamFundGoal = {
   id: string;
@@ -6,9 +6,9 @@ export type DreamFundGoal = {
   targetAmount: number;
   savedAmount: number;
   emoji: string;
-  targetDate: string;
+  targetDate?: string;
   monthlyAllocation: number;
-  color: GoalColor;
+  priority: DreamPriority;
 };
 
 export type DreamFundBill = {
@@ -16,7 +16,7 @@ export type DreamFundBill = {
   name: string;
   amount: number;
   dueDate: string;
-  frequency: "monthly" | "weekly" | "yearly";
+  frequency: "monthly" | "weekly" | "yearly" | "once" | "daily" | "custom";
   paid: boolean;
 };
 
@@ -46,6 +46,21 @@ export type DreamFundPartnerGoal = {
   contributors: string[];
 };
 
+export type DreamFundEmergencyFund = {
+  targetAmount: number;
+  savedAmount: number;
+};
+
+export type DreamFundRecurringIncome = {
+  id: string;
+  typeId: string;
+  label: string;
+  amount: number;
+  frequency: "monthly" | "weekly" | "yearly" | "once" | "daily" | "custom";
+  startDate: string;
+  note?: string;
+};
+
 export type DreamFundSettings = {
   currency: string;
   weeklySummary: boolean;
@@ -69,29 +84,32 @@ export type DreamFundAppState = {
   hasOnboarded: boolean;
   isSignedUp: boolean;
   profile: DreamFundProfile;
+  currentBalance: number;
+  recurringIncomes: DreamFundRecurringIncome[];
   goals: DreamFundGoal[];
   bills: DreamFundBill[];
   transactions: DreamFundTransaction[];
   alerts: DreamFundAlert[];
   partnerGoals: DreamFundPartnerGoal[];
+  emergencyFund: DreamFundEmergencyFund;
   settings: DreamFundSettings;
   weeklyFlexibleSpent: number;
   weeklyFlexibleBudget: number;
   lastAchievedGoalId: string | null;
 };
 
-export const dreamFundGoalColors: { id: GoalColor; label: string }[] = [
-  { id: "green", label: "Green" },
-  { id: "accent", label: "Warm" },
-  { id: "lavender", label: "Lavender" },
+export const dreamFundPriorities: { id: DreamPriority; label: string }[] = [
+  { id: "high", label: "High" },
+  { id: "medium", label: "Medium" },
+  { id: "low", label: "Low" },
 ];
 
 export const dreamFundCategories = [
+  "Salary",
   "Shopping",
-  "Food & Dining",
+  "Food",
   "Transport",
-  "Entertainment",
-  "Income",
+  "Bills",
   "Other",
 ] as const;
 
@@ -99,112 +117,153 @@ export const defaultDreamFundAppState: DreamFundAppState = {
   hasOnboarded: false,
   isSignedUp: false,
   profile: {
-    name: "Alex Morgan",
-    email: "alex@example.com",
-    monthlyIncome: 4200,
+    name: "Jennie Tanaka",
+    email: "jennie@example.com",
+    monthlyIncome: 310_000,
     mandatoryExpenses: [
-      { id: "rent", label: "Rent", amount: 1400 },
-      { id: "utilities", label: "Utilities", amount: 120 },
-      { id: "debt", label: "Debt repayment", amount: 300 },
-      { id: "insurance", label: "Insurance", amount: 80 },
+      { id: "rent", label: "Rent", amount: 95_000 },
+      { id: "utilities", label: "Utilities", amount: 12_000 },
+      { id: "debt", label: "Debt repayment", amount: 18_000 },
+      { id: "insurance", label: "Insurance", amount: 8_000 },
     ],
   },
+  currentBalance: 0,
+  recurringIncomes: [],
   goals: [
     {
-      id: "watch",
-      name: "New Watch",
-      targetAmount: 1000,
-      savedAmount: 234,
-      emoji: "⌚",
-      targetDate: "2026-08-15",
-      monthlyAllocation: 100,
-      color: "green",
-    },
-    {
-      id: "kyoto",
-      name: "Trip to Kyoto",
-      targetAmount: 2000,
-      savedAmount: 420,
+      id: "japan-trip",
+      name: "Japan Trip",
+      targetAmount: 500_000,
+      savedAmount: 365_000,
       emoji: "✈️",
       targetDate: "2026-11-20",
-      monthlyAllocation: 150,
-      color: "accent",
+      monthlyAllocation: 25_000,
+      priority: "high",
+    },
+    {
+      id: "weekend-camera",
+      name: "Weekend Camera",
+      targetAmount: 120_000,
+      savedAmount: 48_000,
+      emoji: "📷",
+      targetDate: "2026-09-01",
+      monthlyAllocation: 12_000,
+      priority: "medium",
     },
   ],
   bills: [
-    { id: "rent-bill", name: "Rent", amount: 1400, dueDate: "2026-07-01", frequency: "monthly", paid: false },
-    { id: "electricity", name: "Electricity Bill", amount: 85, dueDate: "2026-06-28", frequency: "monthly", paid: false },
-    { id: "internet", name: "Internet", amount: 45, dueDate: "2026-07-05", frequency: "monthly", paid: false },
-    { id: "insurance-bill", name: "Insurance", amount: 80, dueDate: "2026-07-12", frequency: "monthly", paid: false },
+    {
+      id: "rent-bill",
+      name: "Rent",
+      amount: 95_000,
+      dueDate: "2026-07-01",
+      frequency: "monthly",
+      paid: false,
+    },
+    {
+      id: "electricity",
+      name: "Electricity",
+      amount: 8_500,
+      dueDate: "2026-06-27",
+      frequency: "monthly",
+      paid: false,
+    },
+    {
+      id: "internet",
+      name: "Internet",
+      amount: 5_500,
+      dueDate: "2026-07-05",
+      frequency: "monthly",
+      paid: false,
+    },
+    {
+      id: "insurance-bill",
+      name: "Insurance",
+      amount: 8_000,
+      dueDate: "2026-07-12",
+      frequency: "monthly",
+      paid: false,
+    },
   ],
   transactions: [
-    { id: "t1", title: "Salary deposit", amount: 4200, type: "income", category: "Income", date: "2026-06-24", note: "Monthly pay" },
-    { id: "t2", title: "Grocery run", amount: 48, type: "expense", category: "Food & Dining", date: "2026-06-24" },
-    { id: "t3", title: "Coffee shop", amount: 12, type: "expense", category: "Food & Dining", date: "2026-06-23" },
-    { id: "t4", title: "Train pass", amount: 35, type: "expense", category: "Transport", date: "2026-06-23" },
-    { id: "t5", title: "Online store", amount: 62, type: "expense", category: "Shopping", date: "2026-06-22" },
+    {
+      id: "t1",
+      title: "Salary",
+      amount: 310_000,
+      type: "income",
+      category: "Salary",
+      date: "2026-06-24",
+      note: "Monthly pay",
+    },
+    {
+      id: "t2",
+      title: "Shopping",
+      amount: 4_200,
+      type: "expense",
+      category: "Shopping",
+      date: "2026-06-24",
+    },
+    {
+      id: "t3",
+      title: "Lunch",
+      amount: 1_200,
+      type: "expense",
+      category: "Food",
+      date: "2026-06-23",
+    },
+    {
+      id: "t4",
+      title: "Train pass",
+      amount: 980,
+      type: "expense",
+      category: "Transport",
+      date: "2026-06-23",
+    },
   ],
   alerts: [
     {
       id: "a1",
       type: "bill",
-      title: "Electricity due in 4 days",
-      message: "Set aside $85 before Jun 28 to stay on track.",
+      title: "Electricity due in 3 days",
+      message: "Set aside ¥8,500 before Jun 27 so your Japan Trip stays on track.",
       timeLabel: "Today",
     },
     {
       id: "a2",
-      type: "budget",
-      title: "Food budget at 80%",
-      message: "You've spent 80% of your Food & Dining plan this week — one lighter meal puts you back on track.",
-      timeLabel: "Yesterday",
+      type: "goal",
+      title: "Japan Trip update",
+      message: "You're 73% toward your trip. Today's spending still keeps your dream on schedule.",
+      timeLabel: "Today",
     },
     {
       id: "a3",
-      type: "goal",
-      title: "Kyoto trip update",
-      message: "You're 21% toward Kyoto. Keep saving $150/month to reach your date.",
-      timeLabel: "2 days ago",
+      type: "budget",
+      title: "Available to spend refreshed",
+      message: "You can safely spend ¥2,680 today without affecting your active dreams.",
+      timeLabel: "This morning",
     },
   ],
   partnerGoals: [
     {
-      id: "europe",
-      name: "Europe Trip",
-      targetAmount: 5000,
-      savedAmount: 2100,
-      contributors: ["Alex", "Sam"],
-    },
-    {
-      id: "home",
-      name: "New Home Fund",
-      targetAmount: 20000,
-      savedAmount: 8500,
-      contributors: ["Alex", "Sam"],
+      id: "anniversary",
+      name: "Anniversary Trip",
+      targetAmount: 800_000,
+      savedAmount: 320_000,
+      contributors: ["Jennie", "Ken"],
     },
   ],
+  emergencyFund: {
+    targetAmount: 600_000,
+    savedAmount: 450_000,
+  },
   settings: {
-    currency: "USD",
+    currency: "JPY",
     weeklySummary: true,
     billReminders: true,
     budgetAlerts: true,
     darkMode: false,
   },
-  weeklyFlexibleSpent: 320,
-  weeklyFlexibleBudget: 280,
+  weeklyFlexibleSpent: 18_500,
+  weeklyFlexibleBudget: 22_000,
   lastAchievedGoalId: null,
 };
-
-export const dreamFundAppTabs = [
-  { id: "home", label: "Home", href: "/dream-fund-app" },
-  { id: "goals", label: "Goals", href: "/dream-fund-app/goals" },
-  { id: "bills", label: "Bills", href: "/dream-fund-app/bills" },
-  { id: "insights", label: "Insights", href: "/dream-fund-app/insights" },
-  { id: "profile", label: "Profile", href: "/dream-fund-app/profile" },
-] as const;
-
-export const dreamFundPartnerTab = {
-  id: "partner",
-  label: "Partner",
-  href: "/dream-fund-app/partner/dashboard",
-} as const;

@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
           permanent: false,
         },
       ]),
+      {
+        source: "/dream-fund-app",
+        destination: "/dream-fund-v0",
+        permanent: false,
+      },
+      {
+        source: "/dream-fund-app/:path*",
+        destination: "/dream-fund-v0",
+        permanent: false,
+      },
     ];
   },
 };
