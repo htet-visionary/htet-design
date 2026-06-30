@@ -45,12 +45,22 @@ const nextConfig: NextConfig = {
       ]),
       {
         source: "/dream-fund-app",
-        destination: "/dream-fund-v0",
+        destination: "/dream-fund-v1",
         permanent: false,
       },
       {
         source: "/dream-fund-app/:path*",
-        destination: "/dream-fund-v0",
+        destination: "/dream-fund-v1",
+        permanent: false,
+      },
+      {
+        source: "/dream-fund-v0",
+        destination: "/dream-fund-v1",
+        permanent: false,
+      },
+      {
+        source: "/dream-fund-v0/:path*",
+        destination: "/dream-fund-v1",
         permanent: false,
       },
     ];

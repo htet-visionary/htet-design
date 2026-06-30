@@ -731,7 +731,7 @@ export function CreateFirstDreamFlow() {
   function handleCreateAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     completeSignUp(
-      accountName.trim() || "Jennie Tanaka",
+      accountName.trim() || "Jennie Kim",
       accountEmail.trim() || "jennie@example.com",
     );
     startIncomeSetup();
@@ -1854,7 +1854,7 @@ export function CreateFirstDreamFlow() {
                   className="v-dream-fund-v0__field-input"
                   value={accountName}
                   onChange={(event) => setAccountName(event.target.value)}
-                  placeholder="Jennie Tanaka"
+                  placeholder="Jennie Kim"
                   autoComplete="name"
                   required
                 />

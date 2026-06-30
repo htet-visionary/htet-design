@@ -117,7 +117,7 @@ export const defaultDreamFundAppState: DreamFundAppState = {
   hasOnboarded: false,
   isSignedUp: false,
   profile: {
-    name: "Jennie Tanaka",
+    name: "Jennie Kim",
     email: "jennie@example.com",
     monthlyIncome: 310_000,
     mandatoryExpenses: [

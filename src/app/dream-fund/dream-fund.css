@@ -61,7 +61,9 @@
 
 .v-dream-fund-case__cta {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: var(--v-space-3);
   margin-top: var(--v-space-6);
 }
 

@@ -18,6 +18,10 @@ import {
   dreamFundUserStories,
   dreamFundUxPrinciples,
 } from "@/lib/dream-fund-case-study";
+import {
+  dreamFundV1IdeaSolution,
+  dreamFundV1ProductOverview,
+} from "@/lib/dream-fund-v1-case-study";
 import "../portfolio/portfolio.css";
 import "./dream-fund.css";
 
@@ -59,7 +63,7 @@ export default function DreamFundCaseStudyPage() {
 
             <div className="v-dream-fund-case__cta">
               <Link
-                href="/dream-fund-v0"
+                href="/dream-fund-v1"
                 className="v-cmp-btn v-cmp-btn--md v-cmp-btn--primary-green"
               >
                 <span className="v-cmp-btn__label">Open Dream Fund Prototype</span>
@@ -67,6 +71,40 @@ export default function DreamFundCaseStudyPage() {
             </div>
 
             <div className="v-doc__body">
+              <SectionBlock
+                title={dreamFundV1ProductOverview.title}
+                description="Dream-first financial companion — v1 direction."
+              >
+                {dreamFundV1ProductOverview.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="v-dream-fund-case__prose">
+                    {paragraph}
+                  </p>
+                ))}
+
+                <ul className="v-dream-fund-case__feature-list">
+                  {dreamFundV1ProductOverview.pillars.map((pillar) => (
+                    <li key={pillar.title} className="v-dream-fund-case__feature">
+                      <h3 className="v-dream-fund-case__feature-title">{pillar.title}</h3>
+                      <p className="v-dream-fund-case__feature-desc">{pillar.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </SectionBlock>
+
+              <SectionBlock title={dreamFundV1IdeaSolution.title}>
+                <h3 className="v-dream-fund-case__subheading">
+                  {dreamFundV1IdeaSolution.problem.title}
+                </h3>
+                <p className="v-dream-fund-case__prose">{dreamFundV1IdeaSolution.problem.body}</p>
+
+                <h3 className="v-dream-fund-case__subheading">
+                  {dreamFundV1IdeaSolution.solution.title}
+                </h3>
+                <p className="v-dream-fund-case__prose">{dreamFundV1IdeaSolution.solution.body}</p>
+
+                <RuleList rules={[...dreamFundV1IdeaSolution.principles]} />
+              </SectionBlock>
+
               <SectionBlock
                 title="User persona"
                 description={`${dreamFundPersona.name} — ${dreamFundPersona.title}`}
