@@ -24,6 +24,7 @@ const semanticSource = {
   brand: {
     default: color("green", 500),
     accent: color("lavender", 500),
+    subtle: color("green", 50),
   },
   border: {
     subtle: color("neutral", 200),

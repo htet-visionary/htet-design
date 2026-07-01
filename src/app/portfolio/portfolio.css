@@ -22,7 +22,7 @@
 }
 
 .v-portfolio a.v-cmp-btn--secondary-green:hover {
-  background: var(--v-bg-subtle);
+  background: var(--v-green-50);
   border-color: var(--v-green-500);
 }
 

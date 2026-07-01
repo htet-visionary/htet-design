@@ -93,6 +93,7 @@
   --v-border-strong: var(--v-neutral-300);
   --v-border-brand: var(--v-green-200);
   --v-border-accent: var(--v-lavender-200);
+  --v-bg-brand-subtle: var(--v-green-50);
   --v-link-default: var(--v-green-600);
   --v-link-hover: var(--v-green-700);
   --v-focus-ring: var(--v-green-500);

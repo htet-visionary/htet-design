@@ -35,11 +35,14 @@ function nextMilestone(progress: number): number | null {
 }
 
 export function V1HomeContent({ goal, meta, onAddFuel }: V1HomeContentProps) {
-  const { availableToSpend } = useDreamFundApp();
+  const { availableToSpend, state } = useDreamFundApp();
+  const { emergencyFund } = state;
 
   const progress = calcProgress(goal.savedAmount, goal.targetAmount);
+  const emergencyProgress = calcProgress(emergencyFund.savedAmount, emergencyFund.targetAmount);
   const milestone = nextMilestone(progress);
   const timelineLabel = formatMonthsLeftFromDate(goal.targetDate);
+  const showEmergencyFund = emergencyFund.targetAmount > 0;
 
   return (
     <>
@@ -99,31 +102,59 @@ export function V1HomeContent({ goal, meta, onAddFuel }: V1HomeContentProps) {
             <span>{timelineLabel}</span>
           </div>
 
-          <p className="v-dream-fund-v1__goal-hero-encourage">Grow this dream! ♡</p>
-
           <button
             type="button"
-            className="v-dream-fund-v1__goal-hero-fuel-btn"
+            className="v-cmp-btn v-cmp-btn--md v-cmp-btn--secondary-green v-dream-fund-v1__goal-hero-fuel-btn"
             onClick={onAddFuel}
           >
-            <Plus strokeWidth={2.25} size={20} aria-hidden />
-            <span>Add Fuel</span>
+            <span className="v-cmp-btn__icon" aria-hidden>
+              <Plus strokeWidth={2} size={18} />
+            </span>
+            <span className="v-cmp-btn__label">Add Fuel</span>
           </button>
         </div>
       </article>
 
-      <button type="button" className="v-dream-fund-v1__spend-card">
+      <div className="v-dream-fund-v1__spend-card">
         <div className="v-dream-fund-v1__spend-card-copy">
-          <p className="v-dream-fund-v1__spend-card-label">Safe to spend</p>
-          <p className="v-dream-fund-v1__spend-card-amount">
-            {formatV1Money(availableToSpend, meta.currency)}
-          </p>
+          <p className="v-dream-fund-v1__spend-card-label">Guilt-free spending</p>
           <p className="v-dream-fund-v1__spend-card-tagline">Use it freely. No guilt.</p>
         </div>
-        <span className="v-dream-fund-v1__spend-card-action" aria-hidden>
-          <ChevronRight strokeWidth={2} size={18} />
-        </span>
-      </button>
+        <p className="v-dream-fund-v1__spend-card-amount">
+          {formatV1Money(availableToSpend, meta.currency)}
+        </p>
+      </div>
+
+      {showEmergencyFund ? (
+        <button type="button" className="v-dream-fund-v1__emergency-card">
+          <div className="v-dream-fund-v1__emergency-card-copy">
+            <p className="v-dream-fund-v1__emergency-card-label">Emergency fund</p>
+            <p className="v-dream-fund-v1__emergency-card-amount">
+              {formatV1Money(emergencyFund.savedAmount, meta.currency)}
+            </p>
+            <div
+              className="v-dream-fund-v1__emergency-card-progress"
+              role="progressbar"
+              aria-valuenow={emergencyProgress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <div
+                className="v-dream-fund-v1__emergency-card-progress-fill"
+                style={{ width: `${emergencyProgress}%` }}
+              />
+            </div>
+            <p className="v-dream-fund-v1__emergency-card-meta">
+              {emergencyProgress}% of{" "}
+              {formatDreamFundV1Amount(emergencyFund.targetAmount, meta.currency)} goal · always
+              protected
+            </p>
+          </div>
+          <span className="v-dream-fund-v1__spend-card-action" aria-hidden>
+            <ChevronRight strokeWidth={2} size={18} />
+          </span>
+        </button>
+      ) : null}
     </>
   );
 }

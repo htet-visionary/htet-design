@@ -150,6 +150,16 @@ export const defaultDreamFundAppState: DreamFundAppState = {
       monthlyAllocation: 12_000,
       priority: "medium",
     },
+    {
+      id: "new-laptop",
+      name: "New Laptop",
+      targetAmount: 180_000,
+      savedAmount: 180_000,
+      emoji: "💻",
+      targetDate: "2026-03-01",
+      monthlyAllocation: 0,
+      priority: "medium",
+    },
   ],
   bills: [
     {

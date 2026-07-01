@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Filter, GripVertical, Search } from "lucide-react";
+import { Check, ChevronDown, GripVertical, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { DreamFundGoal } from "@/lib/dream-fund-app-data";
 import {
@@ -103,12 +103,6 @@ export function V1DreamSelectDrawer({
     onClose();
   }
 
-  function cycleFilter() {
-    const currentIndex = DREAM_CATEGORY_FILTERS.indexOf(categoryFilter);
-    const nextIndex = (currentIndex + 1) % DREAM_CATEGORY_FILTERS.length;
-    setCategoryFilter(DREAM_CATEGORY_FILTERS[nextIndex] ?? "All");
-  }
-
   return (
     <div className="v-dream-fund-v1__drawer-stage" role="presentation">
       <button
@@ -131,7 +125,7 @@ export function V1DreamSelectDrawer({
             🍀 Select Dreams
           </h2>
           <p className="v-dream-fund-v1__dream-select-subtitle">
-            Choose the dreams you want to fuel this month.
+            Choose the dreams you want to fuel.
           </p>
         </div>
 
@@ -146,15 +140,26 @@ export function V1DreamSelectDrawer({
               placeholder="Search dreams..."
             />
           </label>
-          <button
-            type="button"
-            className="v-dream-fund-v1__dream-select-filter"
-            onClick={cycleFilter}
-            aria-label={`Filter by category: ${categoryFilter}`}
-          >
-            <Filter strokeWidth={2} size={14} aria-hidden />
-            <span>{categoryFilter}</span>
-          </button>
+          <div className="v-dream-fund-v1__dream-select-filter-wrap">
+            <select
+              className="v-dream-fund-v1__field-input v-dream-fund-v1__field-select v-dream-fund-v1__dream-select-filter"
+              value={categoryFilter}
+              onChange={(event) => setCategoryFilter(event.target.value as DreamCategoryFilter)}
+              aria-label="Filter by category"
+            >
+              {DREAM_CATEGORY_FILTERS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              strokeWidth={2}
+              size={16}
+              className="v-dream-fund-v1__select-chevron"
+              aria-hidden
+            />
+          </div>
         </div>
 
         <div className="v-dream-fund-v1__dream-select-body">
@@ -223,7 +228,7 @@ export function V1DreamSelectDrawer({
             disabled={selectedCount === 0}
             onClick={handleSelect}
           >
-            Select
+            <span className="v-cmp-btn__label">Select</span>
           </button>
           <button
             type="button"

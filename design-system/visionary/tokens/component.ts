@@ -14,6 +14,12 @@ const componentSource = {
       text: semanticRef("text.onSolid", semantic.text.onSolid),
       border: literal("transparent"),
     },
+    secondaryGreen: {
+      background: literal("transparent"),
+      backgroundHover: semanticRef("brand.subtle", semantic.brand.subtle),
+      text: semanticRef("action.primary", semantic.action.primary),
+      border: semanticRef("border.brand", semantic.border.brand),
+    },
     secondary: {
       background: literal("transparent"),
       backgroundHover: semanticRef("background.subtle", semantic.background.subtle),

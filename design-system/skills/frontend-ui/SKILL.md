@@ -50,6 +50,7 @@ Component Build Progress:
 | --- | --- |
 | Primary | `action.primary*`, `text.on-solid`, `radius.md`, `spacing.3/4`, `label` |
 | Secondary | `action.accent*`, `border.accent`, `background.subtle` on hover |
+| Secondary green | `action.primary`, `border.brand`, `brand.subtle` (green.50) on hover |
 | Destructive | `action.destructive*` — requires confirmation for irreversible actions |
 | Disabled | `disabled.*` — no pointer events |
 

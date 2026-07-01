@@ -4,12 +4,14 @@ import { Bell, Sprout } from "lucide-react";
 import { useState } from "react";
 import type { DreamFundGoal } from "@/lib/dream-fund-app-data";
 import { V1AppTabBar, type V1HomeTab } from "@/components/dream-fund/v1/V1AppTabBar";
+import { V1DreamsScreen } from "@/components/dream-fund/v1/V1DreamsScreen";
 import { V1HomeContent } from "@/components/dream-fund/v1/V1HomeContent";
+import { V1InsightsScreen } from "@/components/dream-fund/v1/V1InsightsScreen";
 import { V1ProfileScreen } from "@/components/dream-fund/v1/V1ProfileScreen";
 import type { DreamFundV1Currency, V1DreamDisplayMeta } from "@/lib/dream-fund-v1-capture-data";
 
 const TAB_TITLES: Record<Exclude<V1HomeTab, "home">, string> = {
-  goals: "Goals",
+  dreams: "Dreams",
   insights: "Insights",
   profile: "Profile",
 };
@@ -18,8 +20,11 @@ type V1MainAppProps = {
   greeting: string;
   name: string;
   goal: DreamFundGoal;
+  goals: DreamFundGoal[];
   meta: V1DreamDisplayMeta;
+  primaryGoalId?: string;
   onAddFuel: () => void;
+  onAddFuelForGoal: (goalId: string) => void;
   onSmartSplit: () => void;
   onCurrencyChange: (currency: DreamFundV1Currency) => void;
   onLogout: () => void;
@@ -29,8 +34,11 @@ export function V1MainApp({
   greeting,
   name,
   goal,
+  goals,
   meta,
+  primaryGoalId,
   onAddFuel,
+  onAddFuelForGoal,
   onSmartSplit,
   onCurrencyChange,
   onLogout,
@@ -66,6 +74,8 @@ export function V1MainApp({
         className={[
           "v-dream-fund-v1__main",
           activeTab === "home" ? "v-dream-fund-v1__main--home" : "v-dream-fund-v1__main--tab",
+          activeTab === "dreams" ? "v-dream-fund-v1__main--dreams" : "",
+          activeTab === "insights" ? "v-dream-fund-v1__main--insights" : "",
           "v-dream-fund-v1__main--with-tabbar",
         ].join(" ")}
       >
@@ -81,12 +91,17 @@ export function V1MainApp({
           />
         ) : null}
 
-        {activeTab === "goals" || activeTab === "insights" ? (
-          <div className="v-dream-fund-v1__tab-placeholder">
-            <p className="v-dream-fund-v1__tab-placeholder-title">{TAB_TITLES[activeTab]}</p>
-            <p className="v-dream-fund-v1__tab-placeholder-desc">Coming soon in this prototype.</p>
-          </div>
+        {activeTab === "dreams" ? (
+          <V1DreamsScreen
+            goals={goals}
+            currency={meta.currency}
+            primaryGoalId={primaryGoalId}
+            primaryPhotoUrl={meta.photoUrl}
+            onAddFuelForGoal={onAddFuelForGoal}
+          />
         ) : null}
+
+        {activeTab === "insights" ? <V1InsightsScreen currency={meta.currency} /> : null}
       </main>
 
       <V1AppTabBar

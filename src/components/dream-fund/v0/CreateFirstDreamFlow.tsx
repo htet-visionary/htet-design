@@ -345,7 +345,7 @@ function BalanceDrawer({
           </button>
         </div>
         <label className="v-dream-fund-v0__field">
-          <span className="v-dream-fund-v0__field-label">Where is this money?</span>
+          <span className="v-dream-fund-v0__field-label"></span>
           <select
             className="v-dream-fund-v0__field-input v-dream-fund-v0__field-select"
             value={balanceFrom}

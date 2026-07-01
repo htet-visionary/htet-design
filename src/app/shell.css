@@ -3168,7 +3168,7 @@
 }
 
 .v-cmp-btn--secondary-green.v-cmp-btn--hover {
-  background: var(--v-bg-subtle);
+  background: var(--v-green-50);
 }
 
 .v-cmp-btn--accent-primary {
@@ -3260,12 +3260,14 @@ a.v-cmp-btn--primary:active {
   background: var(--v-action-primary-active);
 }
 
-a.v-cmp-btn--secondary-green:hover {
-  background: var(--v-bg-subtle);
+a.v-cmp-btn--secondary-green:hover,
+button.v-cmp-btn--secondary-green:hover {
+  background: var(--v-green-50);
   border-color: var(--v-green-500);
 }
 
-a.v-cmp-btn--secondary-green:active {
+a.v-cmp-btn--secondary-green:active,
+button.v-cmp-btn--secondary-green:active {
   background: color-mix(in srgb, var(--v-green-100) 45%, var(--v-surface-primary));
 }
 

@@ -1045,6 +1045,12 @@ button:
     text: action.accent
     border: border.accent
 
+  secondary-green:
+    background: transparent
+    background-hover: brand.subtle
+    text: action.primary
+    border: border.brand
+
   destructive:
     background: action.destructive
     background-hover: action.destructive-hover
@@ -1339,6 +1345,17 @@ action.accent-hover
 
 Background:
 background.subtle on hover
+
+Secondary green (outline):
+
+Default:
+action.primary (text), border.brand
+
+Hover background:
+brand.subtle (green.50)
+
+Hover border:
+green.500
 
 ---
 

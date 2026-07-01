@@ -1,56 +1,140 @@
-export const dreamFundV1Meta = {
-  title: "Dream Fund v1",
-  eyebrow: "Product Overview",
+export const dreamFundV1CaseStudyMeta = {
+  title: "Dream Fund",
+  eyebrow: "Product Design Case Study",
   description:
     "A dream-first financial companion that helps people organize money simply, know what they can safely spend, and achieve goals with confidence — not guilt.",
   year: "2026",
   roles: ["UX research", "UI design", "Prototyping"],
 } as const;
 
-export const dreamFundV1ProductOverview = {
-  title: "Product overview",
+export const dreamFundV1Problem = {
+  title: "Problem",
   paragraphs: [
-    "Dream Fund v1 reframes personal finance around one question: “Can I still achieve my dreams?” Instead of tracking every past expense, it organizes income around essentials, emergency savings, and active dreams — then surfaces what is safe to spend today.",
-    "Built for people like Jennie — busy professionals with changing income who postpone what they want because they never feel confident spending. The product protects must-pay bills and emergency funds first, then updates dream progress as money moves.",
+    "Most budgeting apps are built around past spending. They ask users to categorize every coffee, feel guilty about small purchases, and maintain perfect discipline — even when income and bills change every month.",
+    "People like Jennie don't lack motivation. They lack confidence. They postpone travel, gear, and meaningful goals because no product clearly answers: “Is it still safe to spend?” Dreams keep sliding to “someday” while anxiety about money stays constant.",
   ],
-  pillars: [
-    {
-      title: "Available to Spend",
-      description:
-        "A single daily number after must-pay and emergency funds are protected — confidence instead of guesswork.",
-    },
-    {
-      title: "Money Changed",
-      description:
-        "Lightweight money-in and money-out updates without exhausting category management.",
-    },
-    {
-      title: "Dream tracking",
-      description:
-        "Multiple goals with targets, priority, and deadlines — progress updates as finances change.",
-    },
-    {
-      title: "Protection first",
-      description:
-        "Must-pay bills and emergency savings are reserved before spending or dream allocation.",
-    },
+  pains: [
+    "Expense tracking feels exhausting and judgmental.",
+    "Income and must-pay costs shift month to month.",
+    "Emergency savings compete with goals in people's heads — not in a clear plan.",
+    "Dream progress is invisible until it's too late to adjust.",
   ],
 } as const;
 
-export const dreamFundV1IdeaSolution = {
-  title: "Idea & solution",
-  problem: {
-    title: "The problem",
-    body: "Traditional budgeting apps focus on past spending. Users feel anxious, guilty, and exhausted by manual tracking — especially when income and bills change every month. Dreams keep getting delayed because nobody answers whether it is still safe to spend.",
-  },
-  solution: {
-    title: "The v1 solution",
-    body: "Shift from expense-first tracking to a dream-first companion. Set up income and essentials once, record money changes in seconds, and see how today’s choices affect active dreams — with supportive timelines instead of guilt.",
-  },
-  principles: [
-    "Dreams first — every screen reinforces what users are working toward.",
-    "Confidence over guilt — show what is safe to spend and how dreams are affected.",
-    "Adapt to real life — income and bills change; the plan adjusts instead of breaking.",
-    "Celebrate progress — completed dreams feel rewarding, not stressful.",
+export const dreamFundV1ProductIdea = {
+  title: "Product idea",
+  paragraphs: [
+    "Dream Fund reframes personal finance around dreams first. Users set up income and essentials once, protect emergency savings, then see a single guilt-free spending number and live progress toward the dreams that matter.",
+    "Money updates stay lightweight — add fuel to a dream, run a smart split when income lands, or check home for today's focus. The product celebrates harvested dreams instead of punishing everyday spending.",
   ],
+  outcome:
+    "Shift from “Where did my money go?” to “Can I still achieve my dreams?” — with supportive timelines instead of red warning states.",
+} as const;
+
+export const dreamFundV1Persona = {
+  name: "Jennie Kim",
+  title: "The Dream Chaser",
+  age: 28,
+  role: "Marketing executive",
+  location: "Tokyo, Japan",
+  income: "¥260,000–¥350,000 / month",
+  summary:
+    "Busy professional with changing income. She works hard, pays her bills, and still ends each year without the trips or purchases she cared about — not because she can't afford them, but because she never feels confident spending.",
+  quote:
+    "I don't want to become better at budgeting. I want to become better at achieving my dreams.",
+} as const;
+
+export const dreamFundV1UserStories = [
+  {
+    id: "01",
+    want: "set up my income and must-pay costs once",
+    benefit: "I immediately know what is actually available for life and dreams.",
+  },
+  {
+    id: "02",
+    want: "see one guilt-free spending number on home",
+    benefit: "I can enjoy today without worrying I'm stealing from my goals.",
+  },
+  {
+    id: "03",
+    want: "create dreams with a photo, target, and deadline",
+    benefit: "my goals feel real and worth protecting.",
+  },
+  {
+    id: "04",
+    want: "add fuel or smart-split new income across dreams",
+    benefit: "my plan stays current when life changes.",
+  },
+  {
+    id: "05",
+    want: "see active and completed dreams in one garden",
+    benefit: "progress and wins stay visible and motivating.",
+  },
+] as const;
+
+export const dreamFundV1UxPrinciples = [
+  {
+    title: "Dreams first",
+    description:
+      "Every screen reinforces what users are working toward — not a ledger of past mistakes.",
+  },
+  {
+    title: "Confidence over guilt",
+    description:
+      "Show what is safe to spend and how choices affect dreams, without harsh judgment.",
+  },
+  {
+    title: "Lightweight updates",
+    description:
+      "Fuel, smart split, and home check-ins replace tedious category tracking.",
+  },
+  {
+    title: "Protection before pleasure",
+    description:
+      "Must-pay and emergency funds are reserved first so the plan survives real life.",
+  },
+  {
+    title: "Celebrate harvests",
+    description:
+      "Completed dreams are first-class — saving should feel rewarding, not stressful.",
+  },
+] as const;
+
+export const dreamFundV1CoreFeatures = [
+  {
+    title: "Dream-focused home",
+    description:
+      "Hero card for the primary dream with progress, milestone, timeline, and Add Fuel — plus guilt-free spending and emergency fund at a glance.",
+  },
+  {
+    title: "Dream garden",
+    description:
+      "Active and completed tabs, photo-backed focus cards, stack layout, and priority sorting by deadline.",
+  },
+  {
+    title: "Smart Allocation",
+    description:
+      "Split monthly income across chosen dreams while showing guilt-free spending that updates as you allocate.",
+  },
+  {
+    title: "Add Fuel",
+    description:
+      "Fast path to move money into a specific dream with optional source and note.",
+  },
+  {
+    title: "Dream capture onboarding",
+    description:
+      "Polaroid-style dream setup — name, story, amount, currency, and target date in a calm step-by-step flow.",
+  },
+  {
+    title: "Insights clover",
+    description:
+      "At-a-glance income added, dream achievement, total saved, and timeline in a motivational summary grid.",
+  },
+] as const;
+
+export const dreamFundV1HifiPlaceholder = {
+  title: "Hi-fi mockups",
+  description:
+    "High-fidelity screens from the v1 prototype will be added here — home, dream garden, smart split, and onboarding.",
 } as const;

@@ -2,11 +2,11 @@
 
 import { Clock3, Clover, Home, Star, User } from "lucide-react";
 
-export type V1HomeTab = "home" | "goals" | "insights" | "profile";
+export type V1HomeTab = "home" | "dreams" | "insights" | "profile";
 
 const SIDE_TABS = [
   { id: "home" as const, label: "Home", icon: Home },
-  { id: "goals" as const, label: "Goals", icon: Star },
+  { id: "dreams" as const, label: "Dreams", icon: Star },
   { id: "insights" as const, label: "Insights", icon: Clock3 },
   { id: "profile" as const, label: "Profile", icon: User },
 ] as const;

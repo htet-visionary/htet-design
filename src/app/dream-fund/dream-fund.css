@@ -289,6 +289,87 @@
   color: var(--v-text-secondary);
 }
 
+.v-dream-fund-case__prose--lead {
+  font-weight: 500;
+  color: var(--v-text-primary);
+}
+
+.v-dream-fund-case__bullet-list {
+  margin: var(--v-space-4) 0 0;
+  padding-left: var(--v-space-5);
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-body);
+  line-height: 1.6;
+  color: var(--v-text-secondary);
+}
+
+.v-dream-fund-case__bullet-list li + li {
+  margin-top: var(--v-space-2);
+}
+
+.v-dream-fund-case__persona {
+  padding: var(--v-space-5);
+  border: 1px solid var(--v-border-subtle);
+  border-radius: var(--v-radius-md);
+  background: var(--v-surface-primary);
+}
+
+.v-dream-fund-case__persona-head {
+  margin-bottom: var(--v-space-4);
+}
+
+.v-dream-fund-case__persona-name {
+  margin: 0;
+  font-family: var(--v-font-display);
+  font-size: var(--v-type-body-lg);
+  font-weight: 400;
+  color: var(--v-text-primary);
+}
+
+.v-dream-fund-case__persona-title {
+  margin: var(--v-space-1) 0 0;
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--v-action-primary);
+}
+
+.v-dream-fund-case__persona-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--v-space-3) var(--v-space-5);
+  margin: 0 0 var(--v-space-4);
+}
+
+.v-dream-fund-case__persona-facts dt {
+  margin: 0;
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  font-weight: 500;
+  color: var(--v-text-muted);
+}
+
+.v-dream-fund-case__persona-facts dd {
+  margin: var(--v-space-1) 0 0;
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-caption);
+  color: var(--v-text-primary);
+}
+
+.v-dream-fund-case__persona .v-dream-fund-case__prose {
+  margin-top: 0;
+}
+
+.v-dream-fund-case__persona .v-dream-fund-case__quote {
+  margin-top: var(--v-space-4);
+}
+
+.v-dream-fund-case__hifi-placeholder {
+  margin-top: var(--v-space-2);
+}
+
 .v-dream-fund-case__subheading {
   margin: var(--v-space-6) 0 var(--v-space-3);
   font-family: var(--v-font-interface);

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useDreamFundApp } from "@/lib/dream-fund-app-context";
 import {
@@ -148,17 +148,17 @@ export function V1SmartSplitScreen({ currency, onBack }: V1SmartSplitScreenProps
       onBack={onBack}
       mainClassName="v-dream-fund-v1__main--smart-split"
       footer={
-        <button
-          type="button"
-          className="v-cmp-btn v-cmp-btn--md v-cmp-btn--accent-primary v-dream-fund-v1__smart-split-save"
-          disabled={isOverAllocated || allocations.length === 0}
-          onClick={handleSave}
-        >
-          Save
-        </button>
+          <button
+            type="button"
+            className="v-cmp-btn v-cmp-btn--md v-cmp-btn--accent-primary v-dream-fund-v1__smart-split-save"
+            disabled={isOverAllocated || allocations.length === 0}
+            onClick={handleSave}
+          >
+            <span className="v-cmp-btn__label">Save</span>
+          </button>
       }
     >
-      <section className="v-dream-fund-v1__smart-split-section">
+      <section className="v-dream-fund-v1__smart-split-section v-dream-fund-v1__smart-split-section--income">
         <div className="v-dream-fund-v1__smart-split-section-head">
           <h2 className="v-dream-fund-v1__smart-split-section-title">Monthly income</h2>
         </div>
@@ -179,11 +179,11 @@ export function V1SmartSplitScreen({ currency, onBack }: V1SmartSplitScreenProps
         >
           <div className="v-dream-fund-v1__guilt-free-summary-copy">
             <p className="v-dream-fund-v1__guilt-free-summary-label">Guilt-free spending</p>
-            <p className="v-dream-fund-v1__guilt-free-summary-note">
-              {isOverAllocated
-                ? "Over-allocated — adjust to save"
-                : "Updates as you split"}
-            </p>
+            {isOverAllocated ? (
+              <p className="v-dream-fund-v1__guilt-free-summary-note">Over-allocated — adjust to save</p>
+            ) : (
+              <p className="v-dream-fund-v1__guilt-free-summary-tagline">Updates as you split</p>
+            )}
           </div>
           <p className="v-dream-fund-v1__guilt-free-summary-amount">
             {formatV1Money(guiltFreeRemaining, currency)}
@@ -199,16 +199,27 @@ export function V1SmartSplitScreen({ currency, onBack }: V1SmartSplitScreenProps
           </span>
         </div>
 
-        <div className="v-dream-fund-v1__your-split-choose">
-          <button
-            type="button"
-            className="v-cmp-btn v-cmp-btn--md v-cmp-btn--secondary-green v-dream-fund-v1__choose-dreams-btn"
-            onClick={() => setDreamDrawerOpen(true)}
-          >
-            Choose dreams
-          </button>
-          <span className="v-dream-fund-v1__your-split-selected">{selectedCount} selected</span>
-        </div>
+        <button
+          type="button"
+          className="v-dream-fund-v1__your-split-choose"
+          onClick={() => setDreamDrawerOpen(true)}
+        >
+          <span className="v-dream-fund-v1__your-split-choose-icon" aria-hidden>
+            🍀
+          </span>
+          <span className="v-dream-fund-v1__your-split-choose-copy">
+            <span className="v-dream-fund-v1__your-split-choose-label">Choose dreams</span>
+            <span className="v-dream-fund-v1__your-split-choose-meta">
+              {selectedCount} selected
+            </span>
+          </span>
+          <ChevronRight
+            className="v-dream-fund-v1__your-split-choose-chevron"
+            strokeWidth={2}
+            size={18}
+            aria-hidden
+          />
+        </button>
 
         {allocations.length > 0 ? (
           <>
@@ -229,7 +240,7 @@ export function V1SmartSplitScreen({ currency, onBack }: V1SmartSplitScreenProps
 
             <div className="v-dream-fund-v1__smart-split-form">
               <label className="v-dream-fund-v1__field">
-                <span className="v-dream-fund-v1__field-label">Where is this money? (Optional)</span>
+                <span className="v-dream-fund-v1__field-label">Money Source (Optional)</span>
                 <div className="v-dream-fund-v1__select-wrap">
                   <select
                     className="v-dream-fund-v1__field-input v-dream-fund-v1__field-select"

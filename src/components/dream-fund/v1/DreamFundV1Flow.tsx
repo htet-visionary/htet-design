@@ -44,6 +44,7 @@ export function DreamFundV1Flow() {
   const [draft, setDraft] = useState<DreamFundV1CaptureDraft>(emptyDreamFundV1CaptureDraft);
   const [dreamMeta, setDreamMeta] = useState<V1DreamDisplayMeta | null>(null);
   const [fuelAmount, setFuelAmount] = useState(0);
+  const [fuelGoalId, setFuelGoalId] = useState<string | null>(null);
   const [fuelConfirmOpen, setFuelConfirmOpen] = useState(false);
   const [bootstrapped, setBootstrapped] = useState(false);
 
@@ -67,6 +68,8 @@ export function DreamFundV1Flow() {
   }, [bootstrapped, hydrated, state.goals.length, state.hasOnboarded]);
 
   const activeGoal = activeDream ?? state.goals[0];
+  const fuelGoal =
+    state.goals.find((goal) => goal.id === fuelGoalId) ?? activeGoal ?? state.goals[0];
   const firstName = state.profile.name.split(" ")[0] || "there";
 
   function handleCurrencyChange(currency: DreamFundV1Currency) {
@@ -79,6 +82,7 @@ export function DreamFundV1Flow() {
     setDreamMeta(null);
     setDraft(emptyDreamFundV1CaptureDraft());
     setFuelAmount(0);
+    setFuelGoalId(null);
     setFuelConfirmOpen(false);
     setAppPhase("home");
     setPhase("capture");
@@ -87,7 +91,7 @@ export function DreamFundV1Flow() {
   }
 
   if (phase === "app") {
-    if (!activeGoal || !dreamMeta) {
+    if (!dreamMeta || state.goals.length === 0) {
       return (
         <div className="v-dream-fund-v1 v-theme-dream-fund">
           <div className="v-dream-fund-v1__device">
@@ -117,7 +121,7 @@ export function DreamFundV1Flow() {
       return (
         <div className="v-dream-fund-v1 v-theme-dream-fund">
           <V1AddFuelScreen
-            goal={activeGoal}
+            goal={fuelGoal}
             meta={dreamMeta}
             fuelAmount={fuelAmount}
             confirmOpen={fuelConfirmOpen}
@@ -125,12 +129,14 @@ export function DreamFundV1Flow() {
             onConfirmOpenChange={setFuelConfirmOpen}
             onBack={() => {
               setFuelConfirmOpen(false);
+              setFuelGoalId(null);
               setAppPhase("home");
             }}
             onConfirmFuel={() => {
-              addGoalSavings(activeGoal.id, fuelAmount);
+              addGoalSavings(fuelGoal.id, fuelAmount);
               setFuelAmount(0);
               setFuelConfirmOpen(false);
+              setFuelGoalId(null);
               setAppPhase("home");
             }}
             onSmartSplit={() => {
@@ -147,9 +153,18 @@ export function DreamFundV1Flow() {
         <V1MainApp
           greeting={greetingForHour()}
           name={firstName}
-          goal={activeGoal}
+          goal={activeGoal ?? fuelGoal}
+          goals={state.goals}
           meta={dreamMeta}
+          primaryGoalId={activeDream?.id}
           onAddFuel={() => {
+            setFuelGoalId(activeDream?.id ?? state.goals[0]?.id ?? null);
+            setFuelAmount(0);
+            setFuelConfirmOpen(false);
+            setAppPhase("add-fuel");
+          }}
+          onAddFuelForGoal={(goalId) => {
+            setFuelGoalId(goalId);
             setFuelAmount(0);
             setFuelConfirmOpen(false);
             setAppPhase("add-fuel");

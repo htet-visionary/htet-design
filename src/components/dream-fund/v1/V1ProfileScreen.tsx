@@ -63,15 +63,16 @@ export function V1ProfileScreen({ currency, onCurrencyChange, onLogout }: V1Prof
         </label>
       </section>
 
-      <section className="v-dream-fund-v1__profile-card">
-        <button type="button" className="v-dream-fund-v1__profile-logout" onClick={onLogout}>
-          <LogOut strokeWidth={2} size={18} aria-hidden />
-          <span>Log out</span>
-        </button>
-        <p className="v-dream-fund-v1__profile-logout-desc">
-          Starts the prototype over from the beginning.
-        </p>
-      </section>
+      <button
+        type="button"
+        className="v-cmp-btn v-cmp-btn--md v-cmp-btn--secondary-green v-dream-fund-v1__profile-logout"
+        onClick={onLogout}
+      >
+        <span className="v-cmp-btn__icon" aria-hidden>
+          <LogOut strokeWidth={2} size={18} />
+        </span>
+        <span className="v-cmp-btn__label">Log out</span>
+      </button>
     </div>
   );
 }

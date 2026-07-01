@@ -1,6 +1,39 @@
-import type { DreamFundEmergencyFund, DreamFundGoal } from "@/lib/dream-fund-app-data";
+import type {
+  DreamFundEmergencyFund,
+  DreamFundGoal,
+  DreamPriority,
+} from "@/lib/dream-fund-app-data";
 
 export const EMERGENCY_ALLOCATION_ID = "emergency-fund";
+
+const DREAM_PRIORITY_ORDER: Record<DreamPriority, number> = {
+  high: 0,
+  medium: 1,
+  low: 2,
+};
+
+function dreamTargetDateSortKey(targetDate?: string): number {
+  if (!targetDate) {
+    return Number.MAX_SAFE_INTEGER;
+  }
+
+  const time = new Date(targetDate).getTime();
+  return Number.isNaN(time) ? Number.MAX_SAFE_INTEGER : time;
+}
+
+/** Highest priority and nearest target date render on top of the dream stack. */
+export function sortDreamGoalsForStack(goals: DreamFundGoal[]): DreamFundGoal[] {
+  return [...goals].sort((a, b) => {
+    const priorityDiff =
+      DREAM_PRIORITY_ORDER[b.priority] - DREAM_PRIORITY_ORDER[a.priority];
+
+    if (priorityDiff !== 0) {
+      return priorityDiff;
+    }
+
+    return dreamTargetDateSortKey(b.targetDate) - dreamTargetDateSortKey(a.targetDate);
+  });
+}
 
 export type SmartSplitAllocationKind = "goal" | "emergency";
 
