@@ -96,6 +96,7 @@ export type DreamFundAppState = {
   weeklyFlexibleSpent: number;
   weeklyFlexibleBudget: number;
   lastAchievedGoalId: string | null;
+  primaryGoalId: string | null;
 };
 
 export const dreamFundPriorities: { id: DreamPriority; label: string }[] = [
@@ -276,4 +277,5 @@ export const defaultDreamFundAppState: DreamFundAppState = {
   weeklyFlexibleSpent: 18_500,
   weeklyFlexibleBudget: 22_000,
   lastAchievedGoalId: null,
+  primaryGoalId: "japan-trip",
 };

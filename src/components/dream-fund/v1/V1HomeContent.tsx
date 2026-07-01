@@ -13,12 +13,14 @@ import {
   type DreamFundV1Currency,
   type V1DreamDisplayMeta,
 } from "@/lib/dream-fund-v1-capture-data";
+import { getDreamCardPhotoUrl } from "@/lib/dream-fund-v1-dream-visuals";
 
 const MILESTONES = [25, 50, 75, 100];
 
 type V1HomeContentProps = {
   goal: DreamFundGoal;
   meta: V1DreamDisplayMeta;
+  primaryGoalId?: string;
   onAddFuel: () => void;
 };
 
@@ -34,7 +36,7 @@ function nextMilestone(progress: number): number | null {
   return MILESTONES.find((milestone) => milestone > progress) ?? null;
 }
 
-export function V1HomeContent({ goal, meta, onAddFuel }: V1HomeContentProps) {
+export function V1HomeContent({ goal, meta, primaryGoalId, onAddFuel }: V1HomeContentProps) {
   const { availableToSpend, state } = useDreamFundApp();
   const { emergencyFund } = state;
 
@@ -43,13 +45,14 @@ export function V1HomeContent({ goal, meta, onAddFuel }: V1HomeContentProps) {
   const milestone = nextMilestone(progress);
   const timelineLabel = formatMonthsLeftFromDate(goal.targetDate);
   const showEmergencyFund = emergencyFund.targetAmount > 0;
+  const heroPhotoUrl = getDreamCardPhotoUrl(goal, primaryGoalId, meta.photoUrl);
 
   return (
     <>
       <article className="v-dream-fund-v1__goal-hero">
         <div className="v-dream-fund-v1__goal-hero-back" aria-hidden>
-          {meta.photoUrl ? (
-            <img src={meta.photoUrl} alt="" className="v-dream-fund-v1__goal-hero-image" />
+          {heroPhotoUrl ? (
+            <img src={heroPhotoUrl} alt="" className="v-dream-fund-v1__goal-hero-image" />
           ) : (
             <div className="v-dream-fund-v1__goal-hero-placeholder" />
           )}

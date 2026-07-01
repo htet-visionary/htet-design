@@ -59,6 +59,7 @@ type DreamFundAppContextValue = {
   updateProfileName: (name: string) => void;
   updateSettings: (settings: Partial<DreamFundSettings>) => void;
   setLastAchievedGoal: (goalId: string | null) => void;
+  setPrimaryGoal: (goalId: string) => void;
   resetState: () => void;
   getGoalById: (id: string) => DreamFundGoal | undefined;
   getBillById: (id: string) => DreamFundBill | undefined;
@@ -88,6 +89,7 @@ function mergeState(stored: Partial<DreamFundAppState>): DreamFundAppState {
     ),
     alerts: stored.alerts ?? defaultDreamFundAppState.alerts,
     partnerGoals: stored.partnerGoals ?? defaultDreamFundAppState.partnerGoals,
+    primaryGoalId: stored.primaryGoalId ?? defaultDreamFundAppState.primaryGoalId,
   };
 }
 
@@ -188,16 +190,21 @@ export function DreamFundAppProvider({ children }: { children: ReactNode }) {
   const safeToSpend = availableToSpend;
   const dailySaveable = saveableBalance / 30;
 
-  const activeDream = useMemo(
-    () =>
-      [...state.goals]
-        .filter((goal) => goal.savedAmount < goal.targetAmount)
-        .sort((a, b) => {
-          const priorityOrder = { high: 0, medium: 1, low: 2 };
-          return priorityOrder[a.priority] - priorityOrder[b.priority];
-        })[0],
-    [state.goals],
-  );
+  const activeDream = useMemo(() => {
+    const activeGoals = state.goals.filter((goal) => goal.savedAmount < goal.targetAmount);
+    const priorityOrder = { high: 0, medium: 1, low: 2 };
+
+    if (state.primaryGoalId) {
+      const primary = activeGoals.find((goal) => goal.id === state.primaryGoalId);
+      if (primary) {
+        return primary;
+      }
+    }
+
+    return [...activeGoals].sort(
+      (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority],
+    )[0];
+  }, [state.goals, state.primaryGoalId]);
 
   const completeOnboarding = useCallback(() => {
     setState((current) => ({ ...current, hasOnboarded: true }));
@@ -462,6 +469,10 @@ export function DreamFundAppProvider({ children }: { children: ReactNode }) {
     setState((current) => ({ ...current, lastAchievedGoalId: goalId }));
   }, []);
 
+  const setPrimaryGoal = useCallback((goalId: string) => {
+    setState((current) => ({ ...current, primaryGoalId: goalId }));
+  }, []);
+
   const resetState = useCallback(() => {
     setState(defaultDreamFundAppState);
   }, []);
@@ -502,6 +513,7 @@ export function DreamFundAppProvider({ children }: { children: ReactNode }) {
       updateProfileName,
       updateSettings,
       setLastAchievedGoal,
+      setPrimaryGoal,
       resetState,
       getGoalById,
       getBillById,
@@ -531,6 +543,7 @@ export function DreamFundAppProvider({ children }: { children: ReactNode }) {
       updateProfileName,
       updateSettings,
       setLastAchievedGoal,
+      setPrimaryGoal,
       resetState,
       getGoalById,
       getBillById,

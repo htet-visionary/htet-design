@@ -25,6 +25,7 @@ type V1MainAppProps = {
   primaryGoalId?: string;
   onAddFuel: () => void;
   onAddFuelForGoal: (goalId: string) => void;
+  onSetPrimaryGoal: (goalId: string) => void;
   onSmartSplit: () => void;
   onCurrencyChange: (currency: DreamFundV1Currency) => void;
   onLogout: () => void;
@@ -39,6 +40,7 @@ export function V1MainApp({
   primaryGoalId,
   onAddFuel,
   onAddFuelForGoal,
+  onSetPrimaryGoal,
   onSmartSplit,
   onCurrencyChange,
   onLogout,
@@ -80,7 +82,12 @@ export function V1MainApp({
         ].join(" ")}
       >
         {activeTab === "home" ? (
-          <V1HomeContent goal={goal} meta={meta} onAddFuel={onAddFuel} />
+          <V1HomeContent
+            goal={goal}
+            meta={meta}
+            primaryGoalId={primaryGoalId}
+            onAddFuel={onAddFuel}
+          />
         ) : null}
 
         {activeTab === "profile" ? (
@@ -98,6 +105,7 @@ export function V1MainApp({
             primaryGoalId={primaryGoalId}
             primaryPhotoUrl={meta.photoUrl}
             onAddFuelForGoal={onAddFuelForGoal}
+            onSetPrimaryGoal={onSetPrimaryGoal}
           />
         ) : null}
 

@@ -36,7 +36,7 @@ const CAPTURE_ORDER: DreamFundV1CaptureStep[] = [
 
 export function DreamFundV1Flow() {
   const router = useRouter();
-  const { state, hydrated, addGoal, addGoalSavings, completeOnboarding, activeDream, updateSettings, resetState } =
+  const { state, hydrated, addGoal, addGoalSavings, completeOnboarding, activeDream, updateSettings, resetState, setPrimaryGoal } =
     useDreamFundApp();
   const [phase, setPhase] = useState<"capture" | "app">("capture");
   const [appPhase, setAppPhase] = useState<V1AppPhase>("home");
@@ -156,7 +156,7 @@ export function DreamFundV1Flow() {
           goal={activeGoal ?? fuelGoal}
           goals={state.goals}
           meta={dreamMeta}
-          primaryGoalId={activeDream?.id}
+          primaryGoalId={state.primaryGoalId ?? activeDream?.id}
           onAddFuel={() => {
             setFuelGoalId(activeDream?.id ?? state.goals[0]?.id ?? null);
             setFuelAmount(0);
@@ -169,6 +169,7 @@ export function DreamFundV1Flow() {
             setFuelConfirmOpen(false);
             setAppPhase("add-fuel");
           }}
+          onSetPrimaryGoal={setPrimaryGoal}
           onSmartSplit={() => setAppPhase("smart-split")}
           onCurrencyChange={handleCurrencyChange}
           onLogout={handleLogout}

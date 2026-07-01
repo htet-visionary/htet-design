@@ -2,6 +2,7 @@
 
 import { Clover, Plus } from "lucide-react";
 import { useId, useMemo, useState, type CSSProperties } from "react";
+import { V1DreamDetailDrawer } from "@/components/dream-fund/v1/V1DreamDetailDrawer";
 import type { DreamFundGoal } from "@/lib/dream-fund-app-data";
 import { calcProgress, formatMonthsLeftFromDate } from "@/lib/dream-fund-app-utils";
 import {
@@ -9,9 +10,7 @@ import {
   formatDreamFundV1Amount,
   type DreamFundV1Currency,
 } from "@/lib/dream-fund-v1-capture-data";
-import {
-  getDreamCardPhotoUrl,
-} from "@/lib/dream-fund-v1-dream-visuals";
+import { getDreamCardPhotoUrl } from "@/lib/dream-fund-v1-dream-visuals";
 import { getActiveGoals, sortDreamGoalsForStack } from "@/lib/dream-fund-v1-smart-split";
 
 const MILESTONES = [25, 50, 75, 100];
@@ -58,6 +57,7 @@ type V1DreamsScreenProps = {
   primaryGoalId?: string;
   primaryPhotoUrl?: string | null;
   onAddFuelForGoal: (goalId: string) => void;
+  onSetPrimaryGoal: (goalId: string) => void;
 };
 
 function formatBalance(amount: number, currency: DreamFundV1Currency): string {
@@ -70,7 +70,7 @@ type DreamStackCardProps = {
   isPrimary: boolean;
   photoUrl: string;
   harvested?: boolean;
-  onAddFuel: () => void;
+  onOpen: () => void;
 };
 
 function DreamStackCard({
@@ -79,20 +79,30 @@ function DreamStackCard({
   isPrimary,
   photoUrl,
   harvested = false,
-  onAddFuel,
+  onOpen,
 }: DreamStackCardProps) {
   const progress = calcProgress(goal.savedAmount, goal.targetAmount);
   const timelineLabel = formatMonthsLeftFromDate(goal.targetDate);
   const encouragement = getDreamEncouragement(progress, harvested);
-  const milestone = nextMilestone(progress);
 
   return (
     <article
       className={[
         "v-dream-fund-v1__dream-stack-card",
         "v-dream-fund-v1__dream-stack-card--focus",
+        "v-dream-fund-v1__dream-stack-card--clickable",
         harvested ? "v-dream-fund-v1__dream-stack-card--harvested" : "",
       ].join(" ")}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${goal.name} details`}
+      onClick={onOpen}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onOpen();
+        }
+      }}
     >
       <div className="v-dream-fund-v1__dream-stack-card-visual" aria-hidden>
         <img src={photoUrl} alt="" className="v-dream-fund-v1__dream-stack-card-photo" />
@@ -140,23 +150,6 @@ function DreamStackCard({
           </span>
           <span className="v-dream-fund-v1__dream-stack-card-date">{timelineLabel}</span>
         </div>
-
-        {!harvested ? (
-          <button
-            type="button"
-            className="v-cmp-btn v-cmp-btn--md v-cmp-btn--secondary-green v-dream-fund-v1__dream-stack-card-fuel-btn"
-            aria-label={`Add fuel to ${goal.name}`}
-            onClick={(event) => {
-              event.stopPropagation();
-              onAddFuel();
-            }}
-          >
-            <span className="v-cmp-btn__icon" aria-hidden>
-              <Plus strokeWidth={2} size={16} />
-            </span>
-            <span className="v-cmp-btn__label">Add Fuel</span>
-          </button>
-        ) : null}
       </div>
     </article>
   );
@@ -168,7 +161,7 @@ type V1DreamsStackProps = {
   primaryGoalId?: string;
   primaryPhotoUrl?: string | null;
   harvested?: boolean;
-  onAddFuelForGoal: (goalId: string) => void;
+  onOpenGoal: (goalId: string) => void;
 };
 
 function V1DreamsStack({
@@ -177,57 +170,54 @@ function V1DreamsStack({
   primaryGoalId,
   primaryPhotoUrl,
   harvested = false,
-  onAddFuelForGoal,
+  onOpenGoal,
 }: V1DreamsStackProps) {
   const stackId = useId();
   const [expanded, setExpanded] = useState(false);
   const canExpand = goals.length > 1;
 
   return (
-    <ul
-      className={[
-        "v-dream-fund-v1__dreams-stack",
-        expanded ? "v-dream-fund-v1__dreams-stack--expanded" : "",
-        canExpand ? "v-dream-fund-v1__dreams-stack--interactive" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      style={{ "--dream-stack-count": goals.length } as CSSProperties}
-      aria-expanded={canExpand ? expanded : undefined}
-      onClick={canExpand ? () => setExpanded((value) => !value) : undefined}
-      onKeyDown={
-        canExpand
-          ? (event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                setExpanded((value) => !value);
-              }
-            }
-          : undefined
-      }
-      role={canExpand ? "button" : "list"}
-      tabIndex={canExpand ? 0 : undefined}
-      aria-label={canExpand ? (expanded ? "Collapse dreams" : "Expand dreams") : undefined}
-    >
-      {goals.map((goal, index) => (
-        <li
-          key={goal.id}
-          id={`${stackId}-dream-${goal.id}`}
-          className="v-dream-fund-v1__dreams-stack-item"
-          style={{ "--dream-stack-index": index } as CSSProperties}
-          role="listitem"
+    <div className="v-dream-fund-v1__dreams-stack-wrap">
+      {canExpand ? (
+        <button
+          type="button"
+          className="v-dream-fund-v1__dreams-stack-toggle"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((value) => !value)}
         >
-          <DreamStackCard
-            goal={goal}
-            currency={currency}
-            isPrimary={!harvested && goal.id === primaryGoalId}
-            photoUrl={getDreamCardPhotoUrl(goal, primaryGoalId, primaryPhotoUrl)}
-            harvested={harvested}
-            onAddFuel={() => onAddFuelForGoal(goal.id)}
-          />
-        </li>
-      ))}
-    </ul>
+          {expanded ? "Collapse stack" : `Browse all ${goals.length} dreams`}
+        </button>
+      ) : null}
+
+      <ul
+        className={[
+          "v-dream-fund-v1__dreams-stack",
+          expanded ? "v-dream-fund-v1__dreams-stack--expanded" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        style={{ "--dream-stack-count": goals.length } as CSSProperties}
+        aria-label="Dream cards"
+      >
+        {goals.map((goal, index) => (
+          <li
+            key={goal.id}
+            id={`${stackId}-dream-${goal.id}`}
+            className="v-dream-fund-v1__dreams-stack-item"
+            style={{ "--dream-stack-index": index } as CSSProperties}
+          >
+            <DreamStackCard
+              goal={goal}
+              currency={currency}
+              isPrimary={!harvested && goal.id === primaryGoalId}
+              photoUrl={getDreamCardPhotoUrl(goal, primaryGoalId, primaryPhotoUrl)}
+              harvested={harvested}
+              onOpen={() => onOpenGoal(goal.id)}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -237,8 +227,10 @@ export function V1DreamsScreen({
   primaryGoalId,
   primaryPhotoUrl,
   onAddFuelForGoal,
+  onSetPrimaryGoal,
 }: V1DreamsScreenProps) {
   const [activeTab, setActiveTab] = useState<DreamsTab>("active");
+  const [detailGoalId, setDetailGoalId] = useState<string | null>(null);
   const activeGoals = useMemo(() => getActiveGoals(goals), [goals]);
   const completedGoals = useMemo(
     () => goals.filter((goal) => goal.savedAmount >= goal.targetAmount),
@@ -248,6 +240,8 @@ export function V1DreamsScreen({
     const tabGoals = activeTab === "active" ? activeGoals : completedGoals;
     return sortDreamGoalsForStack(tabGoals);
   }, [activeTab, activeGoals, completedGoals]);
+
+  const detailGoal = detailGoalId ? goals.find((goal) => goal.id === detailGoalId) : undefined;
 
   return (
     <div className="v-dream-fund-v1__dreams">
@@ -297,7 +291,7 @@ export function V1DreamsScreen({
             primaryGoalId={primaryGoalId}
             primaryPhotoUrl={primaryPhotoUrl}
             harvested={activeTab === "completed"}
-            onAddFuelForGoal={onAddFuelForGoal}
+            onOpenGoal={setDetailGoalId}
           />
         ) : (
           <p className="v-dream-fund-v1__dreams-empty">
@@ -319,6 +313,19 @@ export function V1DreamsScreen({
           <span className="v-cmp-btn__label">New Dream</span>
         </button>
       </div>
+
+      {detailGoal ? (
+        <V1DreamDetailDrawer
+          goal={detailGoal}
+          currency={currency}
+          photoUrl={getDreamCardPhotoUrl(detailGoal, primaryGoalId, primaryPhotoUrl)}
+          isPrimary={detailGoal.id === primaryGoalId}
+          harvested={detailGoal.savedAmount >= detailGoal.targetAmount}
+          onAddFuel={() => onAddFuelForGoal(detailGoal.id)}
+          onSetPrimary={() => onSetPrimaryGoal(detailGoal.id)}
+          onClose={() => setDetailGoalId(null)}
+        />
+      ) : null}
     </div>
   );
 }
