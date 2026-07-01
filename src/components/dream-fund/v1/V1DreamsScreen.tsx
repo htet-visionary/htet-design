@@ -1,7 +1,7 @@
 "use client";
 
 import { Clover, Plus } from "lucide-react";
-import { useId, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
 import { V1DreamDetailDrawer } from "@/components/dream-fund/v1/V1DreamDetailDrawer";
 import type { DreamFundGoal } from "@/lib/dream-fund-app-data";
 import { calcProgress, formatMonthsLeftFromDate } from "@/lib/dream-fund-app-utils";
@@ -155,12 +155,15 @@ function DreamStackCard({
   );
 }
 
+const STACK_EXPAND_SCROLL_DISTANCE = 140;
+
 type V1DreamsStackProps = {
   goals: DreamFundGoal[];
   currency: DreamFundV1Currency;
   primaryGoalId?: string;
   primaryPhotoUrl?: string | null;
   harvested?: boolean;
+  expandProgress: number;
   onOpenGoal: (goalId: string) => void;
 };
 
@@ -170,33 +173,27 @@ function V1DreamsStack({
   primaryGoalId,
   primaryPhotoUrl,
   harvested = false,
+  expandProgress,
   onOpenGoal,
 }: V1DreamsStackProps) {
   const stackId = useId();
-  const [expanded, setExpanded] = useState(false);
-  const canExpand = goals.length > 1;
+  const isFanning = expandProgress > 0.28;
 
   return (
     <div className="v-dream-fund-v1__dreams-stack-wrap">
-      {canExpand ? (
-        <button
-          type="button"
-          className="v-dream-fund-v1__dreams-stack-toggle"
-          aria-expanded={expanded}
-          onClick={() => setExpanded((value) => !value)}
-        >
-          {expanded ? "Collapse stack" : `Browse all ${goals.length} dreams`}
-        </button>
-      ) : null}
-
       <ul
         className={[
           "v-dream-fund-v1__dreams-stack",
-          expanded ? "v-dream-fund-v1__dreams-stack--expanded" : "",
+          isFanning ? "v-dream-fund-v1__dreams-stack--expanded" : "",
         ]
           .filter(Boolean)
           .join(" ")}
-        style={{ "--dream-stack-count": goals.length } as CSSProperties}
+        style={
+          {
+            "--dream-stack-count": goals.length,
+            "--dream-stack-expand": expandProgress,
+          } as CSSProperties
+        }
         aria-label="Dream cards"
       >
         {goals.map((goal, index) => (
@@ -242,6 +239,107 @@ export function V1DreamsScreen({
   }, [activeTab, activeGoals, completedGoals]);
 
   const detailGoal = detailGoalId ? goals.find((goal) => goal.id === detailGoalId) : undefined;
+  const panelRef = useRef<HTMLElement>(null);
+  const stackExpandRef = useRef(0);
+  const touchStartYRef = useRef<number | null>(null);
+  const [stackExpand, setStackExpand] = useState(0);
+  const canFanStack = visibleGoals.length > 1;
+
+  stackExpandRef.current = stackExpand;
+
+  useEffect(() => {
+    setStackExpand(0);
+    if (panelRef.current) {
+      panelRef.current.scrollTop = 0;
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel || !canFanStack) {
+      return;
+    }
+
+    function setExpandFromScroll() {
+      const progress = Math.min(1, panel!.scrollTop / STACK_EXPAND_SCROLL_DISTANCE);
+      setStackExpand(progress);
+    }
+
+    function applyWheelExpand(deltaY: number) {
+      if (deltaY === 0) {
+        return;
+      }
+
+      const atTop = panel!.scrollTop <= 0;
+      const current = stackExpandRef.current;
+
+      if (deltaY < 0 && atTop && current > 0) {
+        setStackExpand(Math.max(0, current + deltaY / 180));
+        return;
+      }
+
+      if (deltaY > 0 && atTop && current < 1) {
+        const panelFillsViewport = panel!.scrollHeight <= panel!.clientHeight + 1;
+        if (panelFillsViewport || current < 1) {
+          setStackExpand(Math.min(1, current + deltaY / 180));
+        }
+      }
+    }
+
+    function handleScroll() {
+      setExpandFromScroll();
+    }
+
+    function handleWheel(event: WheelEvent) {
+      const atTop = panel!.scrollTop <= 0;
+      const current = stackExpandRef.current;
+      const shouldCapture =
+        (event.deltaY < 0 && atTop && current > 0) ||
+        (event.deltaY > 0 && atTop && current < 1 && panel!.scrollHeight <= panel!.clientHeight + 1);
+
+      if (shouldCapture) {
+        event.preventDefault();
+        applyWheelExpand(event.deltaY);
+      }
+    }
+
+    function handleTouchStart(event: TouchEvent) {
+      touchStartYRef.current = event.touches[0]?.clientY ?? null;
+    }
+
+    function handleTouchMove(event: TouchEvent) {
+      const startY = touchStartYRef.current;
+      const currentY = event.touches[0]?.clientY;
+      if (startY == null || currentY == null) {
+        return;
+      }
+
+      const deltaY = startY - currentY;
+      const atTop = panel!.scrollTop <= 0;
+      const current = stackExpandRef.current;
+      const shouldCapture =
+        (deltaY < 0 && atTop && current > 0) ||
+        (deltaY > 0 && atTop && current < 1 && panel!.scrollHeight <= panel!.clientHeight + 1);
+
+      if (shouldCapture) {
+        event.preventDefault();
+        applyWheelExpand(deltaY * 0.45);
+        touchStartYRef.current = currentY;
+      }
+    }
+
+    panel.addEventListener("scroll", handleScroll, { passive: true });
+    panel.addEventListener("wheel", handleWheel, { passive: false });
+    panel.addEventListener("touchstart", handleTouchStart, { passive: true });
+    panel.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      panel.removeEventListener("scroll", handleScroll);
+      panel.removeEventListener("wheel", handleWheel);
+      panel.removeEventListener("touchstart", handleTouchStart);
+      panel.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [activeTab, canFanStack, visibleGoals.length]);
 
   return (
     <div className="v-dream-fund-v1__dreams">
@@ -279,6 +377,7 @@ export function V1DreamsScreen({
       </div>
 
       <section
+        ref={panelRef}
         className="v-dream-fund-v1__dreams-panel"
         role="tabpanel"
         aria-labelledby={activeTab === "active" ? "v1-dreams-tab-active" : "v1-dreams-tab-completed"}
@@ -291,6 +390,7 @@ export function V1DreamsScreen({
             primaryGoalId={primaryGoalId}
             primaryPhotoUrl={primaryPhotoUrl}
             harvested={activeTab === "completed"}
+            expandProgress={stackExpand}
             onOpenGoal={setDetailGoalId}
           />
         ) : (
