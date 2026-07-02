@@ -114,7 +114,7 @@ export const dreamFundV1CoreFeatures = [
   {
     title: "Smart Allocation",
     description:
-      "Split monthly income across chosen dreams while showing guilt-free spending that updates as you allocate.",
+      "Split top-up amount across chosen dreams while showing guilt-free spending that updates as you allocate.",
   },
   {
     title: "Add Fuel",

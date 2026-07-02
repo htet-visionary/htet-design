@@ -160,7 +160,7 @@ export function V1SmartSplitScreen({ currency, onBack }: V1SmartSplitScreenProps
     >
       <section className="v-dream-fund-v1__smart-split-section v-dream-fund-v1__smart-split-section--income">
         <div className="v-dream-fund-v1__smart-split-section-head">
-          <h2 className="v-dream-fund-v1__smart-split-section-title">Monthly income</h2>
+          <h2 className="v-dream-fund-v1__smart-split-section-title">Top-up Amount</h2>
         </div>
         <V1FuelAmountField
           currency={currency}

@@ -122,7 +122,7 @@ export function V1DreamSelectDrawer({
 
         <div className="v-dream-fund-v1__dream-select-head">
           <h2 id="v-dream-select-title" className="v-dream-fund-v1__dream-select-title">
-            🍀 Select Dreams
+            Select Dreams
           </h2>
           <p className="v-dream-fund-v1__dream-select-subtitle">
             Choose the dreams you want to fuel.

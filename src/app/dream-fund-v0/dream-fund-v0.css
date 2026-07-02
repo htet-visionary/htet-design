@@ -1702,7 +1702,7 @@ body:has(.v-dream-fund-v0-page) {
   padding: var(--v-space-3);
   border: 1px solid color-mix(in srgb, var(--v-surface-primary) 70%, var(--v-green-100));
   border-radius: var(--v-radius-md);
-  background: color-mix(in srgb, var(--v-surface-primary) 88%, transparent);
+  background: color-mix(in srgb, var(--v-surface-primary) 100%, transparent);
   text-align: left;
   cursor: pointer;
   transition:

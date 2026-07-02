@@ -22,7 +22,8 @@ type V1FuelConfirmDrawerProps = {
 };
 
 function formatV1Money(amount: number, currency: DreamFundV1Currency): string {
-  return `${dreamFundV1CurrencySymbol(currency)} ${formatDreamFundV1Amount(amount, currency)}`;
+  const formatted = formatDreamFundV1Amount(amount, currency);
+  return `${dreamFundV1CurrencySymbol(currency)} ${formatted || "0"}`;
 }
 
 export function V1FuelConfirmDrawer({
@@ -40,11 +41,11 @@ export function V1FuelConfirmDrawer({
   const nextSaved = Math.min(targetAmount, savedAmount + fuelAmount);
   const currentProgress = calcProgress(savedAmount, targetAmount);
   const nextProgress = calcProgress(nextSaved, targetAmount);
-  const addedProgress = Math.max(0, nextProgress - currentProgress);
+  const targetLabel = formatV1Money(targetAmount, currency);
 
   return (
     <div
-      className="v-dream-fund-v1__drawer-stage v-dream-fund-v1__drawer-stage--modal"
+      className="v-dream-fund-v1__drawer-stage v-dream-fund-v1__drawer-stage--confirm"
       role="presentation"
     >
       <button
@@ -59,11 +60,14 @@ export function V1FuelConfirmDrawer({
         aria-modal="true"
         aria-labelledby="v1-fuel-confirm-title"
       >
-        <Clover className="v-dream-fund-v1__fuel-confirm-clover" strokeWidth={1.75} aria-hidden />
+        <div className="v-dream-fund-v1__drawer-handle" aria-hidden />
 
-        <h2 id="v1-fuel-confirm-title" className="v-dream-fund-v1__fuel-confirm-heading">
-          Your dream grows!
-        </h2>
+        <div className="v-dream-fund-v1__fuel-confirm-head">
+          <Clover className="v-dream-fund-v1__fuel-confirm-clover" strokeWidth={2} aria-hidden />
+          <h2 id="v1-fuel-confirm-title" className="v-dream-fund-v1__fuel-confirm-heading">
+            Your dream grows!
+          </h2>
+        </div>
 
         <div className="v-dream-fund-v1__fuel-confirm-card">
           <div className="v-dream-fund-v1__fuel-confirm-dream">
@@ -96,54 +100,56 @@ export function V1FuelConfirmDrawer({
             </div>
           </div>
 
+          <div className="v-dream-fund-v1__fuel-confirm-divider" aria-hidden />
+
           <p className="v-dream-fund-v1__fuel-confirm-added">
             + {formatV1Money(fuelAmount, currency)} Added
           </p>
 
-          <div className="v-dream-fund-v1__fuel-confirm-totals">
-            <span>{formatV1Money(savedAmount, currency)}</span>
-            <span className="v-dream-fund-v1__fuel-confirm-totals-next">
-              = {formatV1Money(nextSaved, currency)}
-            </span>
-          </div>
+          <div className="v-dream-fund-v1__fuel-confirm-progress">
+            <div className="v-dream-fund-v1__fuel-confirm-totals">
+              <span className="v-dream-fund-v1__fuel-confirm-totals-saved">
+                {formatV1Money(savedAmount, currency)}
+              </span>
+              <span className="v-dream-fund-v1__fuel-confirm-totals-next">
+                = {formatV1Money(nextSaved, currency)}
+              </span>
+            </div>
 
-          <div
-            className="v-dream-fund-v1__fuel-confirm-bar"
-            role="progressbar"
-            aria-valuenow={nextProgress}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          >
             <div
-              className="v-dream-fund-v1__fuel-confirm-bar-saved"
-              style={{ width: `${currentProgress}%` }}
-            />
-            <div
-              className="v-dream-fund-v1__fuel-confirm-bar-added"
-              style={{ width: `${addedProgress}%` }}
-            />
-          </div>
+              className="v-dream-fund-v1__fuel-confirm-bar"
+              role="progressbar"
+              aria-valuenow={nextProgress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <div
+                className="v-dream-fund-v1__fuel-confirm-bar-fill"
+                style={{ width: `${nextProgress}%` }}
+              />
+            </div>
 
-          <div className="v-dream-fund-v1__fuel-confirm-targets">
-            <span>of {formatV1Money(targetAmount, currency)}</span>
-            <span>of {formatV1Money(targetAmount, currency)}</span>
+            <div className="v-dream-fund-v1__fuel-confirm-target-row">
+              <span className="v-dream-fund-v1__fuel-confirm-target">of {targetLabel}</span>
+              <span className="v-dream-fund-v1__fuel-confirm-target">of {targetLabel}</span>
+            </div>
           </div>
         </div>
 
         <div className="v-dream-fund-v1__fuel-confirm-actions">
           <button
             type="button"
-            className="v-dream-fund-v1__fuel-confirm-btn v-dream-fund-v1__fuel-confirm-btn--save"
+            className="v-cmp-btn v-cmp-btn--md v-cmp-btn--primary-green v-dream-fund-v1__fuel-confirm-save"
             onClick={onConfirm}
           >
-            Save
+            <span className="v-cmp-btn__label">Save</span>
           </button>
           <button
             type="button"
-            className="v-dream-fund-v1__fuel-confirm-btn v-dream-fund-v1__fuel-confirm-btn--split"
+            className="v-cmp-btn v-cmp-btn--md v-cmp-btn--secondary-green v-dream-fund-v1__fuel-confirm-split"
             onClick={onSmartSplit ?? onClose}
           >
-            Smart Allocation Instead
+            <span className="v-cmp-btn__label">Smart Allocation Instead</span>
           </button>
           <button type="button" className="v-dream-fund-v1__fuel-confirm-cancel" onClick={onClose}>
             Cancel

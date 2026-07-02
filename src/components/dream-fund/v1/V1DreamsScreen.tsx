@@ -13,42 +13,6 @@ import {
 import { getDreamCardPhotoUrl } from "@/lib/dream-fund-v1-dream-visuals";
 import { getActiveGoals, sortDreamGoalsForStack } from "@/lib/dream-fund-v1-smart-split";
 
-const MILESTONES = [25, 50, 75, 100];
-
-function nextMilestone(progress: number): number | null {
-  if (progress >= 100) {
-    return null;
-  }
-
-  return MILESTONES.find((milestone) => milestone > progress) ?? null;
-}
-
-function getDreamEncouragement(progress: number, harvested: boolean): string {
-  if (harvested) {
-    return "Harvested — your dream became real.";
-  }
-
-  const milestone = nextMilestone(progress);
-
-  if (milestone) {
-    return `Next milestone ${milestone}% — keep the momentum.`;
-  }
-
-  if (progress >= 75) {
-    return "So close now. One more push.";
-  }
-
-  if (progress >= 50) {
-    return "Past halfway — you're doing this.";
-  }
-
-  if (progress > 0) {
-    return "Every fuel deposit moves you closer.";
-  }
-
-  return "Plant your first fuel to start growing.";
-}
-
 type DreamsTab = "active" | "completed";
 
 type V1DreamsScreenProps = {
@@ -61,14 +25,14 @@ type V1DreamsScreenProps = {
 };
 
 function formatBalance(amount: number, currency: DreamFundV1Currency): string {
-  return `${dreamFundV1CurrencySymbol(currency)} ${formatDreamFundV1Amount(amount, currency)}`;
+  const formatted = formatDreamFundV1Amount(amount, currency);
+  return `${dreamFundV1CurrencySymbol(currency)} ${formatted || "0"}`;
 }
 
 type DreamStackCardProps = {
   goal: DreamFundGoal;
   currency: DreamFundV1Currency;
   isPrimary: boolean;
-  photoUrl: string;
   harvested?: boolean;
   onOpen: () => void;
 };
@@ -77,13 +41,11 @@ function DreamStackCard({
   goal,
   currency,
   isPrimary,
-  photoUrl,
   harvested = false,
   onOpen,
 }: DreamStackCardProps) {
   const progress = calcProgress(goal.savedAmount, goal.targetAmount);
   const timelineLabel = formatMonthsLeftFromDate(goal.targetDate);
-  const encouragement = getDreamEncouragement(progress, harvested);
 
   return (
     <article
@@ -104,15 +66,11 @@ function DreamStackCard({
         }
       }}
     >
-      <div className="v-dream-fund-v1__dream-stack-card-visual" aria-hidden>
-        <img src={photoUrl} alt="" className="v-dream-fund-v1__dream-stack-card-photo" />
-        <div className="v-dream-fund-v1__dream-stack-card-scrim" />
-        {harvested ? (
-          <span className="v-dream-fund-v1__dream-stack-card-harvested">Harvested</span>
-        ) : null}
-      </div>
+      {harvested ? (
+        <span className="v-dream-fund-v1__dream-stack-card-harvested">Harvested</span>
+      ) : null}
 
-      <div className="v-dream-fund-v1__dream-stack-card-panel">
+      <div className="v-dream-fund-v1__dream-stack-card-glass">
         <div className="v-dream-fund-v1__dream-stack-card-head">
           <div className="v-dream-fund-v1__dream-stack-card-title-wrap">
             {isPrimary && !harvested ? (
@@ -124,10 +82,11 @@ function DreamStackCard({
             )}
             <h3 className="v-dream-fund-v1__dream-stack-card-title">{goal.name}</h3>
           </div>
-          <span className="v-dream-fund-v1__dream-stack-card-percent">{progress}%</span>
+          <span className="v-dream-fund-v1__dream-stack-card-percent" aria-hidden>
+            <span className="v-dream-fund-v1__dream-stack-card-percent-value">{progress}</span>
+            <span className="v-dream-fund-v1__dream-stack-card-percent-symbol">%</span>
+          </span>
         </div>
-
-        <p className="v-dream-fund-v1__dream-stack-card-encourage">{encouragement}</p>
 
         <div
           className="v-dream-fund-v1__dream-progress v-dream-fund-v1__dream-progress--stack"
@@ -145,8 +104,13 @@ function DreamStackCard({
 
         <div className="v-dream-fund-v1__dream-stack-card-meta">
           <span className="v-dream-fund-v1__dream-stack-card-amounts">
-            {formatBalance(goal.savedAmount, currency)} /{" "}
-            {formatDreamFundV1Amount(goal.targetAmount, currency)}
+            <span className="v-dream-fund-v1__dream-stack-card-amounts-saved">
+              {formatBalance(goal.savedAmount, currency)}
+            </span>
+            <span className="v-dream-fund-v1__dream-stack-card-amounts-target">
+              {" / "}
+              {formatDreamFundV1Amount(goal.targetAmount, currency)}
+            </span>
           </span>
           <span className="v-dream-fund-v1__dream-stack-card-date">{timelineLabel}</span>
         </div>
@@ -155,13 +119,26 @@ function DreamStackCard({
   );
 }
 
-const STACK_EXPAND_SCROLL_DISTANCE = 140;
+const STACK_CARD_HEIGHT_PX = 184;
+const STACK_COLLAPSED_PEEK_PX = 52;
+const STACK_FAN_GAP_PX = 12;
+
+function getStackScrollRange(goalCount: number, panelHeight = 0): number {
+  if (goalCount <= 1) {
+    return 0;
+  }
+
+  const collapsedHeight = STACK_CARD_HEIGHT_PX + STACK_COLLAPSED_PEEK_PX * (goalCount - 1);
+  const expandedHeight = STACK_CARD_HEIGHT_PX * goalCount + STACK_FAN_GAP_PX * (goalCount - 1);
+  const expansion = Math.max(0, expandedHeight - collapsedHeight);
+
+  return expansion + Math.max(0, panelHeight - collapsedHeight);
+}
 
 type V1DreamsStackProps = {
   goals: DreamFundGoal[];
   currency: DreamFundV1Currency;
   primaryGoalId?: string;
-  primaryPhotoUrl?: string | null;
   harvested?: boolean;
   expandProgress: number;
   onOpenGoal: (goalId: string) => void;
@@ -171,23 +148,16 @@ function V1DreamsStack({
   goals,
   currency,
   primaryGoalId,
-  primaryPhotoUrl,
   harvested = false,
   expandProgress,
   onOpenGoal,
 }: V1DreamsStackProps) {
   const stackId = useId();
-  const isFanning = expandProgress > 0.28;
 
   return (
     <div className="v-dream-fund-v1__dreams-stack-wrap">
       <ul
-        className={[
-          "v-dream-fund-v1__dreams-stack",
-          isFanning ? "v-dream-fund-v1__dreams-stack--expanded" : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+        className="v-dream-fund-v1__dreams-stack"
         style={
           {
             "--dream-stack-count": goals.length,
@@ -207,7 +177,6 @@ function V1DreamsStack({
               goal={goal}
               currency={currency}
               isPrimary={!harvested && goal.id === primaryGoalId}
-              photoUrl={getDreamCardPhotoUrl(goal, primaryGoalId, primaryPhotoUrl)}
               harvested={harvested}
               onOpen={() => onOpenGoal(goal.id)}
             />
@@ -240,12 +209,10 @@ export function V1DreamsScreen({
 
   const detailGoal = detailGoalId ? goals.find((goal) => goal.id === detailGoalId) : undefined;
   const panelRef = useRef<HTMLElement>(null);
-  const stackExpandRef = useRef(0);
-  const touchStartYRef = useRef<number | null>(null);
   const [stackExpand, setStackExpand] = useState(0);
+  const [panelHeight, setPanelHeight] = useState(0);
   const canFanStack = visibleGoals.length > 1;
-
-  stackExpandRef.current = stackExpand;
+  const stackScrollRange = getStackScrollRange(visibleGoals.length, panelHeight);
 
   useEffect(() => {
     setStackExpand(0);
@@ -256,90 +223,42 @@ export function V1DreamsScreen({
 
   useEffect(() => {
     const panel = panelRef.current;
-    if (!panel || !canFanStack) {
+    if (!panel) {
       return;
     }
 
-    function setExpandFromScroll() {
-      const progress = Math.min(1, panel!.scrollTop / STACK_EXPAND_SCROLL_DISTANCE);
-      setStackExpand(progress);
-    }
+    const updatePanelHeight = () => {
+      setPanelHeight(panel.clientHeight);
+    };
 
-    function applyWheelExpand(deltaY: number) {
-      if (deltaY === 0) {
-        return;
-      }
+    updatePanelHeight();
 
-      const atTop = panel!.scrollTop <= 0;
-      const current = stackExpandRef.current;
+    const observer = new ResizeObserver(updatePanelHeight);
+    observer.observe(panel);
 
-      if (deltaY < 0 && atTop && current > 0) {
-        setStackExpand(Math.max(0, current + deltaY / 180));
-        return;
-      }
+    return () => {
+      observer.disconnect();
+    };
+  }, [activeTab, visibleGoals.length]);
 
-      if (deltaY > 0 && atTop && current < 1) {
-        const panelFillsViewport = panel!.scrollHeight <= panel!.clientHeight + 1;
-        if (panelFillsViewport || current < 1) {
-          setStackExpand(Math.min(1, current + deltaY / 180));
-        }
-      }
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel || !canFanStack || stackScrollRange <= 0) {
+      return;
     }
 
     function handleScroll() {
-      setExpandFromScroll();
-    }
-
-    function handleWheel(event: WheelEvent) {
-      const atTop = panel!.scrollTop <= 0;
-      const current = stackExpandRef.current;
-      const shouldCapture =
-        (event.deltaY < 0 && atTop && current > 0) ||
-        (event.deltaY > 0 && atTop && current < 1 && panel!.scrollHeight <= panel!.clientHeight + 1);
-
-      if (shouldCapture) {
-        event.preventDefault();
-        applyWheelExpand(event.deltaY);
-      }
-    }
-
-    function handleTouchStart(event: TouchEvent) {
-      touchStartYRef.current = event.touches[0]?.clientY ?? null;
-    }
-
-    function handleTouchMove(event: TouchEvent) {
-      const startY = touchStartYRef.current;
-      const currentY = event.touches[0]?.clientY;
-      if (startY == null || currentY == null) {
-        return;
-      }
-
-      const deltaY = startY - currentY;
-      const atTop = panel!.scrollTop <= 0;
-      const current = stackExpandRef.current;
-      const shouldCapture =
-        (deltaY < 0 && atTop && current > 0) ||
-        (deltaY > 0 && atTop && current < 1 && panel!.scrollHeight <= panel!.clientHeight + 1);
-
-      if (shouldCapture) {
-        event.preventDefault();
-        applyWheelExpand(deltaY * 0.45);
-        touchStartYRef.current = currentY;
-      }
+      const progress = Math.min(1, Math.max(0, panel!.scrollTop / stackScrollRange));
+      setStackExpand(progress);
     }
 
     panel.addEventListener("scroll", handleScroll, { passive: true });
-    panel.addEventListener("wheel", handleWheel, { passive: false });
-    panel.addEventListener("touchstart", handleTouchStart, { passive: true });
-    panel.addEventListener("touchmove", handleTouchMove, { passive: false });
+    handleScroll();
 
     return () => {
       panel.removeEventListener("scroll", handleScroll);
-      panel.removeEventListener("wheel", handleWheel);
-      panel.removeEventListener("touchstart", handleTouchStart);
-      panel.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [activeTab, canFanStack, visibleGoals.length]);
+  }, [activeTab, canFanStack, stackScrollRange, visibleGoals.length]);
 
   return (
     <div className="v-dream-fund-v1__dreams">
@@ -383,16 +302,24 @@ export function V1DreamsScreen({
         aria-labelledby={activeTab === "active" ? "v1-dreams-tab-active" : "v1-dreams-tab-completed"}
       >
         {visibleGoals.length > 0 ? (
-          <V1DreamsStack
-            key={activeTab}
-            goals={visibleGoals}
-            currency={currency}
-            primaryGoalId={primaryGoalId}
-            primaryPhotoUrl={primaryPhotoUrl}
-            harvested={activeTab === "completed"}
-            expandProgress={stackExpand}
-            onOpenGoal={setDetailGoalId}
-          />
+          <>
+            <V1DreamsStack
+              key={activeTab}
+              goals={visibleGoals}
+              currency={currency}
+              primaryGoalId={primaryGoalId}
+              harvested={activeTab === "completed"}
+              expandProgress={stackExpand}
+              onOpenGoal={setDetailGoalId}
+            />
+            {canFanStack ? (
+              <div
+                className="v-dream-fund-v1__dreams-stack-scroll-spacer"
+                style={{ height: stackScrollRange }}
+                aria-hidden
+              />
+            ) : null}
+          </>
         ) : (
           <p className="v-dream-fund-v1__dreams-empty">
             {activeTab === "active"

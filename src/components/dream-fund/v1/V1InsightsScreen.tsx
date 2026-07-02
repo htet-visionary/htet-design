@@ -1,6 +1,6 @@
 "use client";
 
-import { Clover, Coins, Gauge, Target, Wallet } from "lucide-react";
+import { Clover, Coins, Gauge, Shield, Wallet } from "lucide-react";
 import { useMemo, type ReactNode } from "react";
 import { useDreamFundApp } from "@/lib/dream-fund-app-context";
 import {
@@ -15,18 +15,18 @@ type V1InsightsScreenProps = {
 };
 
 function formatInsightMoney(amount: number, currency: DreamFundV1Currency): string {
-  return `${dreamFundV1CurrencySymbol(currency)} ${formatDreamFundV1Amount(amount, currency)}`;
+  const formatted = formatDreamFundV1Amount(amount, currency);
+  return `${dreamFundV1CurrencySymbol(currency)} ${formatted || "0"}`;
 }
 
 type InsightPetalProps = {
   icon: ReactNode;
   label: string;
   value: string;
-  meta?: string;
   position: "tl" | "tr" | "bl" | "br";
 };
 
-function InsightPetal({ icon, label, value, meta, position }: InsightPetalProps) {
+function InsightPetal({ icon, label, value, position }: InsightPetalProps) {
   return (
     <article
       className={[
@@ -39,17 +39,16 @@ function InsightPetal({ icon, label, value, meta, position }: InsightPetalProps)
       </span>
       <p className="v-dream-fund-v1__insights-petal-label">{label}</p>
       <p className="v-dream-fund-v1__insights-petal-value">{value}</p>
-      {meta ? <p className="v-dream-fund-v1__insights-petal-meta">{meta}</p> : null}
     </article>
   );
 }
 
 export function V1InsightsScreen({ currency }: V1InsightsScreenProps) {
-  const { state } = useDreamFundApp();
+  const { availableToSpend, state } = useDreamFundApp();
 
   const insights = useMemo(
-    () => buildDreamFundV1Insights(state.goals, state.transactions),
-    [state.goals, state.transactions],
+    () => buildDreamFundV1Insights(state.goals, state.emergencyFund),
+    [state.goals, state.emergencyFund],
   );
 
   return (
@@ -58,34 +57,27 @@ export function V1InsightsScreen({ currency }: V1InsightsScreenProps) {
         <div className="v-dream-fund-v1__insights-grid">
           <InsightPetal
             position="tl"
-            icon={<Coins strokeWidth={1.75} size={22} />}
-            label="Income added"
-            value={formatInsightMoney(insights.incomeAdded, currency)}
+            icon={<Wallet strokeWidth={1.75} size={22} />}
+            label="Total Saved"
+            value={formatInsightMoney(insights.totalSaved, currency)}
           />
           <InsightPetal
             position="tr"
-            icon={<Target strokeWidth={1.75} size={22} />}
-            label="Dream achievement"
-            value={`${insights.dreamsAchieved}`}
-            meta={
-              insights.totalGoals > 0
-                ? `${insights.achievementRate}% of ${insights.totalGoals} dreams`
-                : "No dreams yet"
-            }
+            icon={<Gauge strokeWidth={1.75} size={22} />}
+            label="Overall Progress"
+            value={`${insights.overallProgress}%`}
           />
           <InsightPetal
             position="bl"
-            icon={<Gauge strokeWidth={1.75} size={22} />}
-            label="Timeline"
-            value={insights.timelineLabel}
-            meta="Nearest active dream"
+            icon={<Shield strokeWidth={1.75} size={22} />}
+            label="Total Emergency"
+            value={formatInsightMoney(insights.totalEmergency, currency)}
           />
           <InsightPetal
             position="br"
-            icon={<Wallet strokeWidth={1.75} size={22} />}
-            label="Total saved"
-            value={formatInsightMoney(insights.totalSaved, currency)}
-            meta="Across all dreams"
+            icon={<Coins strokeWidth={1.75} size={22} />}
+            label="Overall Spending"
+            value={formatInsightMoney(availableToSpend, currency)}
           />
         </div>
 

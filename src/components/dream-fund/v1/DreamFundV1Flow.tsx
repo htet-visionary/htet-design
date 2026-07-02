@@ -249,9 +249,9 @@ export function DreamFundV1Flow() {
             </div>
             <div className="v-dream-fund-v1__onboarding-copy">
               <h1 className="v-dream-fund-v1__onboarding-title">
-                Dream it. Fuel it.
+                Plan it. Fuel it.
                 <br />
-                Harvest it.
+                Achieve it.
               </h1>
               <p className="v-dream-fund-v1__onboarding-desc">
                 Turn your dreams into real life
