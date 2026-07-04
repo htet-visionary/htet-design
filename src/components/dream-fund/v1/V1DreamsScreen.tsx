@@ -33,6 +33,7 @@ type DreamStackCardProps = {
   goal: DreamFundGoal;
   currency: DreamFundV1Currency;
   isPrimary: boolean;
+  photoUrl: string;
   harvested?: boolean;
   onOpen: () => void;
 };
@@ -41,6 +42,7 @@ function DreamStackCard({
   goal,
   currency,
   isPrimary,
+  photoUrl,
   harvested = false,
   onOpen,
 }: DreamStackCardProps) {
@@ -66,9 +68,12 @@ function DreamStackCard({
         }
       }}
     >
-      {harvested ? (
-        <span className="v-dream-fund-v1__dream-stack-card-harvested">Harvested</span>
-      ) : null}
+      <div className="v-dream-fund-v1__dream-stack-card-visual" aria-hidden>
+        <img src={photoUrl} alt="" className="v-dream-fund-v1__dream-stack-card-photo" />
+        {harvested ? (
+          <span className="v-dream-fund-v1__dream-stack-card-harvested">Harvested</span>
+        ) : null}
+      </div>
 
       <div className="v-dream-fund-v1__dream-stack-card-glass">
         <div className="v-dream-fund-v1__dream-stack-card-head">
@@ -139,6 +144,7 @@ type V1DreamsStackProps = {
   goals: DreamFundGoal[];
   currency: DreamFundV1Currency;
   primaryGoalId?: string;
+  primaryPhotoUrl?: string | null;
   harvested?: boolean;
   expandProgress: number;
   onOpenGoal: (goalId: string) => void;
@@ -148,6 +154,7 @@ function V1DreamsStack({
   goals,
   currency,
   primaryGoalId,
+  primaryPhotoUrl,
   harvested = false,
   expandProgress,
   onOpenGoal,
@@ -177,6 +184,7 @@ function V1DreamsStack({
               goal={goal}
               currency={currency}
               isPrimary={!harvested && goal.id === primaryGoalId}
+              photoUrl={getDreamCardPhotoUrl(goal, primaryGoalId, primaryPhotoUrl)}
               harvested={harvested}
               onOpen={() => onOpenGoal(goal.id)}
             />
@@ -308,6 +316,7 @@ export function V1DreamsScreen({
               goals={visibleGoals}
               currency={currency}
               primaryGoalId={primaryGoalId}
+              primaryPhotoUrl={primaryPhotoUrl}
               harvested={activeTab === "completed"}
               expandProgress={stackExpand}
               onOpenGoal={setDetailGoalId}

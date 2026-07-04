@@ -1,6 +1,6 @@
 "use client";
 
-import { Clover, Coins, Gauge, Shield, Wallet } from "lucide-react";
+import { Clover, Coins, Gauge, Target, Wallet } from "lucide-react";
 import { useMemo, type ReactNode } from "react";
 import { useDreamFundApp } from "@/lib/dream-fund-app-context";
 import {
@@ -23,10 +23,11 @@ type InsightPetalProps = {
   icon: ReactNode;
   label: string;
   value: string;
+  meta: string;
   position: "tl" | "tr" | "bl" | "br";
 };
 
-function InsightPetal({ icon, label, value, position }: InsightPetalProps) {
+function InsightPetal({ icon, label, value, meta, position }: InsightPetalProps) {
   return (
     <article
       className={[
@@ -34,11 +35,12 @@ function InsightPetal({ icon, label, value, position }: InsightPetalProps) {
         `v-dream-fund-v1__insights-petal--${position}`,
       ].join(" ")}
     >
-      <span className="v-dream-fund-v1__insights-petal-icon" aria-hidden>
-        {icon}
-      </span>
-      <p className="v-dream-fund-v1__insights-petal-label">{label}</p>
-      <p className="v-dream-fund-v1__insights-petal-value">{value}</p>
+      <div className="v-dream-fund-v1__insights-petal-icon-wrap">{icon}</div>
+      <div className="v-dream-fund-v1__insights-petal-body">
+        <p className="v-dream-fund-v1__insights-petal-label">{label}</p>
+        <p className="v-dream-fund-v1__insights-petal-value">{value}</p>
+        <p className="v-dream-fund-v1__insights-petal-meta">{meta}</p>
+      </div>
     </article>
   );
 }
@@ -47,8 +49,8 @@ export function V1InsightsScreen({ currency }: V1InsightsScreenProps) {
   const { availableToSpend, state } = useDreamFundApp();
 
   const insights = useMemo(
-    () => buildDreamFundV1Insights(state.goals, state.emergencyFund),
-    [state.goals, state.emergencyFund],
+    () => buildDreamFundV1Insights(state.goals, state.emergencyFund, state.transactions),
+    [state.goals, state.emergencyFund, state.transactions],
   );
 
   return (
@@ -57,27 +59,31 @@ export function V1InsightsScreen({ currency }: V1InsightsScreenProps) {
         <div className="v-dream-fund-v1__insights-grid">
           <InsightPetal
             position="tl"
-            icon={<Wallet strokeWidth={1.75} size={22} />}
-            label="Total Saved"
-            value={formatInsightMoney(insights.totalSaved, currency)}
+            icon={<Coins strokeWidth={1.75} size={22} />}
+            label="Total added"
+            value={formatInsightMoney(insights.totalAdded, currency)}
+            meta="top-up amount"
           />
           <InsightPetal
             position="tr"
-            icon={<Gauge strokeWidth={1.75} size={22} />}
-            label="Overall Progress"
+            icon={<Target strokeWidth={1.75} size={22} />}
+            label="Overall progress"
             value={`${insights.overallProgress}%`}
+            meta="across all dreams"
           />
           <InsightPetal
             position="bl"
-            icon={<Shield strokeWidth={1.75} size={22} />}
-            label="Total Emergency"
-            value={formatInsightMoney(insights.totalEmergency, currency)}
+            icon={<Gauge strokeWidth={1.75} size={22} />}
+            label="Overall spending"
+            value={formatInsightMoney(availableToSpend, currency)}
+            meta="guilt-free safe"
           />
           <InsightPetal
             position="br"
-            icon={<Coins strokeWidth={1.75} size={22} />}
-            label="Overall Spending"
-            value={formatInsightMoney(availableToSpend, currency)}
+            icon={<Wallet strokeWidth={1.75} size={22} />}
+            label="Total Emergency"
+            value={formatInsightMoney(insights.totalEmergency, currency)}
+            meta="saved"
           />
         </div>
 

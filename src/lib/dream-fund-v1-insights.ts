@@ -1,8 +1,12 @@
-import type { DreamFundEmergencyFund, DreamFundGoal } from "@/lib/dream-fund-app-data";
+import type {
+  DreamFundEmergencyFund,
+  DreamFundGoal,
+  DreamFundTransaction,
+} from "@/lib/dream-fund-app-data";
 import { calcProgress } from "@/lib/dream-fund-app-utils";
 
 export type DreamFundV1InsightsSnapshot = {
-  totalSaved: number;
+  totalAdded: number;
   overallProgress: number;
   totalEmergency: number;
 };
@@ -10,12 +14,16 @@ export type DreamFundV1InsightsSnapshot = {
 export function buildDreamFundV1Insights(
   goals: DreamFundGoal[],
   emergencyFund: DreamFundEmergencyFund,
+  transactions: DreamFundTransaction[],
 ): DreamFundV1InsightsSnapshot {
+  const totalAdded = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
   const totalSaved = goals.reduce((sum, goal) => sum + goal.savedAmount, 0);
   const totalTarget = goals.reduce((sum, goal) => sum + goal.targetAmount, 0);
 
   return {
-    totalSaved,
+    totalAdded,
     overallProgress: calcProgress(totalSaved, totalTarget),
     totalEmergency: emergencyFund.savedAmount,
   };

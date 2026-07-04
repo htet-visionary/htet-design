@@ -1,13 +1,13 @@
 "use client";
 
-import { Clock3, Clover, Home, Star, User } from "lucide-react";
+import { Clover, Home, LineChart, Star, User } from "lucide-react";
 
 export type V1HomeTab = "home" | "dreams" | "insights" | "profile";
 
 const SIDE_TABS = [
   { id: "home" as const, label: "Home", icon: Home },
   { id: "dreams" as const, label: "Dreams", icon: Star },
-  { id: "insights" as const, label: "Insights", icon: Clock3 },
+  { id: "insights" as const, label: "Insights", icon: LineChart },
   { id: "profile" as const, label: "Profile", icon: User },
 ] as const;
 

@@ -892,14 +892,14 @@ body:has(.v-dream-fund-v1-page) {
 
 .v-dream-fund-v1__insights-clover {
   position: relative;
-  width: min(100%, 21rem);
+  width: min(100%, 20.5rem);
   margin-inline: auto;
 }
 
 .v-dream-fund-v1__insights-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--v-space-3);
+  gap: 0.875rem;
 }
 
 .v-dream-fund-v1__insights-core {
@@ -909,73 +909,82 @@ body:has(.v-dream-fund-v1-page) {
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: var(--v-radius-pill);
-  background: var(--v-v1-brand);
-  color: white;
-  box-shadow: 0 6px 16px color-mix(in srgb, var(--v-v1-brand) 28%, transparent);
+  width: auto;
+  height: auto;
+  background: transparent;
+  color: var(--v-v1-brand);
+  box-shadow: none;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
 .v-dream-fund-v1__insights-petal {
-  display: grid;
-  gap: var(--v-space-2);
-  min-height:11.5rem;
-  padding: var(--v-space-4) var(--v-space-3);
-  background: color-mix(in srgb, var(--v-v1-brand-muted) 88%, white);
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-space-4);
+  min-height: 10.75rem;
+  padding: 1.125rem 1rem 1.375rem;
+  border-radius: 1.5rem;
+  background: #edf3ea;
   color: var(--v-text-primary);
 }
 
-.v-dream-fund-v1__insights-petal--tl {
-  border-radius: 1.5rem 1.5rem 2.75rem 1.5rem;
+.v-dream-fund-v1__insights-petal-icon-wrap {
+  display: flex;
+  width: 100%;
+  min-height: 1.375rem;
 }
 
-.v-dream-fund-v1__insights-petal--tr {
-  border-radius: 1.5rem 1.5rem 1.5rem 2.75rem;
+.v-dream-fund-v1__insights-petal--tl .v-dream-fund-v1__insights-petal-icon-wrap,
+.v-dream-fund-v1__insights-petal--bl .v-dream-fund-v1__insights-petal-icon-wrap {
+  justify-content: flex-start;
 }
 
-.v-dream-fund-v1__insights-petal--bl {
-  border-radius: 1.5rem 2.75rem 1.5rem 1.5rem;
+.v-dream-fund-v1__insights-petal--tr .v-dream-fund-v1__insights-petal-icon-wrap,
+.v-dream-fund-v1__insights-petal--br .v-dream-fund-v1__insights-petal-icon-wrap {
+  justify-content: flex-end;
 }
 
-.v-dream-fund-v1__insights-petal--br {
-  border-radius: 2.75rem 1.5rem 1.5rem 1.5rem;
+.v-dream-fund-v1__insights-petal-icon-wrap svg {
+  color: color-mix(in srgb, var(--v-text-primary) 82%, var(--v-v1-brand));
 }
 
-.v-dream-fund-v1__insights-petal-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  color: color-mix(in srgb, var(--v-text-primary) 72%, var(--v-v1-brand));
+.v-dream-fund-v1__insights-petal-body {
+  display: grid;
+  flex: 1;
+  gap: 0.5rem;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
 }
 
 .v-dream-fund-v1__insights-petal-label {
   margin: 0;
-  font-size: var(--v-type-caption);
+  font-family: var(--v-font-interface);
+  font-size: 0.9375rem;
   font-weight: 500;
   line-height: 1.3;
-  color: var(--v-text-secondary);
+  color: #6d7f6a;
 }
 
 .v-dream-fund-v1__insights-petal-value {
   margin: 0;
   font-family: var(--v-font-display);
-  font-size: 1.125rem;
+  font-size: clamp(1.25rem, 4.8vw, 1.5rem);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--v-text-primary);
   overflow-wrap: anywhere;
 }
 
 .v-dream-fund-v1__insights-petal-meta {
   margin: 0;
-  font-size: 0.6875rem;
+  font-family: var(--v-font-interface);
+  font-size: 0.8125rem;
+  font-weight: 500;
   line-height: 1.35;
-  color: var(--v-text-muted);
+  color: #8b9789;
 }
 
 .v-dream-fund-v1__profile {
@@ -2762,7 +2771,7 @@ body:has(.v-dream-fund-v1-page) {
 }
 
 .v-dream-fund-v1__dreams-stack-item:not(:last-child) .v-dream-fund-v1__dream-stack-card-glass {
-  gap: clamp(0px, calc((var(--dream-stack-expand) - 0.78) / 0.22 * var(--v-space-3)), var(--v-space-3));
+  gap: clamp(0px, calc((var(--dream-stack-expand) - 0.78) / 0.22 * var(--v-space-2)), var(--v-space-2));
 }
 
 .v-dream-fund-v1__dreams-stack-item:not(:last-child) .v-dream-fund-v1__dream-progress--stack,
@@ -2809,13 +2818,15 @@ body:has(.v-dream-fund-v1-page) {
 
 .v-dream-fund-v1__dream-stack-card {
   --dream-stack-card-inset: var(--v-space-3);
+  --dream-stack-photo-min: 4.625rem;
 
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: minmax(var(--dream-stack-photo-min), 1fr) auto;
+  align-content: end;
   height: var(--dream-stack-card-height);
   min-height: var(--dream-stack-card-height);
-  padding: var(--dream-stack-card-inset);
+  padding: 0 var(--dream-stack-card-inset) var(--dream-stack-card-inset);
   overflow: hidden;
   border-radius: 1.5rem;
   transform-origin: center top;
@@ -2827,10 +2838,6 @@ body:has(.v-dream-fund-v1-page) {
     margin-top var(--v-dream-stack-duration) var(--v-dream-stack-ease)
       calc(var(--dream-stack-index, 0) * 45ms),
     box-shadow var(--v-motion-normal) var(--v-motion-easing-standard);
-}
-
-.v-dream-fund-v1__dream-stack-card--focus {
-  display: flex;
 }
 
 .v-dream-fund-v1__dream-stack-card--clickable {
@@ -2860,9 +2867,9 @@ body:has(.v-dream-fund-v1-page) {
 
 .v-dream-fund-v1__dream-stack-card-harvested {
   position: absolute;
-  top: calc(var(--dream-stack-card-inset) + var(--v-space-1));
-  right: calc(var(--dream-stack-card-inset) + var(--v-space-1));
-  z-index: 2;
+  top: var(--v-space-3);
+  right: var(--v-space-3);
+  z-index: 1;
   padding: 0.125rem var(--v-space-2);
   border-radius: var(--v-radius-pill);
   background: color-mix(in srgb, var(--v-v1-brand) 88%, black);
@@ -2873,17 +2880,31 @@ body:has(.v-dream-fund-v1-page) {
   text-transform: uppercase;
 }
 
+.v-dream-fund-v1__dream-stack-card-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--v-v1-brand-muted);
+}
+
+.v-dream-fund-v1__dream-stack-card-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .v-dream-fund-v1__dream-stack-card-glass {
   position: relative;
   z-index: 1;
-  flex: 1 1 auto;
+  grid-row: 2;
+  grid-column: 1;
+  align-self: end;
   display: grid;
-  gap: var(--v-space-3);
-  align-content: center;
+  gap: var(--v-space-2);
   width: 100%;
-  min-height: 0;
   margin: 0;
-  padding: var(--v-space-4);
+  padding: var(--v-space-3);
   border: 0;
   border-radius: 1rem;
   background: var(--v-surface-primary);
@@ -2961,8 +2982,8 @@ body:has(.v-dream-fund-v1-page) {
 }
 
 .v-dream-fund-v1__dream-progress--stack {
-  height: 0.75rem;
-  background: color-mix(in srgb, var(--v-v1-brand-soft) 50%, transparent);
+  height: 0.625rem;
+  background: color-mix(in srgb, var(--v-v1-brand-soft) 55%, white);
 }
 
 .v-dream-fund-v1__dream-stack-card-meta {
