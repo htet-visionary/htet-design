@@ -203,6 +203,7 @@ export function DreamFundV1Flow() {
         targetDate: draft.targetDate || undefined,
         monthlyAllocation: 0,
         priority: "medium",
+        description: draft.story.trim() || undefined,
       });
       setDreamMeta({
         story: draft.story,
@@ -242,25 +243,38 @@ export function DreamFundV1Flow() {
       <div className="v-dream-fund-v1 v-theme-dream-fund">
         <div className="v-dream-fund-v1__device v-dream-fund-v1__device--onboarding">
           <div className="v-dream-fund-v1__onboarding-arch" aria-hidden />
+
           <main className="v-dream-fund-v1__main v-dream-fund-v1__main--onboarding">
-            <div className="v-dream-fund-v1__onboarding-top">
-              <V1BrandMark />
-              <span className="v-dream-fund-v1__brand-rule" aria-hidden />
+            <div className="v-dream-fund-v1__onboarding-intro">
+              <div className="v-dream-fund-v1__onboarding-top">
+                <V1BrandMark />
+                <span className="v-dream-fund-v1__brand-rule" aria-hidden />
+              </div>
+
+              <div className="v-dream-fund-v1__onboarding-copy">
+                <h1 className="v-dream-fund-v1__onboarding-title">
+                  Plan it. Fuel it.
+                  <br />
+                  Achieve it.
+                </h1>
+                <p className="v-dream-fund-v1__onboarding-desc">
+                  Turn your dreams into real life
+                  <br />
+                  with every clover you grow.
+                </p>
+                <V1CloverMark />
+              </div>
             </div>
-            <div className="v-dream-fund-v1__onboarding-copy">
-              <h1 className="v-dream-fund-v1__onboarding-title">
-                Plan it. Fuel it.
-                <br />
-                Achieve it.
-              </h1>
-              <p className="v-dream-fund-v1__onboarding-desc">
-                Turn your dreams into real life
-                <br />
-                with every clover you grow.
-              </p>
-              <V1CloverMark />
+
+            <div className="v-dream-fund-v1__onboarding-visual">
+              <img
+                src="/dream-fund/onboarding-journey.png"
+                alt=""
+                className="v-dream-fund-v1__onboarding-illustration"
+              />
             </div>
           </main>
+
           <footer className="v-dream-fund-v1__footer v-dream-fund-v1__footer--onboarding">
             <button
               type="button"

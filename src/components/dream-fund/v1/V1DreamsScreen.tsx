@@ -1,7 +1,7 @@
 "use client";
 
 import { Clover, Plus } from "lucide-react";
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useId, useMemo, useState, type CSSProperties } from "react";
 import { V1DreamDetailDrawer } from "@/components/dream-fund/v1/V1DreamDetailDrawer";
 import type { DreamFundGoal } from "@/lib/dream-fund-app-data";
 import { calcProgress, formatMonthsLeftFromDate } from "@/lib/dream-fund-app-utils";
@@ -71,7 +71,7 @@ function DreamStackCard({
       <div className="v-dream-fund-v1__dream-stack-card-visual" aria-hidden>
         <img src={photoUrl} alt="" className="v-dream-fund-v1__dream-stack-card-photo" />
         {harvested ? (
-          <span className="v-dream-fund-v1__dream-stack-card-harvested">Harvested</span>
+          <span className="v-dream-fund-v1__dream-stack-card-harvested">Done</span>
         ) : null}
       </div>
 
@@ -124,29 +124,12 @@ function DreamStackCard({
   );
 }
 
-const STACK_CARD_HEIGHT_PX = 184;
-const STACK_COLLAPSED_PEEK_PX = 52;
-const STACK_FAN_GAP_PX = 12;
-
-function getStackScrollRange(goalCount: number, panelHeight = 0): number {
-  if (goalCount <= 1) {
-    return 0;
-  }
-
-  const collapsedHeight = STACK_CARD_HEIGHT_PX + STACK_COLLAPSED_PEEK_PX * (goalCount - 1);
-  const expandedHeight = STACK_CARD_HEIGHT_PX * goalCount + STACK_FAN_GAP_PX * (goalCount - 1);
-  const expansion = Math.max(0, expandedHeight - collapsedHeight);
-
-  return expansion + Math.max(0, panelHeight - collapsedHeight);
-}
-
 type V1DreamsStackProps = {
   goals: DreamFundGoal[];
   currency: DreamFundV1Currency;
   primaryGoalId?: string;
   primaryPhotoUrl?: string | null;
   harvested?: boolean;
-  expandProgress: number;
   onOpenGoal: (goalId: string) => void;
 };
 
@@ -156,42 +139,30 @@ function V1DreamsStack({
   primaryGoalId,
   primaryPhotoUrl,
   harvested = false,
-  expandProgress,
   onOpenGoal,
 }: V1DreamsStackProps) {
   const stackId = useId();
 
   return (
-    <div className="v-dream-fund-v1__dreams-stack-wrap">
-      <ul
-        className="v-dream-fund-v1__dreams-stack"
-        style={
-          {
-            "--dream-stack-count": goals.length,
-            "--dream-stack-expand": expandProgress,
-          } as CSSProperties
-        }
-        aria-label="Dream cards"
-      >
-        {goals.map((goal, index) => (
-          <li
-            key={goal.id}
-            id={`${stackId}-dream-${goal.id}`}
-            className="v-dream-fund-v1__dreams-stack-item"
-            style={{ "--dream-stack-index": index } as CSSProperties}
-          >
-            <DreamStackCard
-              goal={goal}
-              currency={currency}
-              isPrimary={!harvested && goal.id === primaryGoalId}
-              photoUrl={getDreamCardPhotoUrl(goal, primaryGoalId, primaryPhotoUrl)}
-              harvested={harvested}
-              onOpen={() => onOpenGoal(goal.id)}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="v-dream-fund-v1__dreams-stack" aria-label="Dream cards">
+      {goals.map((goal, index) => (
+        <li
+          key={goal.id}
+          id={`${stackId}-dream-${goal.id}`}
+          className="v-dream-fund-v1__dreams-stack-item"
+          style={{ "--dream-stack-index": index } as CSSProperties}
+        >
+          <DreamStackCard
+            goal={goal}
+            currency={currency}
+            isPrimary={!harvested && goal.id === primaryGoalId}
+            photoUrl={getDreamCardPhotoUrl(goal, primaryGoalId, primaryPhotoUrl)}
+            harvested={harvested}
+            onOpen={() => onOpenGoal(goal.id)}
+          />
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -216,57 +187,6 @@ export function V1DreamsScreen({
   }, [activeTab, activeGoals, completedGoals]);
 
   const detailGoal = detailGoalId ? goals.find((goal) => goal.id === detailGoalId) : undefined;
-  const panelRef = useRef<HTMLElement>(null);
-  const [stackExpand, setStackExpand] = useState(0);
-  const [panelHeight, setPanelHeight] = useState(0);
-  const canFanStack = visibleGoals.length > 1;
-  const stackScrollRange = getStackScrollRange(visibleGoals.length, panelHeight);
-
-  useEffect(() => {
-    setStackExpand(0);
-    if (panelRef.current) {
-      panelRef.current.scrollTop = 0;
-    }
-  }, [activeTab]);
-
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) {
-      return;
-    }
-
-    const updatePanelHeight = () => {
-      setPanelHeight(panel.clientHeight);
-    };
-
-    updatePanelHeight();
-
-    const observer = new ResizeObserver(updatePanelHeight);
-    observer.observe(panel);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [activeTab, visibleGoals.length]);
-
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel || !canFanStack || stackScrollRange <= 0) {
-      return;
-    }
-
-    function handleScroll() {
-      const progress = Math.min(1, Math.max(0, panel!.scrollTop / stackScrollRange));
-      setStackExpand(progress);
-    }
-
-    panel.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      panel.removeEventListener("scroll", handleScroll);
-    };
-  }, [activeTab, canFanStack, stackScrollRange, visibleGoals.length]);
 
   return (
     <div className="v-dream-fund-v1__dreams">
@@ -304,31 +224,20 @@ export function V1DreamsScreen({
       </div>
 
       <section
-        ref={panelRef}
         className="v-dream-fund-v1__dreams-panel"
         role="tabpanel"
         aria-labelledby={activeTab === "active" ? "v1-dreams-tab-active" : "v1-dreams-tab-completed"}
       >
         {visibleGoals.length > 0 ? (
-          <>
-            <V1DreamsStack
-              key={activeTab}
-              goals={visibleGoals}
-              currency={currency}
-              primaryGoalId={primaryGoalId}
-              primaryPhotoUrl={primaryPhotoUrl}
-              harvested={activeTab === "completed"}
-              expandProgress={stackExpand}
-              onOpenGoal={setDetailGoalId}
-            />
-            {canFanStack ? (
-              <div
-                className="v-dream-fund-v1__dreams-stack-scroll-spacer"
-                style={{ height: stackScrollRange }}
-                aria-hidden
-              />
-            ) : null}
-          </>
+          <V1DreamsStack
+            key={activeTab}
+            goals={visibleGoals}
+            currency={currency}
+            primaryGoalId={primaryGoalId}
+            primaryPhotoUrl={primaryPhotoUrl}
+            harvested={activeTab === "completed"}
+            onOpenGoal={setDetailGoalId}
+          />
         ) : (
           <p className="v-dream-fund-v1__dreams-empty">
             {activeTab === "active"

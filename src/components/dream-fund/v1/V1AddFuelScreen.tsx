@@ -79,7 +79,7 @@ export function V1AddFuelScreen({
           </label>
 
           <label className="v-dream-fund-v1__field">
-            <span className="v-dream-fund-v1__field-label">Where is this money? (Optional)</span>
+            <span className="v-dream-fund-v1__field-label">Money Source (Optional)</span>
             <div className="v-dream-fund-v1__select-wrap">
               <select
                 className="v-dream-fund-v1__field-input v-dream-fund-v1__field-select"

@@ -9,6 +9,9 @@ export type DreamFundGoal = {
   targetDate?: string;
   monthlyAllocation: number;
   priority: DreamPriority;
+  source?: string;
+  description?: string;
+  notes?: string;
 };
 
 export type DreamFundBill = {
@@ -140,6 +143,9 @@ export const defaultDreamFundAppState: DreamFundAppState = {
       targetDate: "2026-11-20",
       monthlyAllocation: 25_000,
       priority: "high",
+      source: "Cash",
+      description:
+        "I want to explore new places, experience different cultures and make beautiful memories.",
     },
     {
       id: "weekend-camera",
@@ -150,6 +156,8 @@ export const defaultDreamFundAppState: DreamFundAppState = {
       targetDate: "2026-09-01",
       monthlyAllocation: 12_000,
       priority: "medium",
+      source: "Cash",
+      description: "Compact mirrorless for street photography on weekends.",
     },
     {
       id: "new-laptop",
@@ -160,6 +168,8 @@ export const defaultDreamFundAppState: DreamFundAppState = {
       targetDate: "2026-03-01",
       monthlyAllocation: 0,
       priority: "medium",
+      source: "Wallet",
+      description: "Upgrade for design work and side projects.",
     },
   ],
   bills: [

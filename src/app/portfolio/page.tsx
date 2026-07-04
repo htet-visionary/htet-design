@@ -87,7 +87,7 @@ export default function PortfolioPage() {
               index="03"
               eyebrow="Life beyond the screen"
               title="Activities"
-              description={activitiesIntro}
+              // description={activitiesIntro}
             />
           </div>
 
