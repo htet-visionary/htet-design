@@ -962,6 +962,7 @@ a.v-portfolio-work-stack__card:focus-visible {
 }
 
 .v-portfolio-work-stack__title {
+  display: none; /* Title hidden for temporary */
   margin: 0;
   font-family: var(--v-font-display);
   font-size: clamp(1.25rem, 3vw, var(--v-type-heading-sm));
@@ -1005,6 +1006,15 @@ a.v-portfolio-work-stack__card:focus-visible {
   font-weight: 500;
   color: var(--v-action-primary);
   transition: gap var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-portfolio-work-stack__link--disabled {
+  color: var(--v-text-muted);
+  cursor: default;
+}
+
+.v-portfolio-work-stack__item:hover .v-portfolio-work-stack__link--disabled {
+  gap: var(--v-space-2);
 }
 
 .v-portfolio-work-stack__link svg {

@@ -112,9 +112,20 @@ export function PortfolioWorkStack() {
                   <li key={`${project.title}-role-${roleIndex}`}>{role}</li>
                 ))}
               </ul>
-              <span className="v-portfolio-work-stack__link">
-                View project
-                <ArrowUpRight strokeWidth={2} aria-hidden />
+              <span
+                className={[
+                  "v-portfolio-work-stack__link",
+                  "comingSoon" in project && project.comingSoon
+                    ? "v-portfolio-work-stack__link--disabled"
+                    : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                {"comingSoon" in project && project.comingSoon ? "Coming Soon" : "View project"}
+                {"comingSoon" in project && project.comingSoon ? null : (
+                  <ArrowUpRight strokeWidth={2} aria-hidden />
+                )}
               </span>
             </div>
           </>

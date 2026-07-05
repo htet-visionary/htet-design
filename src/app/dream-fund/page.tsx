@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ArrowUpRight, ChevronLeft } from "lucide-react";
 import { DreamFundMockupGallery } from "@/components/dream-fund/DreamFundMockupGallery";
 import { PortfolioScrollReveal } from "@/components/portfolio/PortfolioScrollReveal";
 import { SectionBlock } from "@/components/visionary/DocParts";
@@ -14,6 +14,7 @@ import {
   dreamFundV1Tools,
   dreamFundV1UxPrinciples,
 } from "@/lib/dream-fund-v1-case-study";
+import { designSystemBase } from "@/lib/navigation";
 import "../portfolio/portfolio.css";
 import "./dream-fund.css";
 
@@ -193,6 +194,19 @@ export default function DreamFundCaseStudyPage() {
           </article>
         </div>
       </main>
+
+        <footer className="v-dream-fund-case__footer" data-reveal>
+          <Link
+            href={designSystemBase}
+            className="v-dream-fund-case__footer-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Design System in a new tab"
+          >
+            Design System
+            <ArrowUpRight className="v-dream-fund-case__footer-link-icon" aria-hidden strokeWidth={2} />
+          </Link>
+        </footer>
       </PortfolioScrollReveal>
     </div>
   );

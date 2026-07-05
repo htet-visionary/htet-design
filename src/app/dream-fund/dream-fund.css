@@ -21,7 +21,7 @@
 .v-dream-fund-case__main {
   flex: 1;
   width: 100%;
-  padding-block: 0 var(--v-space-16);
+  padding-block: 0;
 }
 
 /* One header offset on mobile — avoid portfolio + case-study double padding */
@@ -607,6 +607,7 @@
 
 .v-dream-fund-case__body-tail {
   padding-top: var(--v-space-8);
+  padding-bottom: var(--v-space-12);
 }
 
 .v-dream-fund-case__tools-list {
@@ -799,4 +800,44 @@
   font-weight: 500;
   color: var(--v-text-secondary);
   text-align: left;
+}
+
+.v-dream-fund-case__footer {
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding: 0;
+  background: var(--v-green-50);
+  border-top: 1px solid color-mix(in srgb, var(--v-action-primary) 12%, var(--v-action-primary));
+}
+
+.v-dream-fund-case__footer-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--v-space-2);
+  width: 100%;
+  padding: var(--v-space-10) var(--v-portfolio-gutter);
+  font-family: var(--v-font-interface);
+  font-size: var(--v-type-label);
+  font-weight: 500;
+  color: var(--v-action-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: gap var(--v-motion-fast) var(--v-motion-easing-standard);
+}
+
+.v-dream-fund-case__footer-link:hover {
+  gap: var(--v-space-3);
+}
+
+.v-dream-fund-case__footer-link:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: -2px;
+}
+
+.v-dream-fund-case__footer-link-icon {
+  width: var(--v-icon-sm);
+  height: var(--v-icon-sm);
 }

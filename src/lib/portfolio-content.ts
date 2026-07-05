@@ -72,7 +72,7 @@ export const workPlaceholders = [
   {
     title: "Visionary Design System",
     description:
-      "Scalable component library with tokens, patterns, and documentation for cross-team use.",
+      "Scalable component library with tokens and patterns, for cross-team use.",
     tag: "Design Systems",
     year: "2026",
     roles: ["Design Agent", "・", "Tokens", "・", "AI Documentation"],
@@ -86,10 +86,15 @@ export const workPlaceholders = [
   {
     title: "Lucky Charm",
     description:
-      "Character-driven lifestyle brand focused on storytelling, identity, and delightful products.",
+      "Character-driven lifestyle brand focused on storytelling, and delightful products.",
     tag: "Brand & Character Experience",
     year: "2026",
     roles: ["Branding", "・", "Product Concept"],
+    thumb: {
+      src: "/portfolio/work/lucky-charm.png",
+      alt: "Lucky Charm coming soon placeholder with clover mark",
+    },
+    comingSoon: true,
   },
 ] as const;
 
