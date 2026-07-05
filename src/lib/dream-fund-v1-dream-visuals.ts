@@ -7,7 +7,7 @@ import {
 
 const DREAM_GOAL_SAMPLE_PHOTOS: Partial<Record<string, string>> = {
   "japan-trip": "/portfolio/gallery/11-tokyo-tower.png",
-  "weekend-camera": "/portfolio/hero-photo.png",
+  "weekend-camera": "/portfolio/gallery/07-capybara.png",
   "new-laptop": "/portfolio/work/design-system.png",
 };
 

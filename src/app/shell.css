@@ -338,7 +338,7 @@
 
 .v-doc__body {
   display: grid;
-  gap: var(--v-space-8);
+  gap: var(--v-space-16);
   min-width: 0;
   max-width: 100%;
 }
@@ -435,7 +435,7 @@
 }
 
 .v-section__desc {
-  margin: calc(-1 * var(--v-space-2)) 0 var(--v-space-4);
+  margin-bottom: var(--v-space-6);
   font-family: var(--v-font-interface);
   font-size: var(--v-type-label);
   line-height: 1.5;

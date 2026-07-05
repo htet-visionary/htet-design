@@ -5,7 +5,8 @@ export const dreamFundCaseStudyMeta = {
   description:
     "Dream Fund helps people like Jennie answer one question: “Can I still achieve my dreams?” Through simple money organization, adaptive planning, and positive reinforcement — not guilt-driven expense tracking.",
   year: "2026",
-  roles: ["UX research", "UI design", "Prototyping"],
+  roles: ["UX Research", "UI Design", "AI Prototyping"],
+  tools: ["Figma", "Cursor", "Google NotebookLM", "ChatGPT", "Gemini"],
 } as const;
 
 export const dreamFundPersona = {

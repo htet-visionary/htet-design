@@ -62,7 +62,11 @@ export const workPlaceholders = [
       "Dream-first financial companion helping users achieve goals with confidence.",
     tag: "Product Design Case Study",
     year: "2026",
-    roles: ["UX research", "・", "UI design", "・", "Prototyping"],
+    roles: ["UX Research", "・", "UI Design", "・", "AI Prototyping"],
+    thumb: {
+      src: "/portfolio/work/dream-fund.png",
+      alt: "Dream Fund case study hero with brand values and home screen prototype",
+    },
     href: "/dream-fund",
   },
   {
@@ -71,7 +75,7 @@ export const workPlaceholders = [
       "Scalable component library with tokens, patterns, and documentation for cross-team use.",
     tag: "Design Systems",
     year: "2026",
-    roles: ["Design systems", "・", "Tokens", "・", "AI"],
+    roles: ["Design Agent", "・", "Tokens", "・", "AI Documentation"],
     thumb: {
       src: "/portfolio/work/design-system.png",
       alt: "Visionary Design System overview with colors, components, and token architecture",

@@ -890,6 +890,17 @@
   will-change: transform;
 }
 
+a.v-portfolio-work-stack__card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.v-portfolio-work-stack__card:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: 2px;
+}
+
 .v-portfolio-work-stack__item:hover .v-portfolio-work-stack__card {
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--v-text-primary) 5%, transparent),
@@ -993,14 +1004,7 @@
   font-size: var(--v-type-label);
   font-weight: 500;
   color: var(--v-action-primary);
-  text-decoration: none;
   transition: gap var(--v-motion-fast) var(--v-motion-easing-standard);
-}
-
-a.v-portfolio-work-stack__link:focus-visible {
-  outline: 2px solid var(--v-focus-ring);
-  outline-offset: 2px;
-  border-radius: var(--v-radius-sm);
 }
 
 .v-portfolio-work-stack__link svg {

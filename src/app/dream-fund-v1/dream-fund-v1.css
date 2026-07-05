@@ -74,8 +74,9 @@ body:has(.v-dream-fund-v1-page) {
   width: 38rem;
   height: 38rem;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--v-v1-brand-soft) 72%, white);
+  /* background: color-mix(in srgb, var(--v-v1-brand-soft) 72%, white); */
   transform: translateX(-50%);
+  background: #f8f7fa;
   pointer-events: none;
 }
 
@@ -1819,7 +1820,7 @@ body:has(.v-dream-fund-v1-page) {
   justify-items: center;
   width: 100%;
   max-width: var(--v-v1-width);
-  max-height: min(88dvh, 36rem);
+  /* max-height: min(88dvh, 36rem); */
   overflow-y: auto;
   padding: var(--v-space-3) var(--v-space-8) calc(var(--v-space-6) + env(safe-area-inset-bottom));
   border: 1px solid var(--v-v1-brand-soft);
@@ -3111,7 +3112,7 @@ body:has(.v-dream-fund-v1-page) {
   align-content: start;
   justify-items: stretch;
   gap: 0;
-  max-height: min(92dvh, 44rem);
+  /* max-height: min(92dvh, 44rem); */
   padding: var(--v-space-3) 0 calc(var(--v-space-5) + env(safe-area-inset-bottom));
   overflow: hidden;
 }

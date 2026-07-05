@@ -68,15 +68,20 @@ export function PortfolioWorkStack() {
 
   return (
     <ul ref={stackRef} className="v-portfolio-work-stack" aria-label="Selected projects">
-      {workPlaceholders.map((project, index) => (
-        <li
-          key={project.title}
-          className="v-portfolio-work-stack__item"
-          data-stack-index={index}
-          data-reveal
-          data-reveal-delay={String(index * 90)}
-        >
-          <article className="v-portfolio-work-stack__card">
+      {workPlaceholders.map((project, index) => {
+        const hasHref = "href" in project && Boolean(project.href);
+        const linkProps =
+          hasHref && "href" in project
+            ? {
+                href: project.href,
+                ...("openInNewTab" in project && project.openInNewTab
+                  ? { target: "_blank" as const, rel: "noopener noreferrer" }
+                  : {}),
+              }
+            : null;
+
+        const cardBody = (
+          <>
             <div className="v-portfolio-work-stack__media">
               {"thumb" in project && project.thumb ? (
                 <div className="v-portfolio-work-stack__thumb v-portfolio-work-stack__thumb--image">
@@ -107,27 +112,32 @@ export function PortfolioWorkStack() {
                   <li key={`${project.title}-role-${roleIndex}`}>{role}</li>
                 ))}
               </ul>
-              {"href" in project && project.href ? (
-                <Link
-                  href={project.href}
-                  className="v-portfolio-work-stack__link"
-                  {...("openInNewTab" in project && project.openInNewTab
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  View project
-                  <ArrowUpRight strokeWidth={2} aria-hidden />
-                </Link>
-              ) : (
-                <span className="v-portfolio-work-stack__link">
-                  View project
-                  <ArrowUpRight strokeWidth={2} aria-hidden />
-                </span>
-              )}
+              <span className="v-portfolio-work-stack__link">
+                View project
+                <ArrowUpRight strokeWidth={2} aria-hidden />
+              </span>
             </div>
-          </article>
-        </li>
-      ))}
+          </>
+        );
+
+        return (
+          <li
+            key={project.title}
+            className="v-portfolio-work-stack__item"
+            data-stack-index={index}
+            data-reveal
+            data-reveal-delay={String(index * 90)}
+          >
+            {linkProps ? (
+              <Link {...linkProps} className="v-portfolio-work-stack__card">
+                {cardBody}
+              </Link>
+            ) : (
+              <article className="v-portfolio-work-stack__card">{cardBody}</article>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

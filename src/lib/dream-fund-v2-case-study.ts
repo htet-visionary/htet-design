@@ -5,7 +5,7 @@ export const dreamFundV2Meta = {
   description:
     "A stress-free, psychology-based smart financial allocation and dream tracking app. Dream Fund automatically splits income so users save for their dreams and spend the rest completely guilt-free.",
   year: "2026",
-  roles: ["UX research", "UI design", "Prototyping"],
+  roles: ["UX Research", "UI Design", "Prototyping"],
 } as const;
 
 export const dreamFundV2Problem = {

@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft, ImageIcon } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
+import { DreamFundMockupGallery } from "@/components/dream-fund/DreamFundMockupGallery";
+import { PortfolioScrollReveal } from "@/components/portfolio/PortfolioScrollReveal";
 import { SectionBlock } from "@/components/visionary/DocParts";
 import {
   dreamFundV1CaseStudyMeta,
-  dreamFundV1CoreFeatures,
-  dreamFundV1HifiPlaceholder,
+  dreamFundV1Mockups,
   dreamFundV1Persona,
   dreamFundV1Problem,
   dreamFundV1ProductIdea,
-  dreamFundV1UserStories,
+  dreamFundV1UserFlow,
+  dreamFundV1Tools,
   dreamFundV1UxPrinciples,
 } from "@/lib/dream-fund-v1-case-study";
 import "../portfolio/portfolio.css";
@@ -35,33 +37,42 @@ export default function DreamFundCaseStudyPage() {
         </div>
       </header>
 
-      <main className="v-portfolio-main v-dream-fund-case__main">
-        <div className="v-portfolio-section__inner">
-          <article className="v-doc">
-            <p className="v-doc__eyebrow">{dreamFundV1CaseStudyMeta.eyebrow}</p>
-            <h1 className="v-doc__title">{dreamFundV1CaseStudyMeta.title}</h1>
-            <p className="v-doc__desc">{dreamFundV1CaseStudyMeta.description}</p>
+      <PortfolioScrollReveal>
+        <main className="v-portfolio-main v-dream-fund-case__main">
+          <header className="v-dream-fund-case__hero">
+            <div className="v-dream-fund-case__hero-stage">
+              <div className="v-dream-fund-case__hero-copy" data-reveal>
+                <p className="v-dream-fund-case__hero-eyebrow">{dreamFundV1CaseStudyMeta.eyebrow}</p>
+                <h1 className="v-dream-fund-case__hero-title">
+                  <span className="v-dream-fund-case__hero-title-dream">Dream </span>
+                  <span className="v-dream-fund-case__hero-title-fund">Fund</span>
+                </h1>
+                <p className="v-dream-fund-case__hero-desc">{dreamFundV1CaseStudyMeta.description}</p>
 
-            <ul className="v-dream-fund-case__meta" aria-label="Project details">
-              <li className="v-dream-fund-case__meta-item">{dreamFundV1CaseStudyMeta.year}</li>
-              {dreamFundV1CaseStudyMeta.roles.map((role) => (
-                <li key={role} className="v-dream-fund-case__meta-item">
-                  {role}
-                </li>
-              ))}
-            </ul>
+                <ul className="v-dream-fund-case__hero-meta" aria-label="Project details">
+                  <li className="v-dream-fund-case__hero-meta-item">{dreamFundV1CaseStudyMeta.year}</li>
+                  {dreamFundV1CaseStudyMeta.roles.map((role) => (
+                    <li key={role} className="v-dream-fund-case__hero-meta-item">
+                      {role}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            <div className="v-dream-fund-case__cta">
-              <Link
-                href="/dream-fund-v1"
-                className="v-cmp-btn v-cmp-btn--md v-cmp-btn--primary-green"
-              >
-                <span className="v-cmp-btn__label">Open Dream Fund Prototype</span>
-              </Link>
+              <figure className="v-dream-fund-case__hero-visual" data-reveal data-reveal-delay="80">
+                <img
+                  src={dreamFundV1CaseStudyMeta.heroImage}
+                  alt={dreamFundV1CaseStudyMeta.heroImageAlt}
+                  className="v-dream-fund-case__hero-image"
+                />
+              </figure>
             </div>
+          </header>
 
-            <div className="v-doc__body">
-              <SectionBlock title={dreamFundV1Problem.title}>
+          <div className="v-portfolio-section__inner">
+            <article className="v-doc">
+              <div className="v-doc__body">
+                <SectionBlock title={dreamFundV1Problem.title} reveal revealDelay={160}>
                 {dreamFundV1Problem.paragraphs.map((paragraph) => (
                   <p key={paragraph} className="v-dream-fund-case__prose">
                     {paragraph}
@@ -74,7 +85,7 @@ export default function DreamFundCaseStudyPage() {
                 </ul>
               </SectionBlock>
 
-              <SectionBlock title={dreamFundV1ProductIdea.title}>
+              <SectionBlock title={dreamFundV1ProductIdea.title} reveal revealDelay={240}>
                 {dreamFundV1ProductIdea.paragraphs.map((paragraph) => (
                   <p key={paragraph} className="v-dream-fund-case__prose">
                     {paragraph}
@@ -86,8 +97,10 @@ export default function DreamFundCaseStudyPage() {
               </SectionBlock>
 
               <SectionBlock
-                title="User persona"
-                description="A simple snapshot of who we designed for."
+                title="User Persona"
+                reveal
+                revealDelay={320}
+                // description="Who we designed for."
               >
                 <div className="v-dream-fund-case__persona">
                   <div className="v-dream-fund-case__persona-head">
@@ -119,22 +132,22 @@ export default function DreamFundCaseStudyPage() {
                 </div>
               </SectionBlock>
 
-              <SectionBlock title="User stories" description="Key jobs Jennie needs Dream Fund to support.">
-                <ol className="v-dream-fund-case__story-list">
-                  {dreamFundV1UserStories.map((story) => (
-                    <li key={story.id} className="v-dream-fund-case__story">
-                      <span className="v-dream-fund-case__story-id" aria-hidden>
-                        {story.id}
-                      </span>
-                      <p className="v-dream-fund-case__story-text">
-                        <strong>As Jennie,</strong> I want to {story.want}, so {story.benefit}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
+              <SectionBlock
+                title={dreamFundV1UserFlow.title}
+                description={dreamFundV1UserFlow.description}
+                reveal
+                revealDelay={400}
+              >
+                <figure className="v-dream-fund-case__flow-figure">
+                  <img
+                    src="/dream-fund/user-flow.png"
+                    alt="Dream Fund user flow: onboarding, capture dream, home, add fuel, smart split, dreams, insights, and dream detail"
+                    className="v-dream-fund-case__flow-image"
+                  />
+                </figure>
               </SectionBlock>
 
-              <SectionBlock title="UX principles">
+              <SectionBlock title="UX principles" reveal revealDelay={480}>
                 <ul className="v-dream-fund-case__feature-list">
                   {dreamFundV1UxPrinciples.map((principle) => (
                     <li key={principle.title} className="v-dream-fund-case__feature">
@@ -145,36 +158,42 @@ export default function DreamFundCaseStudyPage() {
                 </ul>
               </SectionBlock>
 
-              <SectionBlock title="Core features" description="What the v1 prototype delivers today.">
-                <ul className="v-dream-fund-case__feature-list">
-                  {dreamFundV1CoreFeatures.map((feature) => (
-                    <li key={feature.title} className="v-dream-fund-case__feature">
-                      <h3 className="v-dream-fund-case__feature-title">{feature.title}</h3>
-                      <p className="v-dream-fund-case__feature-desc">{feature.description}</p>
+              <SectionBlock
+                title="High-Fidelity Mockups"
+                description="Key screens from the v1 prototype — onboarding, dream capture, fuel, allocation, and insights."
+                reveal
+                revealDelay={560}
+              />
+            </div>
+          </article>
+        </div>
+
+        <DreamFundMockupGallery items={dreamFundV1Mockups}/>
+
+          <div className="v-portfolio-section__inner">
+            <article className="v-doc">
+              <div className="v-doc__body v-dream-fund-case__body-tail">
+                <SectionBlock title="Tools & Technologies Used" reveal revealDelay={160}>
+                <ul className="v-dream-fund-case__tools-list">
+                  {dreamFundV1Tools.map((group) => (
+                    <li key={group.category} className="v-dream-fund-case__tools-group">
+                      <h3 className="v-dream-fund-case__tools-category">{group.category}</h3>
+                      <ul className="v-dream-fund-case__tools-tags" aria-label={group.category}>
+                        {group.tools.map((tool) => (
+                          <li key={tool} className="v-dream-fund-case__tools-tag">
+                            {tool}
+                          </li>
+                        ))}
+                      </ul>
                     </li>
                   ))}
                 </ul>
-              </SectionBlock>
-
-              <SectionBlock
-                title={dreamFundV1HifiPlaceholder.title}
-                description={dreamFundV1HifiPlaceholder.description}
-              >
-                <div className="v-cmp-empty v-dream-fund-case__hifi-placeholder">
-                  <div className="v-cmp-empty__icon" aria-hidden>
-                    <ImageIcon strokeWidth={2} />
-                  </div>
-                  <p className="v-cmp-empty__title">Hi-fi screens coming next</p>
-                  <p className="v-cmp-empty__body">
-                    Mockups for home, dream garden, smart split, and onboarding will be added in
-                    the next iteration of this case study.
-                  </p>
-                </div>
               </SectionBlock>
             </div>
           </article>
         </div>
       </main>
+      </PortfolioScrollReveal>
     </div>
   );
 }

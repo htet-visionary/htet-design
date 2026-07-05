@@ -94,16 +94,25 @@ export function SectionBlock({
   id,
   description,
   children,
+  reveal,
+  revealDelay,
 }: {
   title: string;
   id?: string;
   description?: string;
-  children: ReactNode;
+  children?: ReactNode;
+  reveal?: boolean;
+  revealDelay?: number;
 }) {
   const sectionId = id ?? slugify(title);
 
   return (
-    <section id={sectionId} className="v-section v-section--anchor">
+    <section
+      id={sectionId}
+      className="v-section v-section--anchor"
+      {...(reveal ? { "data-reveal": true } : {})}
+      {...(reveal && revealDelay !== undefined ? { "data-reveal-delay": String(revealDelay) } : {})}
+    >
       <h2 className="v-section__title">{title}</h2>
       {description && <p className="v-section__desc">{description}</p>}
       {children}
