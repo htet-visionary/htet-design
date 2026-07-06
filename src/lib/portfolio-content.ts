@@ -9,8 +9,14 @@ export const portfolioProfile = {
   email: "htet2024visionary@gmail.com",
   heroImage: "/portfolio/hero-photo.png",
   heroIllustration: "/portfolio/hero-illustration.png",
-  cvHref: "/portfolio/cv.pdf",
+  cvHref: "/portfolio/portfolio-summary.pdf",
 };
+
+export const portfolioPdfs = {
+  summary: "/portfolio/portfolio-summary.pdf",
+  designSystem: "/portfolio/visionary-design-system.pdf",
+  caseStudy: "/portfolio/dream-fund-case-study.pdf",
+} as const;
 
 export const portfolioSocialLinks = [
   {
