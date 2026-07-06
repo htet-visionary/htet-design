@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { DM_Sans, Lora, Playfair_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./shell.css";
 import "./hub.css";
@@ -40,7 +41,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       lang="en"
       className={`${playfairDisplay.variable} ${lora.variable} ${dmSans.variable}`}
     >
-      <body className="visionary-root antialiased">{children}</body>
+      <body className="visionary-root antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
