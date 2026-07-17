@@ -96,14 +96,14 @@ export type SiteMenuItem = {
 
 export const siteHubPath = "/";
 
-/** Home hub: Portfolio, Resume, Design System, then blog. */
+/** Home hub: Portfolio, Design System, Resume, then blog. */
 export const siteHubTopItems: SiteMenuItem[] = [
   { title: "Portfolio", href: "/portfolio" },
-  { title: "Resume", href: "/cv" },
   {
     title: "Design System",
     href: designSystemBase,
   },
+  { title: "Resume", href: "/cv" },
 ];
 
 export const siteHubGridItems: SiteMenuItem[] = [
