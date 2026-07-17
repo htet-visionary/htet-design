@@ -96,10 +96,10 @@ export type SiteMenuItem = {
 
 export const siteHubPath = "/";
 
-/** Home hub — recruiter-first: credentials, work, systems depth, then blog. */
+/** Home hub: Portfolio, Resume, Design System, then blog. */
 export const siteHubTopItems: SiteMenuItem[] = [
-  { title: "Resume", href: "/cv" },
   { title: "Portfolio", href: "/portfolio" },
+  { title: "Resume", href: "/cv" },
   {
     title: "Design System",
     href: designSystemBase,
