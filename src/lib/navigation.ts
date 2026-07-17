@@ -107,7 +107,6 @@ export const siteHubTopItems: SiteMenuItem[] = [
 ];
 
 export const siteHubGridItems: SiteMenuItem[] = [
-  { title: "Product", href: "/product" },
   { title: "Blog", href: "/blog" },
 ];
 
