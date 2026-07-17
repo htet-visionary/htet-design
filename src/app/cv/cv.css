@@ -210,6 +210,25 @@
   gap: var(--cv-space-2);
 }
 
+.cv-entry__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cv-space-2);
+  color: var(--cv-accent);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.cv-entry__link:hover {
+  color: color-mix(in srgb, var(--cv-accent) 82%, #000);
+}
+
+.cv-entry__link-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
 .cv-entry__header {
   display: flex;
   flex-direction: column;
@@ -318,26 +337,6 @@
   color: var(--cv-text-secondary);
 }
 
-/* Contact footer */
-
-.cv-contact-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--cv-space-2) var(--cv-space-5);
-  font-size: var(--cv-text-base);
-  line-height: 1.5;
-}
-
-.cv-contact-footer a {
-  color: var(--cv-text);
-  text-decoration: none;
-  transition: color 150ms ease;
-}
-
-.cv-contact-footer a:hover {
-  color: var(--cv-accent);
-}
-
 /* Mobile — use portfolio topbar offset */
 
 @media (max-width: 639px) {
@@ -403,8 +402,7 @@
     gap: var(--cv-space-4);
   }
 
-  .cv-header__contact a,
-  .cv-contact-footer a {
+  .cv-header__contact a {
     color: var(--cv-text) !important;
   }
 

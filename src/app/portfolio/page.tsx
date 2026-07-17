@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PortfolioPhilosophy } from "@/components/portfolio/PortfolioPhilosophy";
 import { PortfolioGallery } from "@/components/portfolio/PortfolioGallery";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioHighlights } from "@/components/portfolio/PortfolioHighlights";
@@ -56,6 +57,8 @@ export default function PortfolioPage() {
             <PortfolioHero />
 
             <div className="v-portfolio-section__inner">
+              <PortfolioPhilosophy />
+
               <div className="v-portfolio-about__intro" id="about-bio">
                 <PortfolioSectionHead
                   index="01"

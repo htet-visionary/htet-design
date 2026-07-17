@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import {
   resumeCertifications,
   resumeEducation,
@@ -77,7 +79,28 @@ export function ResumeDocument() {
         <div className="cv-section__body">
           {resumeProjects.map((project) => (
             <article key={project.title} className="cv-entry cv-entry--compact">
-              <h3 className="cv-entry__role">{project.title}</h3>
+              <h3 className="cv-entry__role">
+                {project.href ? (
+                  <Link
+                    href={project.href}
+                    className="cv-entry__link"
+                    {...(project.openInNewTab
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    <span>{project.title}</span>
+                    {project.openInNewTab ? (
+                      <ArrowUpRight
+                        className="cv-entry__link-icon"
+                        aria-hidden
+                        strokeWidth={2}
+                      />
+                    ) : null}
+                  </Link>
+                ) : (
+                  project.title
+                )}
+              </h3>
               <p className="cv-prose">{project.description}</p>
             </article>
           ))}
@@ -134,21 +157,6 @@ export function ResumeDocument() {
             </li>
           ))}
         </ul>
-      </section>
-
-      <section className="cv-section cv-section--contact" aria-labelledby="contact-heading">
-        <h2 id="contact-heading" className="cv-section__title">
-          Contact
-        </h2>
-        <div className="cv-contact-footer">
-          <a href={`mailto:${resumeProfile.email}`}>{resumeProfile.email}</a>
-          <a href={`tel:${resumeProfile.phone.replace(/-/g, "")}`}>
-            {resumeProfile.phone}
-          </a>
-          <a href={resumeProfile.website} rel="noopener noreferrer">
-            {resumeProfile.website}
-          </a>
-        </div>
       </section>
     </article>
   );

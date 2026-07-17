@@ -55,6 +55,15 @@ export const portfolioHighlights = [
   },
 ] as const;
 
+export const portfolioPhilosophy = {
+  title: "My Design Philosophy",
+  paragraphs: [
+    "I believe great product design goes beyond delivering polished interfaces.",
+    "My goal is to understand the user problem, connect design decisions to business outcomes, and create experiences that are measurable, scalable, and meaningful.",
+    "I'm continuously growing from an execution-focused designer into a product designer who thinks in systems, outcomes, and long-term product value.",
+  ],
+} as const;
+
 export const portfolioNavItems = [
   { id: "about-bio", label: "About" },
   { id: "work", label: "Work" },

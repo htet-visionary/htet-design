@@ -74,9 +74,13 @@ export const resumeExperience: readonly ResumeExperience[] = [
   },
 ] as const;
 
+import { designSystemBase } from "./navigation";
+
 export type ResumeProject = {
   title: string;
   description: string;
+  href?: string;
+  openInNewTab?: boolean;
 };
 
 export const resumeProjects: readonly ResumeProject[] = [
@@ -84,6 +88,8 @@ export const resumeProjects: readonly ResumeProject[] = [
     title: "Visionary Design System",
     description:
       "Designed and developed a scalable design system including design tokens, semantic color architecture, reusable components, accessibility guidelines, and documentation for multi-product consistency.",
+    href: designSystemBase,
+    openInNewTab: true,
   },
   {
     title: "Khooo — Smart Budget Product Concept",
@@ -106,10 +112,8 @@ export const resumeSkills: readonly ResumeSkillGroup[] = [
   {
     category: "Product Design",
     skills: [
-      "User Experience (UX)",
-      "User Interface (UI)",
+      "UI/UX",
       "Product Thinking",
-      "Interaction Design",
       "Information Architecture",
       "User Flow",
       "Wireframing",
@@ -131,11 +135,11 @@ export const resumeSkills: readonly ResumeSkillGroup[] = [
   },
   {
     category: "Tools",
-    skills: ["Figma", "FigJam", "Adobe Creative Suite", "Notion", "Miro"],
+    skills: ["Figma", "FigJam", "Notion", "Miro"],
   },
   {
     category: "Front-end",
-    skills: ["HTML", "CSS", "React", "Developer Handoff"],
+    skills: ["HTML", "CSS", "React"],
   },
   {
     category: "Workflow",
@@ -151,7 +155,7 @@ export const resumeCertifications = [
   "JLPT N2",
   "Google Analytics",
   "Generative AI for UX",
-  "Coursera UI/UX Courses",
+  "Specialization UI/UX Courses on Coursera",
 ] as const;
 
 export const resumeLanguages = [
