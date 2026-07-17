@@ -26,7 +26,7 @@ export const resumeExperience: readonly ResumeExperience[] = [
   {
     role: "Product Designer",
     company: "KATIX Co., Ltd.",
-    location: "Tokyo, Japan",
+    location: "(Tokyo)",
     period: "Aug 2025 – Present",
     highlights: [
       "Design responsive interfaces for desktop and mobile products supporting vehicle auction services.",
@@ -40,6 +40,7 @@ export const resumeExperience: readonly ResumeExperience[] = [
   {
     role: "AI / IT Development Team Member",
     company: "SANSEN SHIMIZU Co., Ltd.",
+    location: "(Kyoto)",
     period: "Feb 2025 – Jul 2025",
     highlights: [
       "Designed landing pages and promotional interfaces for AI-related digital services.",
@@ -50,6 +51,7 @@ export const resumeExperience: readonly ResumeExperience[] = [
   {
     role: "Senior UI/UX Designer",
     company: "Lota Global Pte. Ltd.",
+    location: "(Yangon)",
     period: "Feb 2024 – Nov 2024",
     highlights: [
       "Designed end-to-end user experiences for Learning Management Systems, CMS platforms, and e-commerce products.",
@@ -59,8 +61,9 @@ export const resumeExperience: readonly ResumeExperience[] = [
     ],
   },
   {
-    role: "Junior UI/Front-end Developer",
+    role: "Junior UI/UX Designer & Front-end Developer",
     company: "METATEAM Myanmar",
+    location: "(Yangon)",
     period: "Dec 2021 – Nov 2023",
     highlights: [
       "Designed and implemented responsive web interfaces using HTML, CSS, JavaScript, and React.",

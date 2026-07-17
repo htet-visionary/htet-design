@@ -55,7 +55,7 @@ export function ResumeDocument() {
                   <h3 className="cv-entry__role">{job.role}</h3>
                   <p className="cv-entry__company">
                     {job.company}
-                    {job.location ? ` · ${job.location}` : ""}
+                    {job.location ? `  ${job.location}` : ""}
                   </p>
                 </div>
                 <span className="cv-entry__period">{job.period}</span>
