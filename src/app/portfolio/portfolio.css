@@ -452,13 +452,15 @@
   scroll-margin-top: var(--v-portfolio-scroll-offset);
 }
 
+.v-portfolio-philosophy .v-portfolio-section-head {
+  border-bottom: none;
+}
+
 .v-portfolio-philosophy__body {
   display: grid;
   gap: var(--v-space-5);
   max-width: 36rem;
   margin-inline: auto;
-  padding-left: var(--v-space-5);
-  border-left: 2px solid var(--v-action-primary);
   text-align: left;
 }
 
