@@ -98,6 +98,7 @@ export const siteHubPath = "/";
 
 export const siteHubTopItems: SiteMenuItem[] = [
   { title: "Portfolio", href: "/portfolio" },
+  { title: "Resume", href: "/cv" },
   {
     title: "Visionary Design System",
     shortTitle: "Design System",

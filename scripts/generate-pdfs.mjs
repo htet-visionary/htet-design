@@ -12,6 +12,11 @@ const baseUrl = `http://127.0.0.1:${port}`;
 
 const exports = [
   {
+    route: "/export/cv",
+    filename: "htet-htet-aung-resume.pdf",
+    title: "Htet Htet Aung — Resume",
+  },
+  {
     route: "/export/portfolio-summary",
     filename: "portfolio-summary.pdf",
     title: "Portfolio Summary",
